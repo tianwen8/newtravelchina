@@ -1,0 +1,122 @@
+{
+  "translation": {
+    "app": {
+      "title": "Travel China",
+      "footer": "© 2024 Travel China. All rights reserved."
+    },
+    "nav": {
+      "home": "Home",
+      "visaFree": "Visa-Free Travel",
+      "attractions": "Attractions & Culture",
+      "chineseLearning": "Learn Chinese",
+      "community": "Community"
+    },
+    "home": {
+      "hero": {
+        "title": "Discover China's Beauty",
+        "subtitle": "Experience unique cultural heritage and breathtaking natural landscapes"
+      },
+      "features": {
+        "visaFree": {
+          "title": "Visa-Free Travel",
+          "description": "Learn about the latest visa-free policies and travel tips"
+        },
+        "attractions": {
+          "title": "Attractions & Culture",
+          "description": "Explore China's cultural heritage and natural wonders"
+        },
+        "chineseLearning": {
+          "title": "Learn Chinese",
+          "description": "Practice Chinese conversation with AI assistance"
+        },
+        "community": {
+          "title": "Community",
+          "description": "Share your travel stories and experiences"
+        }
+      },
+      "destinations": {
+        "title": "Explore Popular Destinations in China",
+        "subtitle": "Discover beautiful landscapes and rich cultures across China",
+        "beijing": {
+          "name": "Beijing",
+          "description": "Explore the historic capital of China"
+        },
+        "shanghai": {
+          "name": "Shanghai",
+          "description": "Experience the vibrant modern metropolis"
+        },
+        "xian": {
+          "name": "Xi'an",
+          "description": "Walk through ancient city, visit the Terracotta Army"
+        },
+        "guilin": {
+          "name": "Guilin",
+          "description": "Admire natural landscapes like a Chinese painting"
+        },
+        "chengdu": {
+          "name": "Chengdu",
+          "description": "Taste delicious food and visit giant pandas"
+        },
+        "hongkong": {
+          "name": "Hong Kong",
+          "description": "Experience the East-meets-West urban culture"
+        }
+      },
+      "testimonials": {
+        "title": "Travelers' Stories",
+        "subtitle": "Hear from other visitors about their memorable experiences in China"
+      },
+      "cta": {
+        "title": "Ready to Start Your China Journey?",
+        "subtitle": "Explore China's cultural heritage, natural landscapes, and rich history",
+        "button": "Check Visa-Free Policies"
+      }
+    },
+    "visaFree": {
+      "title": "Visa-Free Travel",
+      "subtitle": "Latest visa-free policies and travel tips",
+      "policies": {
+        "title": "Latest Visa-Free Policies",
+        "144hour": {
+          "name": "144-Hour Transit Visa-Free",
+          "description": "Available for travelers from 53 countries, allowing 144-hour stays in designated cities"
+        },
+        "72hour": {
+          "name": "72-Hour Transit Visa-Free",
+          "description": "Available for short-term transit passengers in selected cities"
+        }
+      },
+      "eligibility": {
+        "title": "Check Eligibility",
+        "selectCountry": "Select your country:",
+        "countryPlaceholder": "-- Select Country --",
+        "checkButton": "Check Eligibility",
+        "eligible": "You are eligible for the {{policy}} policy.",
+        "notEligible": "Sorry, citizens from {{country}} are not eligible for the {{policy}} policy."
+      },
+      "tips": {
+        "title": "Travel Tips",
+        "prepare": "Prepare required documents in advance",
+        "research": "Research destination city information",
+        "plan": "Plan reasonable itinerary duration",
+        "arrange": "Arrange necessary transportation"
+      }
+    },
+    "chineseLearning": {
+      "title": "Learn Chinese",
+      "subtitle": "Practice Chinese conversation with AI assistance",
+      "categories": {
+        "title": "Select Category",
+        "all": "All"
+      },
+      "phrases": {
+        "title": "Common Phrases"
+      },
+      "aiPractice": {
+        "title": "AI Conversation Practice",
+        "comingSoon": "Coming soon: Practice real-time Chinese conversation with AI assistant",
+        "startButton": "Start Conversation"
+      }
+    }
+  }
+} 

@@ -1,0 +1,21 @@
+.hero-bg-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+}
+
+.hero-bg-decoration::before {
+  content: '福';
+  font-family: "SimSun", serif;
+  font-weight: bold;
+  font-size: 400px;
+  color: rgba(255, 255, 255, 0.03);
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%) rotate(10deg);
+} 

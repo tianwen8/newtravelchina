@@ -1,0 +1,87 @@
+.community-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #0077be;
+  margin-bottom: 1rem;
+}
+
+.share-section {
+  margin-bottom: 4rem;
+}
+
+.share-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.experience-section {
+  margin-bottom: 4rem;
+}
+
+.experience-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.experience-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.experience-card h3 {
+  color: #0077be;
+  margin-bottom: 1rem;
+}
+
+.tips-section {
+  margin-bottom: 4rem;
+}
+
+.tips-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.tip-item {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tip-item h3 {
+  color: #0077be;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .community-container {
+    padding: 1rem;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+  
+  .experience-list,
+  .tips-list {
+    grid-template-columns: 1fr;
+  }
+}

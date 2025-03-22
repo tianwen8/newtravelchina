@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs>
+    <pattern id="chinaPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <g fill="rgba(255, 255, 255, 0.15)">
+        <!-- 中国传统图案 - 简化的中国结 -->
+        <path d="M50,30 C60,30 70,40 70,50 C70,60 60,70 50,70 C40,70 30,60 30,50 C30,40 40,30 50,30 Z M50,35 C42,35 35,42 35,50 C35,58 42,65 50,65 C58,65 65,58 65,50 C65,42 58,35 50,35 Z" />
+        <path d="M20,20 L30,20 L30,30 L20,30 Z" />
+        <path d="M70,20 L80,20 L80,30 L70,30 Z" />
+        <path d="M20,70 L30,70 L30,80 L20,80 Z" />
+        <path d="M70,70 L80,70 L80,80 L70,80 Z" />
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#chinaPattern)" />
+</svg> 

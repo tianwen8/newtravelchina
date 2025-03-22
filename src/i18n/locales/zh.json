@@ -1,0 +1,122 @@
+{
+  "translation": {
+    "app": {
+      "title": "中国旅游",
+      "footer": "© 2024 中国旅游。保留所有权利。"
+    },
+    "nav": {
+      "home": "首页",
+      "visaFree": "免签旅行",
+      "attractions": "景点与文化",
+      "chineseLearning": "学习中文",
+      "community": "社区"
+    },
+    "home": {
+      "hero": {
+        "title": "发现中国之美",
+        "subtitle": "体验独特的文化遗产和令人叹为观止的自然景观"
+      },
+      "features": {
+        "visaFree": {
+          "title": "免签旅行",
+          "description": "了解最新的免签政策和旅行提示"
+        },
+        "attractions": {
+          "title": "景点与文化",
+          "description": "探索中国的文化遗产和自然奇观"
+        },
+        "chineseLearning": {
+          "title": "学习中文",
+          "description": "通过AI辅助进行中文会话练习"
+        },
+        "community": {
+          "title": "社区",
+          "description": "分享您的旅行故事和经验"
+        }
+      },
+      "destinations": {
+        "title": "探索中国热门目的地",
+        "subtitle": "发现中国各地的美丽风景和丰富文化",
+        "beijing": {
+          "name": "北京",
+          "description": "探索中国首都的历史风貌"
+        },
+        "shanghai": {
+          "name": "上海",
+          "description": "感受现代大都市的繁华与魅力"
+        },
+        "xian": {
+          "name": "西安",
+          "description": "走进古都，探访兵马俑"
+        },
+        "guilin": {
+          "name": "桂林",
+          "description": "欣赏山水画卷般的自然景观"
+        },
+        "chengdu": {
+          "name": "成都",
+          "description": "品尝美食，看望大熊猫"
+        },
+        "hongkong": {
+          "name": "香港",
+          "description": "体验东西方文化交融的都市风情"
+        }
+      },
+      "testimonials": {
+        "title": "旅行者的故事",
+        "subtitle": "听听其他游客分享他们在中国的难忘经历"
+      },
+      "cta": {
+        "title": "准备好开始您的中国之旅了吗？",
+        "subtitle": "探索中国的文化遗产、自然风光和丰富历史",
+        "button": "查看免签政策"
+      }
+    },
+    "visaFree": {
+      "title": "免签旅行",
+      "subtitle": "最新的免签政策和旅行提示",
+      "policies": {
+        "title": "最新免签政策",
+        "144hour": {
+          "name": "144小时过境免签",
+          "description": "适用于来自53个国家的旅客，允许在指定城市停留144小时"
+        },
+        "72hour": {
+          "name": "72小时过境免签",
+          "description": "适用于在选定城市短期过境的旅客"
+        }
+      },
+      "eligibility": {
+        "title": "检查资格",
+        "selectCountry": "选择您的国家：",
+        "countryPlaceholder": "-- 选择国家 --",
+        "checkButton": "检查资格",
+        "eligible": "您有资格使用{{policy}}政策。",
+        "notEligible": "抱歉，来自{{country}}的公民不符合{{policy}}政策的条件。"
+      },
+      "tips": {
+        "title": "旅行提示",
+        "prepare": "提前准备所有必要的文件",
+        "research": "研究目的地城市信息",
+        "plan": "规划合理的行程时间",
+        "arrange": "安排必要的交通"
+      }
+    },
+    "chineseLearning": {
+      "title": "学习中文",
+      "subtitle": "通过AI辅助进行中文会话练习",
+      "categories": {
+        "title": "选择类别",
+        "all": "全部"
+      },
+      "phrases": {
+        "title": "常用短语"
+      },
+      "aiPractice": {
+        "title": "AI 会话练习",
+        "comingSoon": "即将推出：通过AI助手进行实时中文会话练习",
+        "startButton": "开始会话"
+      }
+    }
+  }
+} 

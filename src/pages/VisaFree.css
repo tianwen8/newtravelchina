@@ -1,0 +1,160 @@
+.visa-free-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  color: #0077be;
+  margin-bottom: 0.5rem;
+}
+
+.policy-section {
+  margin-bottom: 3rem;
+}
+
+.policy-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.policy-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.policy-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.policy-card.selected {
+  border-color: #0077be;
+}
+
+.policy-card h3 {
+  color: #0077be;
+  margin-bottom: 1rem;
+}
+
+.policy-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.duration {
+  display: inline-block;
+  background-color: #e6f3ff;
+  color: #0077be;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.eligibility-section {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+
+.eligibility-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group select {
+  padding: 0.7rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.check-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #0077be;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.check-button:hover {
+  background-color: #005d92;
+}
+
+.check-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.eligibility-result {
+  padding: 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.eligibility-result.eligible {
+  background-color: #e6f7e6;
+  color: #2e8b57;
+}
+
+.eligibility-result.not-eligible {
+  background-color: #ffe6e6;
+  color: #cc0000;
+}
+
+.travel-tips {
+  margin-bottom: 3rem;
+}
+
+.tips-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.tips-list li {
+  padding: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .tips-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .policy-cards {
+    grid-template-columns: 1fr;
+  }
+} 
