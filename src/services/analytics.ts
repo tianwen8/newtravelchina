@@ -1,6 +1,6 @@
 // Google Analytics 集成服务
 // 注意：使用前需替换为你实际的 Google Analytics ID
-const GA_TRACKING_ID = 'G-XXXXXXXXXX'; // 替换为您的Google Analytics 4测量ID
+const GA_TRACKING_ID = 'G-529KRD21Q9'; // Google Analytics 4测量ID
 
 // 定义全局Google Analytics对象
 declare global {
