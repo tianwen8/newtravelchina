@@ -1,0 +1,5 @@
+[33mcommit 481bd03c651ef87e2d2c798a4f806369bb96a5b8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: auto <auto@example.com>
+Date:   Sun Mar 23 19:16:57 2025 +0800
+
+    修复依赖版本问题

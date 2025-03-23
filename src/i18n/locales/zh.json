@@ -117,6 +117,58 @@
         "comingSoon": "即将推出：通过AI助手进行实时中文会话练习",
         "startButton": "开始会话"
       }
+    },
+    "community": {
+      "pageTitle": "中国旅游社区 - 分享您的旅行故事",
+      "metaDescription": "加入我们的旅行社区，分享您在中国的旅行经历、提示和故事。从其他旅行者那里获取关于交通、美食、住宿和安全的见解。",
+      "metaKeywords": "中国旅游社区, 中国旅行提示, 中国旅行经历, 中国旅行故事, 中国旅行指南",
+      "title": "社区",
+      "subtitle": "分享您的旅行故事和经验",
+      "comments": {
+        "title": "社区留言",
+        "leaveComment": "留言",
+        "name": "姓名",
+        "namePlaceholder": "您的姓名",
+        "email": "邮箱",
+        "emailPlaceholder": "您的邮箱（不会被公开）",
+        "message": "留言内容",
+        "messagePlaceholder": "分享您的经历或提出问题...",
+        "submit": "提交留言",
+        "successMessage": "您的留言已成功提交！",
+        "errorMessage": "请填写所有字段。",
+        "recentComments": "最近留言",
+        "noComments": "暂无留言。成为第一个分享想法的人！"
+      },
+      "shareStory": {
+        "title": "分享您的故事",
+        "description": "与其他旅行者分享您的旅行日记、照片和推荐"
+      },
+      "experience": {
+        "title": "旅行经验",
+        "transportation": {
+          "title": "交通",
+          "description": "分享不同城市的交通提示"
+        },
+        "food": {
+          "title": "美食推荐",
+          "description": "推荐当地特色菜和餐厅"
+        },
+        "accommodation": {
+          "title": "住宿提示",
+          "description": "分享酒店和民宿的经验"
+        }
+      },
+      "tips": {
+        "title": "实用提示",
+        "preparation": {
+          "title": "行前准备",
+          "description": "护照、签证和保险等重要事项"
+        },
+        "safety": {
+          "title": "安全提示",
+          "description": "旅行安全预防措施和紧急联系方式"
+        }
+      }
     }
   }
 } 

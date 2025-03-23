@@ -1,10 +1,18 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 import LanguageSwitcher from './components/LanguageSwitcher'
+import { pageview } from './services/analytics'
 import './App.css'
 
 function App() {
   const { t } = useTranslation();
+  const location = useLocation();
+  
+  // 当路由变化时，跟踪页面访问
+  useEffect(() => {
+    pageview(location.pathname + location.search);
+  }, [location]);
   
   return (
     <div className="app-container">

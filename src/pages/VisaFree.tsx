@@ -42,12 +42,12 @@ const VisaFree: React.FC = () => {
       </Helmet>
       <div className="visa-free-container">
         <header className="page-header">
-          <h1>免签政策</h1>
-          <p>Latest visa-free policies and travel tips</p>
+          <h1>{t('visaFree.title')}</h1>
+          <p>{t('visaFree.subtitle')}</p>
         </header>
         
         <section className="policy-section">
-          <h2>最新免签政策</h2>
+          <h2>{t('visaFree.policies.title')}</h2>
           <div className="policy-cards">
             {policies.map(policy => (
               <div 
@@ -55,8 +55,8 @@ const VisaFree: React.FC = () => {
                 className={`policy-card ${selectedPolicyId === policy.id ? 'selected' : ''}`}
                 onClick={() => handlePolicySelect(policy.id)}
               >
-                <h3>{policy.name}</h3>
-                <p>{policy.description}</p>
+                <h3>{t(`visaFree.policies.${policy.translationKey}.name`)}</h3>
+                <p>{t(`visaFree.policies.${policy.translationKey}.description`)}</p>
                 <div className="policy-details">
                   <span className="duration">{policy.duration}</span>
                 </div>
@@ -66,16 +66,16 @@ const VisaFree: React.FC = () => {
         </section>
         
         <section className="eligibility-section">
-          <h2>检查资格</h2>
+          <h2>{t('visaFree.eligibility.title')}</h2>
           <div className="eligibility-form">
             <div className="form-group">
-              <label htmlFor="country-select">选择您的国家:</label>
+              <label htmlFor="country-select">{t('visaFree.eligibility.selectCountry')}</label>
               <select 
                 id="country-select" 
                 value={userCountry || ''}
                 onChange={handleCountryChange}
               >
-                <option value="">-- 选择国家 --</option>
+                <option value="">{t('visaFree.eligibility.countryPlaceholder')}</option>
                 {commonCountries.map(country => (
                   <option key={country} value={country}>{country}</option>
                 ))}
@@ -87,26 +87,35 @@ const VisaFree: React.FC = () => {
               disabled={!selectedPolicyId || !userCountry}
               onClick={handleCheckEligibility}
             >
-              检查资格
+              {t('visaFree.eligibility.checkButton')}
             </button>
             
             {showEligibilityCheck && userCountry && selectedPolicyId && (
               <div className={`eligibility-result ${isEligible ? 'eligible' : 'not-eligible'}`}>
                 {isEligible 
-                  ? `您有资格使用 ${policies.find(p => p.id === selectedPolicyId)?.name} 政策。` 
-                  : `抱歉，来自 ${userCountry} 的公民不符合 ${policies.find(p => p.id === selectedPolicyId)?.name} 政策的条件。`}
+                  ? t('visaFree.eligibility.eligible', { 
+                      policy: policies.find(p => p.id === selectedPolicyId)?.translationKey 
+                        ? t(`visaFree.policies.${policies.find(p => p.id === selectedPolicyId)?.translationKey}.name`) 
+                        : policies.find(p => p.id === selectedPolicyId)?.name 
+                    }) 
+                  : t('visaFree.eligibility.notEligible', { 
+                      country: userCountry, 
+                      policy: policies.find(p => p.id === selectedPolicyId)?.translationKey 
+                        ? t(`visaFree.policies.${policies.find(p => p.id === selectedPolicyId)?.translationKey}.name`) 
+                        : policies.find(p => p.id === selectedPolicyId)?.name 
+                    })}
               </div>
             )}
           </div>
         </section>
         
         <section className="travel-tips">
-          <h2>旅行提示</h2>
+          <h2>{t('visaFree.tips.title')}</h2>
           <ul className="tips-list">
-            <li>提前准备所有必要的文件</li>
-            <li>研究目的地城市信息</li>
-            <li>规划合理的行程时间</li>
-            <li>安排必要的交通</li>
+            <li>{t('visaFree.tips.prepare')}</li>
+            <li>{t('visaFree.tips.research')}</li>
+            <li>{t('visaFree.tips.plan')}</li>
+            <li>{t('visaFree.tips.arrange')}</li>
           </ul>
         </section>
       </div>

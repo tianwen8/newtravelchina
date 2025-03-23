@@ -10,7 +10,7 @@ const resources = {
   zh: zhTranslations
 };
 
-// 浏览器语言检测
+// 浏览器语言检测 - 暂时不使用，强制默认英文
 const getBrowserLanguage = () => {
   const browserLang = navigator.language.split('-')[0];
   return browserLang === 'zh' ? 'zh' : 'en'; // 支持中文或默认英文
@@ -20,7 +20,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem('language') || getBrowserLanguage(),
+    lng: 'en', // 强制默认使用英文
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false // 不转义 React 中的值

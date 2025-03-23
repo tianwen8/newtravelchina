@@ -8,6 +8,7 @@ interface VisaPolicy {
   eligibleCountries: string[];
   requirements: string[];
   description: string;
+  translationKey: string;
 }
 
 interface VisaState {
@@ -32,7 +33,8 @@ const initialState: VisaState = {
         'Confirmed onward ticket to a third country',
         'Completed arrival/departure card'
       ],
-      description: '144-hour visa-free transit policy applies to citizens of 53 countries traveling through specific ports of entry.'
+      description: '144-hour visa-free transit policy applies to citizens of 53 countries traveling through specific ports of entry.',
+      translationKey: '144hour'
     },
     {
       id: '2',
@@ -44,7 +46,8 @@ const initialState: VisaState = {
         'Confirmed onward ticket to a third country',
         'Completed arrival/departure card'
       ],
-      description: '72-hour visa-free transit policy applies to citizens of 53 countries traveling through specific ports of entry.'
+      description: '72-hour visa-free transit policy applies to citizens of 53 countries traveling through specific ports of entry.',
+      translationKey: '72hour'
     }
   ],
   selectedPolicyId: null,
