@@ -14,11 +14,17 @@ export default defineConfig({
     })
   ],
   build: {
-    sourcemap: true
+    sourcemap: true,
+    outDir: 'dist'
   },
   resolve: {
     alias: {
       '@': '/src'
+    }
+  },
+  server: {
+    headers: {
+      'Content-Type': 'text/javascript; charset=utf-8'
     }
   }
 })
