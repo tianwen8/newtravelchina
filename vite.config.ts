@@ -4,6 +4,7 @@ import svgr from 'vite-plugin-svgr'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     react(),
     svgr({
@@ -15,7 +16,14 @@ export default defineConfig({
   ],
   build: {
     sourcemap: true,
-    outDir: 'dist'
+    outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+        inlineDynamicImports: false
+      }
+    }
   },
   resolve: {
     alias: {
