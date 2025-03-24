@@ -10,72 +10,8 @@
       }
     }
   ],
-  "routes": [
-    { 
-      "src": "/assets/(.*)\\.js$",
-      "headers": { 
-        "cache-control": "public, max-age=31536000, immutable",
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/javascript; charset=utf-8"
-      },
-      "dest": "/assets/$1.js"
-    },
-    { 
-      "src": "/assets/(.*)\\.tsx?$",
-      "headers": { 
-        "cache-control": "public, max-age=31536000, immutable",
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/javascript; charset=utf-8" 
-      },
-      "dest": "/assets/$1.tsx"
-    },
-    { 
-      "src": "/assets/(.*)",
-      "headers": { 
-        "cache-control": "public, max-age=31536000, immutable",
-        "Access-Control-Allow-Origin": "*" 
-      },
-      "dest": "/assets/$1" 
-    },
-    { 
-      "src": "/(.*)\\.js$",
-      "headers": { 
-        "cache-control": "public, max-age=604800",
-        "Content-Type": "application/javascript; charset=utf-8"
-      },
-      "dest": "/$1.js" 
-    },
-    { 
-      "src": "/(.*)\\.tsx?$",
-      "headers": { 
-        "cache-control": "public, max-age=604800",
-        "Content-Type": "application/javascript; charset=utf-8"
-      },
-      "dest": "/$1.ts" 
-    },
-    { 
-      "src": "/(.*\\.[a-z0-9]{1,})$",
-      "headers": { 
-        "cache-control": "public, max-age=604800" 
-      },
-      "dest": "/$1" 
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/china-icon.svg",
-      "dest": "/china-icon.svg"
-    },
-    {
-      "src": "/(.*)",
-      "headers": {
-        "cache-control": "public, max-age=0, must-revalidate",
-        "X-Debug-Info": "SPA-Route-Handler"
-      },
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
@@ -83,31 +19,51 @@
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "X-Debug-Info", "value": "SPA-Route-Handler" }
       ]
     },
     {
       "source": "/assets/(.*)\\.js",
       "headers": [
-        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/(.*)\\.js",
-      "headers": [
-        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
     },
     {
       "source": "/assets/(.*)\\.tsx?",
       "headers": [
-        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
     },
     {
-      "source": "/(.*)\\.tsx?",
+      "source": "/assets/(.*)",
       "headers": [
-        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.js$",
+      "headers": [
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=604800" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.tsx?$",
+      "headers": [
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=604800" }
+      ]
+    },
+    {
+      "source": "/(.*\\.[a-z0-9]{1,})$",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
     },
     {
@@ -117,4 +73,4 @@
       ]
     }
   ]
-} 
+}
