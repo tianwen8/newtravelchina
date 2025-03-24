@@ -21,6 +21,7 @@
     "@emotion/styled": "^11.11.0",
     "@reduxjs/toolkit": "^2.1.0",
     "@types/react-helmet": "^6.1.11",
+    "firebase": "^10.14.1",
     "framer-motion": "^11.0.3",
     "i18next": "^23.7.16",
     "react": "^18.2.0",
@@ -39,6 +40,8 @@
     "@types/jest": "^29.5.11",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -50,7 +53,6 @@
     "jest-svg-transformer": "^1.0.0",
     "ts-jest": "^29.1.1",
     "typescript": "~5.3.3",
-    "typescript-eslint": "^6.19.1",
     "vite": "^5.0.12",
     "vite-plugin-svgr": "^4.2.0"
   }

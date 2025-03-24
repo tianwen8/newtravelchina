@@ -1,33 +1,51 @@
 // Firebase配置文件
-// 使用模拟对象替代实际的Firebase服务
+import { initializeApp } from 'firebase/app';
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
-// 模拟服务实例
-export const db = {
-  collection: () => ({
-    doc: () => ({
-      get: async () => Promise.resolve({ exists: false, data: () => null }),
-      set: async () => Promise.resolve(),
-      update: async () => Promise.resolve()
-    }),
-    add: async () => Promise.resolve({ id: 'mock-id' }),
-    where: () => ({ get: async () => Promise.resolve({ docs: [] }) }),
-    orderBy: () => ({ limit: () => ({ get: async () => Promise.resolve({ docs: [] }) }) })
-  })
+// Firebase配置
+const firebaseConfig = {
+  apiKey: "AIzaSyDqeBnmpJ9D4yjD6EirRblkeRDvMOclX4Y",
+  authDomain: "newtravelchina-36648.firebaseapp.com",
+  projectId: "newtravelchina-36648",
+  storageBucket: "newtravelchina-36648.appspot.com",
+  messagingSenderId: "658492259597",
+  appId: "1:658492259597:web:6c39164438227666360444"
 };
 
-export const auth = {
-  currentUser: null,
-  onAuthStateChanged: (callback: (user: any) => void) => {
-    callback(null);
-    return () => {};
+// 初始化Firebase
+let app;
+try {
+  app = initializeApp(firebaseConfig);
+  console.log("Firebase initialized successfully");
+} catch (error) {
+  console.error("Firebase initialization error:", error);
+  // 避免应用崩溃，创建一个后备初始化
+  app = initializeApp(firebaseConfig, "backup-instance");
+}
+
+// 获取服务实例
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const storage = getStorage(app);
+
+// 设置为false以使用Firebase服务，设置为true则使用本地存储作为备份
+export const useLocalStorage = false;
+
+// 检查用户是否为管理员
+export const isUserAdmin = async (userId: string): Promise<boolean> => {
+  if (!userId) return false;
+  
+  // 使用Firestore检查用户权限
+  try {
+    const userDoc = await getDoc(doc(db, 'users', userId));
+    return userDoc.exists() && userDoc.data().isAdmin === true;
+  } catch (error) {
+    console.error('检查管理员状态时出错:', error);
+    return false;
   }
 };
 
-export const storage = {
-  ref: () => ({
-    put: async () => Promise.resolve({ ref: { getDownloadURL: async () => Promise.resolve('https://mock-url.com/image.jpg') } })
-  })
-};
-
-// 提供模拟数据功能（用于本地测试）
-export const useMockData = true; 
+// 用于调试
+export const DEBUG = process.env.NODE_ENV === 'development'; 

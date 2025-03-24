@@ -1,4 +1,22 @@
 // import { v4 as uuidv4 } from 'uuid';
+import { 
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  query as firestoreQuery,
+  where,
+  orderBy,
+  limit as firestoreLimit,
+  increment,
+  Timestamp,
+  serverTimestamp,
+  limit
+} from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage, useLocalStorage } from '../firebase/config';
 
 // 文章分类
 export const ARTICLE_CATEGORIES = [
@@ -25,17 +43,48 @@ export interface Article {
 class ArticleService {
   private readonly STORAGE_KEY = 'travel_china_articles';
   private readonly VIEWS_KEY = 'travel_china_article_views';
+  private readonly COLLECTION_NAME = 'articles';
+  private readonly USER_VIEWS_COLLECTION = 'article_views';
 
   // 获取所有文章
-  private getArticles(): Article[] {
-    const articlesJson = localStorage.getItem(this.STORAGE_KEY);
-    if (!articlesJson) return this.seedInitialArticles();
-    return JSON.parse(articlesJson);
+  private async getArticles(): Promise<Article[]> {
+    if (useLocalStorage) {
+      const articlesJson = localStorage.getItem(this.STORAGE_KEY);
+      if (!articlesJson) return this.seedInitialArticles();
+      return JSON.parse(articlesJson);
+    } else {
+      try {
+        const articlesRef = collection(db, this.COLLECTION_NAME);
+        const snapshot = await getDocs(articlesRef);
+        
+        // 如果集合是空的，则初始化数据
+        if (snapshot.empty) {
+          return this.seedInitialArticles();
+        }
+        
+        return snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            publishDate: data.publishDate instanceof Timestamp 
+              ? data.publishDate.toDate().toISOString() 
+              : data.publishDate
+          } as Article;
+        });
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+        return [];
+      }
+    }
   }
 
   // 保存所有文章
   private saveArticles(articles: Article[]): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(articles));
+    if (useLocalStorage) {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(articles));
+    }
+    // Firebase不需要这个方法，因为每篇文章都是单独保存的
   }
 
   // 生成随机ID
@@ -45,124 +94,298 @@ class ArticleService {
 
   // 保存新文章
   public async publishArticle(articleData: Omit<Article, 'id' | 'viewCount' | 'publishDate'>): Promise<Article> {
-    const articles = this.getArticles();
-    
-    const newArticle: Article = {
-      ...articleData,
-      id: this.generateId(),
-      publishDate: new Date().toISOString(),
-      viewCount: 0
-    };
-    
-    articles.push(newArticle);
-    this.saveArticles(articles);
-    
-    return newArticle;
+    if (useLocalStorage) {
+      const articles = await this.getArticles();
+      
+      const newArticle: Article = {
+        ...articleData,
+        id: this.generateId(),
+        publishDate: new Date().toISOString(),
+        viewCount: 0
+      };
+      
+      articles.push(newArticle);
+      this.saveArticles(articles);
+      
+      return newArticle;
+    } else {
+      try {
+        const articlesRef = collection(db, this.COLLECTION_NAME);
+        const newArticleData = {
+          ...articleData,
+          publishDate: serverTimestamp(),
+          viewCount: 0
+        };
+        
+        const docRef = await addDoc(articlesRef, newArticleData);
+        
+        return {
+          ...newArticleData,
+          id: docRef.id,
+          publishDate: new Date().toISOString()
+        } as Article;
+      } catch (error) {
+        console.error('Error publishing article:', error);
+        throw error;
+      }
+    }
   }
 
-  // 上传文章图片 (这里模拟)
-  public async uploadArticleImage(): Promise<string> {
-    // 实际应用中，这里应该将图片上传到服务器或云存储
-    // 这里我们只是模拟返回一个随机的图片URL
-    const mockImages = [
-      '/images/china1.jpg',
-      '/images/china2.jpg',
-      '/images/china3.jpg',
-      '/images/china4.jpg',
-    ];
-    
-    return new Promise(resolve => {
-      setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * mockImages.length);
-        resolve(mockImages[randomIndex]);
-      }, 500);
-    });
+  // 上传文章图片
+  public async uploadArticleImage(file: File): Promise<string> {
+    if (useLocalStorage) {
+      // 模拟上传
+      const mockImages = [
+        '/images/china1.jpg',
+        '/images/china2.jpg',
+        '/images/china3.jpg',
+        '/images/china4.jpg',
+      ];
+      
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const randomIndex = Math.floor(Math.random() * mockImages.length);
+          resolve(mockImages[randomIndex]);
+        }, 500);
+      });
+    } else {
+      try {
+        const storageRef = ref(storage, `article-images/${new Date().getTime()}_${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        return await getDownloadURL(snapshot.ref);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        throw error;
+      }
+    }
   }
 
   // 获取推荐文章
-  public async getFeaturedArticles(limit = 5): Promise<Article[]> {
-    const articles = this.getArticles();
-    return articles
-      .sort((a, b) => b.viewCount - a.viewCount || new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
-      .slice(0, limit);
+  public async getFeaturedArticles(limitCount = 5): Promise<Article[]> {
+    if (useLocalStorage) {
+      const articles = await this.getArticles();
+      return articles
+        .sort((a, b) => b.viewCount - a.viewCount || new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+        .slice(0, limitCount);
+    } else {
+      try {
+        const articlesRef = collection(db, this.COLLECTION_NAME);
+        const q = query(articlesRef, orderBy('viewCount', 'desc'), firestoreLimit(limitCount));
+        const snapshot = await getDocs(q);
+        
+        return snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            publishDate: data.publishDate instanceof Timestamp 
+              ? data.publishDate.toDate().toISOString() 
+              : data.publishDate
+          } as Article;
+        });
+      } catch (error) {
+        console.error('Error fetching featured articles:', error);
+        return [];
+      }
+    }
   }
 
   // 按分类获取文章
   public async getArticlesByCategory(category: string, page = 1, pageSize = 10): Promise<Article[]> {
-    const articles = this.getArticles();
-    const filteredArticles = category
-      ? articles.filter(article => article.category === category)
-      : articles;
-    
-    // 按发布日期排序（最新的先显示）
-    const sortedArticles = filteredArticles.sort(
-      (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
-    );
-    
-    // 简单分页
-    const startIndex = (page - 1) * pageSize;
-    return sortedArticles.slice(startIndex, startIndex + pageSize);
+    if (useLocalStorage) {
+      const articles = await this.getArticles();
+      const filteredArticles = category
+        ? articles.filter(article => article.category === category)
+        : articles;
+      
+      // 按发布日期排序（最新的先显示）
+      const sortedArticles = filteredArticles.sort(
+        (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
+      );
+      
+      // 简单分页
+      const startIndex = (page - 1) * pageSize;
+      return sortedArticles.slice(startIndex, startIndex + pageSize);
+    } else {
+      try {
+        const articlesRef = collection(db, this.COLLECTION_NAME);
+        let q;
+        
+        if (category) {
+          q = query(
+            articlesRef, 
+            where('category', '==', category),
+            orderBy('publishDate', 'desc')
+          );
+        } else {
+          q = query(articlesRef, orderBy('publishDate', 'desc'));
+        }
+        
+        const snapshot = await getDocs(q);
+        
+        // 手动分页 (Firestore需要付费计划才支持offset分页)
+        const allArticles = snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            publishDate: data.publishDate instanceof Timestamp 
+              ? data.publishDate.toDate().toISOString() 
+              : data.publishDate
+          } as Article;
+        });
+        
+        const startIndex = (page - 1) * pageSize;
+        return allArticles.slice(startIndex, startIndex + pageSize);
+      } catch (error) {
+        console.error('Error fetching articles by category:', error);
+        return [];
+      }
+    }
   }
 
   // 按ID获取单篇文章
   public async getArticleById(articleId: string): Promise<Article> {
-    const articles = this.getArticles();
-    const article = articles.find(a => a.id === articleId);
-    
-    if (!article) {
-      throw new Error('文章不存在');
+    if (useLocalStorage) {
+      const articles = await this.getArticles();
+      const article = articles.find(a => a.id === articleId);
+      
+      if (!article) {
+        throw new Error('文章不存在');
+      }
+      
+      return article;
+    } else {
+      try {
+        const articleRef = doc(db, this.COLLECTION_NAME, articleId);
+        const articleDoc = await getDoc(articleRef);
+        
+        if (!articleDoc.exists()) {
+          throw new Error('文章不存在');
+        }
+        
+        const data = articleDoc.data();
+        return {
+          id: articleDoc.id,
+          ...data,
+          publishDate: data.publishDate instanceof Timestamp 
+            ? data.publishDate.toDate().toISOString() 
+            : data.publishDate
+        } as Article;
+      } catch (error) {
+        console.error('Error fetching article by ID:', error);
+        throw error;
+      }
     }
-    
-    return article;
   }
 
   // 记录文章浏览量
   public async recordView(articleId: string): Promise<void> {
-    const articles = this.getArticles();
-    const articleIndex = articles.findIndex(a => a.id === articleId);
-    
-    if (articleIndex !== -1) {
-      articles[articleIndex].viewCount += 1;
-      this.saveArticles(articles);
+    if (useLocalStorage) {
+      const articles = await this.getArticles();
+      const articleIndex = articles.findIndex(a => a.id === articleId);
       
-      // 也可以在这里记录用户查看历史
-      this.recordUserView(articleId);
+      if (articleIndex !== -1) {
+        articles[articleIndex].viewCount += 1;
+        this.saveArticles(articles);
+        
+        // 也可以在这里记录用户查看历史
+        this.recordUserView(articleId);
+      }
+    } else {
+      try {
+        const articleRef = doc(db, this.COLLECTION_NAME, articleId);
+        await updateDoc(articleRef, {
+          viewCount: increment(1)
+        });
+        
+        // 记录用户查看历史
+        this.recordUserView(articleId);
+      } catch (error) {
+        console.error('Error recording view:', error);
+      }
     }
   }
 
   // 记录用户查看历史
   private recordUserView(articleId: string): void {
-    const viewsJson = localStorage.getItem(this.VIEWS_KEY);
-    const views = viewsJson ? JSON.parse(viewsJson) : [];
-    
-    // 添加到已查看列表（可能还需要去重）
-    views.unshift({
-      articleId,
-      timestamp: new Date().toISOString()
-    });
-    
-    // 只保留最近的30条记录
-    const recentViews = views.slice(0, 30);
-    localStorage.setItem(this.VIEWS_KEY, JSON.stringify(recentViews));
+    if (useLocalStorage) {
+      const viewsJson = localStorage.getItem(this.VIEWS_KEY);
+      const views = viewsJson ? JSON.parse(viewsJson) : [];
+      
+      // 添加到已查看列表（可能还需要去重）
+      views.unshift({
+        articleId,
+        timestamp: new Date().toISOString()
+      });
+      
+      // 只保留最近的30条记录
+      const recentViews = views.slice(0, 30);
+      localStorage.setItem(this.VIEWS_KEY, JSON.stringify(recentViews));
+    } else {
+      // 在实际应用中，这里应该使用用户的UID
+      // 现在我们只是模拟记录，不与特定用户关联
+      try {
+        const viewsRef = collection(db, this.USER_VIEWS_COLLECTION);
+        addDoc(viewsRef, {
+          articleId,
+          timestamp: serverTimestamp(),
+          // userId: currentUser?.uid // 如果有登录用户
+        });
+      } catch (error) {
+        console.error('Error recording user view:', error);
+      }
+    }
   }
 
   // 获取相关文章
-  public async getRelatedArticles(articleId: string, limit = 3): Promise<Article[]> {
-    const articles = this.getArticles();
-    const currentArticle = articles.find(a => a.id === articleId);
-    
-    if (!currentArticle) return [];
-    
-    return articles
-      .filter(article => 
-        article.id !== articleId && article.category === currentArticle.category
-      )
-      .sort(() => Math.random() - 0.5) // 随机排序
-      .slice(0, limit);
+  public async getRelatedArticles(articleId: string, limitCount = 3): Promise<Article[]> {
+    try {
+      const currentArticle = await this.getArticleById(articleId);
+      
+      if (useLocalStorage) {
+        const articles = await this.getArticles();
+        return articles
+          .filter(article => 
+            article.id !== articleId && article.category === currentArticle.category
+          )
+          .sort(() => Math.random() - 0.5) // 随机排序
+          .slice(0, limitCount);
+      } else {
+        const articlesRef = collection(db, this.COLLECTION_NAME);
+        const q = query(
+          articlesRef,
+          where('category', '==', currentArticle.category),
+          where('__name__', '!=', articleId),
+          firestoreLimit(limitCount + 5) // 多取几篇，以便随机选择
+        );
+        
+        const snapshot = await getDocs(q);
+        
+        const relatedArticles = snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            publishDate: data.publishDate instanceof Timestamp 
+              ? data.publishDate.toDate().toISOString() 
+              : data.publishDate
+          } as Article;
+        });
+        
+        // 随机排序并限制数量
+        return relatedArticles
+          .sort(() => Math.random() - 0.5)
+          .slice(0, Math.min(limitCount, relatedArticles.length));
+      }
+    } catch (error) {
+      console.error('Error fetching related articles:', error);
+      return [];
+    }
   }
 
   // 生成初始文章数据
-  private seedInitialArticles(): Article[] {
+  private async seedInitialArticles(): Promise<Article[]> {
     const initialArticles: Article[] = [
       {
         id: 'article-1',
@@ -331,8 +554,107 @@ class ArticleService {
       }
     ];
     
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(initialArticles));
-    return initialArticles;
+    if (useLocalStorage) {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(initialArticles));
+      return initialArticles;
+    } else {
+      try {
+        // 将初始数据写入Firestore
+        const articlesRef = collection(db, this.COLLECTION_NAME);
+        
+        // 使用Promise.all并行添加所有文章
+        const articlePromises = initialArticles.map(async (article) => {
+          const docRef = await addDoc(articlesRef, {
+            ...article,
+            publishDate: Timestamp.fromDate(new Date(article.publishDate))
+          });
+          return {
+            ...article,
+            id: docRef.id
+          };
+        });
+        
+        return await Promise.all(articlePromises);
+      } catch (error) {
+        console.error('Error seeding initial articles:', error);
+        return initialArticles;
+      }
+    }
+  }
+
+  /**
+   * 获取特定分类的最新文章
+   * @param category 文章分类
+   * @param limitCount 返回的文章数量
+   * @returns 最新的文章列表
+   */
+  public async getLatestArticlesByCategory(category: string, limitCount = 3): Promise<Article[]> {
+    try {
+      if (useLocalStorage) {
+        const articles = await this.getArticles();
+        const filteredArticles = category 
+          ? articles.filter(article => article.category === category)
+          : articles;
+          
+        return filteredArticles
+          .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+          .slice(0, limitCount);
+      } else {
+        // 从Firestore获取数据
+        const articlesCollection = collection(db, this.COLLECTION_NAME);
+        let articlesQuery;
+        
+        if (category) {
+          articlesQuery = firestoreQuery(
+            articlesCollection, 
+            where('category', '==', category), 
+            orderBy('publishDate', 'desc'), 
+            limit(limitCount)
+          );
+        } else {
+          articlesQuery = firestoreQuery(
+            articlesCollection,
+            orderBy('publishDate', 'desc'), 
+            limit(limitCount)
+          );
+        }
+          
+        const snapshot = await getDocs(articlesQuery);
+        if (snapshot.empty) {
+          return [];
+        }
+          
+        return snapshot.docs.map(doc => {
+          const data = doc.data() as {
+            title: string;
+            summary: string;
+            content: string;
+            coverImage: string;
+            category: string;
+            tags?: string[];
+            publishDate: string | number | Date;
+            viewCount?: number;
+            author?: string;
+          };
+          
+          return {
+            id: doc.id,
+            title: data.title,
+            summary: data.summary,
+            content: data.content,
+            coverImage: data.coverImage,
+            category: data.category,
+            tags: data.tags || [],
+            publishDate: data.publishDate,
+            viewCount: data.viewCount || 0,
+            author: data.author
+          };
+        });
+      }
+    } catch (error) {
+      console.error('获取最新文章时出错:', error);
+      return [];
+    }
   }
 }
 

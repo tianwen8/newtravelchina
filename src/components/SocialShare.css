@@ -1,0 +1,89 @@
+.social-share-container {
+  margin: 2rem 0;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.share-title {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.8rem;
+}
+
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.share-button svg {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* 各平台颜色 */
+.share-button.wechat {
+  background-color: #09bb07;
+}
+
+.share-button.wechat:hover {
+  background-color: #07a905;
+}
+
+.share-button.weibo {
+  background-color: #e6162d;
+}
+
+.share-button.weibo:hover {
+  background-color: #c61426;
+}
+
+.share-button.facebook {
+  background-color: #3b5998;
+}
+
+.share-button.facebook:hover {
+  background-color: #2d4373;
+}
+
+.share-button.twitter {
+  background-color: #1da1f2;
+}
+
+.share-button.twitter:hover {
+  background-color: #0c85d0;
+}
+
+.share-button.copy {
+  background-color: #6c757d;
+}
+
+.share-button.copy:hover {
+  background-color: #5a6268;
+}
+
+/* 响应式调整 */
+@media (max-width: 576px) {
+  .share-buttons {
+    flex-direction: column;
+  }
+  
+  .share-button {
+    width: 100%;
+    justify-content: center;
+  }
+} 

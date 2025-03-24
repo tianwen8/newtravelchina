@@ -1,0 +1,311 @@
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-title {
+  font-size: 2.2rem;
+  color: #0077be;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* 通用表单样式 */
+.admin-form,
+.article-form {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+.admin-button {
+  background-color: #0077be;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-button:hover:not(:disabled) {
+  background-color: #005fa3;
+}
+
+.admin-button:disabled {
+  background-color: #a3d5f0;
+  cursor: not-allowed;
+}
+
+/* 状态消息样式 */
+.status-message {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* 初始化部分样式 */
+.initialization-section {
+  margin-bottom: 3rem;
+}
+
+.initialization-section h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* 文章管理样式 */
+.articles-management {
+  margin-top: 2rem;
+}
+
+.articles-management h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.publish-article h3,
+.articles-list h3 {
+  font-size: 1.5rem;
+  color: #0077be;
+  margin-bottom: 1rem;
+}
+
+/* 文章列表样式 */
+.admin-articles {
+  list-style: none;
+  padding: 0;
+}
+
+.article-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.article-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article-info {
+  flex: 1;
+}
+
+.article-info h4 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+  color: #333;
+}
+
+.article-summary {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.article-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 100px;
+}
+
+.action-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-button.view {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.action-button.view:hover {
+  background-color: #e9ecef;
+}
+
+.action-button.edit {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.action-button.edit:hover {
+  background-color: #ffe8a1;
+}
+
+.action-button.delete {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.action-button.delete:hover {
+  background-color: #f1b0b7;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #0077be;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 1rem;
+  }
+  
+  .dashboard-title {
+    font-size: 1.8rem;
+  }
+  
+  .admin-form,
+  .article-form {
+    padding: 1.5rem;
+  }
+  
+  .article-item {
+    flex-direction: column;
+  }
+  
+  .article-actions {
+    flex-direction: row;
+    margin-top: 1rem;
+  }
+}
+
+.success-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+}
+
+.success-message p {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.success-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.view-article-link {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.view-article-link:hover {
+  background-color: #218838;
+  color: white;
+}
+
+.close-button {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.close-button:hover {
+  background-color: #e2e6ea;
+} 

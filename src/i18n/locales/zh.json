@@ -9,7 +9,8 @@
       "visaFree": "免签旅行",
       "attractions": "景点与文化",
       "chineseLearning": "学习中文",
-      "community": "社区"
+      "community": "社区",
+      "adminDashboard": "管理后台"
     },
     "general": {
       "previous": "上一个",
@@ -174,9 +175,19 @@
         "messagePlaceholder": "分享您的经历或提出问题...",
         "submit": "提交留言",
         "successMessage": "您的留言已成功提交！",
-        "errorMessage": "请填写所有字段。",
+        "errorMessage": "提交失败，请稍后重试。",
+        "errorMessageContent": "请输入留言内容",
+        "errorMessageFields": "请填写所有必填字段",
+        "errorMessagePermission": "没有权限提交评论，请确保您已登录并有适当的权限",
+        "errorMessageDatabase": "数据库错误，评论集合可能不存在",
         "recentComments": "最近留言",
-        "noComments": "暂无留言。成为第一个分享想法的人！"
+        "noComments": "暂无留言。成为第一个分享想法的人！",
+        "noMatchingComments": "没有找到符合条件的留言。",
+        "allComments": "所有留言",
+        "tags": "标签",
+        "tagsHint": "选择相关标签（可选）",
+        "searchPlaceholder": "搜索留言...",
+        "commentingAs": "您正在以 {{name}} 的身份留言"
       },
       "shareStory": {
         "title": "分享您的故事",
@@ -268,6 +279,52 @@
         }
       }
     },
+    "auth": {
+      "login": "登录",
+      "register": "注册",
+      "logout": "退出登录",
+      "email": "电子邮箱",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "displayName": "显示名称",
+      "forgotPassword": "忘记密码？",
+      "resetPassword": "重置密码",
+      "noAccount": "还没有账号？",
+      "alreadyHaveAccount": "已有账号？",
+      "orContinueWith": "或继续使用",
+      "errors": {
+        "allFieldsRequired": "请填写所有必填字段",
+        "passwordMismatch": "两次输入的密码不匹配",
+        "passwordTooShort": "密码至少需要6个字符",
+        "loginFailed": "登录失败，请检查您的邮箱和密码",
+        "registrationFailed": "注册失败，请稍后再试",
+        "resetFailed": "重置密码失败，请稍后再试",
+        "socialLoginFailed": "使用以下方式登录失败："
+      }
+    },
+    "profile": {
+      "title": "个人资料",
+      "email": "电子邮箱",
+      "displayName": "显示名称",
+      "update": "更新资料",
+      "updateSuccess": "资料更新成功！",
+      "errors": {
+        "nameRequired": "显示名称为必填项",
+        "updateFailed": "更新资料失败，请稍后再试",
+        "notLoggedIn": "您需要登录才能查看个人资料"
+      }
+    },
+    "share": {
+      "title": "分享到",
+      "wechat": "微信",
+      "weibo": "微博",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "copyLink": "复制链接",
+      "wechatTip": "请使用微信扫描二维码分享",
+      "linkCopied": "链接已复制到剪贴板！",
+      "error": "分享失败，请重试"
+    },
     "article": {
       "viewCount": "{{count}}次浏览",
       "relatedArticles": "相关文章",
@@ -280,6 +337,52 @@
       },
       "fetchError": "加载文章失败",
       "notFound": "未找到文章"
+    },
+    "admin": {
+      "title": "管理员仪表盘",
+      "initialization": {
+        "title": "数据库初始化",
+        "description": "初始化数据库并创建管理员账户。此操作只需执行一次。",
+        "adminEmail": "管理员邮箱",
+        "adminPassword": "管理员密码",
+        "adminName": "管理员显示名称",
+        "initializeButton": "初始化数据库",
+        "alreadyInitialized": "数据库已经初始化",
+        "initializationSuccess": "数据库初始化成功！",
+        "initializationFailed": "数据库初始化失败，请检查控制台获取详细信息"
+      },
+      "articles": {
+        "title": "文章管理",
+        "newArticle": "新建文章",
+        "articleTitle": "文章标题",
+        "summary": "摘要",
+        "content": "内容",
+        "category": "分类",
+        "tags": "标签",
+        "coverImage": "封面图片",
+        "publish": "发布文章",
+        "publishSuccess": "文章发布成功！",
+        "publishFailed": "文章发布失败，请稍后再试",
+        "view": "查看",
+        "edit": "编辑",
+        "delete": "删除",
+        "confirmDelete": "确定要删除此文章吗？",
+        "noArticles": "暂无文章，开始创建您的第一篇文章吧！"
+      },
+      "comments": {
+        "title": "评论管理",
+        "markAsFeatured": "设为精选",
+        "removeFromFeatured": "取消精选",
+        "delete": "删除评论",
+        "confirmDelete": "确定要删除此评论吗？"
+      },
+      "users": {
+        "title": "用户管理",
+        "makeAdmin": "设为管理员",
+        "removeAdmin": "取消管理员",
+        "ban": "禁用账号",
+        "unban": "解除禁用"
+      }
     }
   }
 } 

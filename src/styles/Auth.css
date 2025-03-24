@@ -1,0 +1,259 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem 1rem;
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 450px;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form-container h2 {
+  text-align: center;
+  color: #0077be;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0077be;
+  box-shadow: 0 0 0 2px rgba(0, 119, 190, 0.2);
+}
+
+.auth-button {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background-color: #0077be;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-button:hover:not(:disabled) {
+  background-color: #005b8e;
+}
+
+.auth-button:disabled {
+  background-color: #b3d7e8;
+  cursor: not-allowed;
+}
+
+/* 社交登录样式 */
+.social-login {
+  margin-top: 1.5rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #777;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+  padding: 0 0.8rem;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.social-button svg {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.social-button.google {
+  color: #4285f4;
+  border-color: #4285f4;
+}
+
+.social-button.google:hover {
+  background-color: #f8fbff;
+}
+
+.social-button.github {
+  color: #333;
+  border-color: #333;
+}
+
+.social-button.github:hover {
+  background-color: #f6f6f6;
+}
+
+.social-button.facebook {
+  color: #3b5998;
+  border-color: #3b5998;
+}
+
+.social-button.facebook:hover {
+  background-color: #f0f2fa;
+}
+
+.social-button.apple {
+  color: #000;
+  border-color: #000;
+}
+
+.social-button.apple:hover {
+  background-color: #f6f6f6;
+}
+
+.social-button.wechat {
+  color: #07c160;
+  border-color: #07c160;
+}
+
+.social-button.wechat:hover {
+  background-color: #f0faf5;
+}
+
+.social-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-links {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.auth-links a {
+  color: #0077be;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.auth-links a:hover {
+  color: #005b8e;
+  text-decoration: underline;
+}
+
+.auth-links p {
+  margin-top: 1rem;
+  color: #555;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  border-left: 4px solid #d32f2f;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-message p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.firebase-help {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed rgba(211, 47, 47, 0.4);
+}
+
+.firebase-help p {
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.firebase-help ol {
+  margin: 0.5rem 0 0.5rem 1.5rem;
+  padding-left: 0;
+  font-size: 0.85rem;
+}
+
+.firebase-help li {
+  margin-bottom: 0.3rem;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 0.8rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .auth-form-container {
+    padding: 1.5rem;
+  }
+  
+  .social-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .social-button {
+    width: 100%;
+  }
+} 

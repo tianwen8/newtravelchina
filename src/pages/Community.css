@@ -408,3 +408,45 @@
     align-self: flex-end;
   }
 }
+
+.logged-in-message {
+  background-color: rgba(0, 119, 190, 0.1);
+  border-left: 3px solid #0077be;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: #0077be;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  border-radius: 0 4px 4px 0;
+}
+
+.logged-in-message:before {
+  content: '👤 ';
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+/* 登录用户表单样式 */
+.logged-in-form {
+  position: relative;
+  padding-top: 10px;
+}
+
+.logged-in-form .form-group textarea {
+  border-color: #0077be;
+  border-width: 1px;
+  box-shadow: 0 0 0 1px rgba(0, 119, 190, 0.1);
+}
+
+.logged-in-form .submit-btn {
+  background-color: #0077be;
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+}
+
+.logged-in-form .submit-btn:hover {
+  background-color: #005a8e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

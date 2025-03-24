@@ -9,7 +9,8 @@
       "visaFree": "Visa-Free Travel",
       "attractions": "Attractions & Culture",
       "chineseLearning": "Learn Chinese",
-      "community": "Community"
+      "community": "Community",
+      "adminDashboard": "Admin Dashboard"
     },
     "general": {
       "previous": "Previous",
@@ -177,9 +178,19 @@
         "messagePlaceholder": "Share your experience or ask a question...",
         "submit": "Submit Comment",
         "successMessage": "Your comment has been submitted successfully!",
-        "errorMessage": "Please fill in all fields.",
+        "errorMessage": "Submission failed, please try again later.",
+        "errorMessageContent": "Please enter a comment message",
+        "errorMessageFields": "Please fill in all required fields",
+        "errorMessagePermission": "You don't have permission to submit comments. Please make sure you are logged in with appropriate privileges",
+        "errorMessageDatabase": "Database error, comment collection may not exist",
         "recentComments": "Recent Comments",
-        "noComments": "No comments yet. Be the first to share your thoughts!"
+        "noComments": "No comments yet. Be the first to share your thoughts!",
+        "noMatchingComments": "No matching comments found.",
+        "allComments": "All Comments",
+        "tags": "Tags",
+        "tagsHint": "Select relevant tags (optional)",
+        "searchPlaceholder": "Search comments...",
+        "commentingAs": "You are commenting as {{name}}"
       },
       "shareStory": {
         "title": "Share Your Story",
@@ -274,6 +285,98 @@
           "description": "Travel safety precautions and emergency contacts"
         }
       }
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "displayName": "Display Name",
+      "forgotPassword": "Forgot password?",
+      "resetPassword": "Reset Password",
+      "noAccount": "Don't have an account?",
+      "alreadyHaveAccount": "Already have an account?",
+      "orContinueWith": "or continue with",
+      "errors": {
+        "allFieldsRequired": "Please fill in all required fields",
+        "passwordMismatch": "Passwords do not match",
+        "passwordTooShort": "Password must be at least 6 characters",
+        "loginFailed": "Login failed, please check your email and password",
+        "registrationFailed": "Registration failed, please try again later",
+        "resetFailed": "Password reset failed, please try again later",
+        "socialLoginFailed": "Login failed with"
+      }
+    },
+    "profile": {
+      "title": "Profile",
+      "email": "Email",
+      "displayName": "Display Name",
+      "update": "Update Profile",
+      "updateSuccess": "Profile updated successfully!",
+      "errors": {
+        "nameRequired": "Display name is required",
+        "updateFailed": "Failed to update profile, please try again later",
+        "notLoggedIn": "You need to be logged in to view your profile"
+      }
+    },
+    "admin": {
+      "title": "Admin Dashboard",
+      "initialization": {
+        "title": "Database Initialization",
+        "description": "Initialize the database and create an admin account. This only needs to be done once.",
+        "adminEmail": "Admin Email",
+        "adminPassword": "Admin Password",
+        "adminName": "Admin Display Name",
+        "initializeButton": "Initialize Database",
+        "alreadyInitialized": "Database is already initialized",
+        "initializationSuccess": "Database initialized successfully!",
+        "initializationFailed": "Database initialization failed, check console for details"
+      },
+      "articles": {
+        "title": "Article Management",
+        "newArticle": "New Article",
+        "articleTitle": "Article Title",
+        "summary": "Summary",
+        "content": "Content",
+        "category": "Category",
+        "tags": "Tags",
+        "coverImage": "Cover Image",
+        "publish": "Publish Article",
+        "publishSuccess": "Article published successfully!",
+        "publishFailed": "Failed to publish article, please try again later",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "confirmDelete": "Are you sure you want to delete this article?",
+        "noArticles": "No articles yet, start creating your first article!"
+      },
+      "comments": {
+        "title": "Comment Management",
+        "markAsFeatured": "Mark as Featured",
+        "removeFromFeatured": "Remove from Featured",
+        "delete": "Delete Comment",
+        "confirmDelete": "Are you sure you want to delete this comment?"
+      },
+      "users": {
+        "title": "User Management",
+        "makeAdmin": "Make Admin",
+        "removeAdmin": "Remove Admin",
+        "ban": "Ban User",
+        "unban": "Unban User"
+      }
+    },
+    "share": {
+      "title": "Share to",
+      "wechat": "WeChat",
+      "weibo": "Weibo",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "copyLink": "Copy Link",
+      "wechatTip": "Please scan QR code with WeChat to share",
+      "linkCopied": "Link copied to clipboard!",
+      "error": "Failed to share, please try again"
     },
     "article": {
       "categories": {

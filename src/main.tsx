@@ -7,6 +7,7 @@ import { router } from './router'
 import { store } from './store'
 import './i18n'
 import { initGA, pageview } from './services/analytics'
+import { AuthProvider } from './contexts/AuthContext'
 
 // 初始化Google Analytics
 initGA();
@@ -18,7 +19,9 @@ initGA();
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </Provider>
   </StrictMode>
 )

@@ -1,27 +1,40 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import FeaturedComments from '../components/FeaturedComments';
+import CategoryArticles from '../components/CategoryArticles';
+import CommentWaterfall from '../components/CommentWaterfall';
 
 import visaIcon from '../assets/icons/visa.svg';
 import landmarkIcon from '../assets/icons/landmark.svg';
 import languageIcon from '../assets/icons/language.svg';
 import communityIcon from '../assets/icons/community.svg';
 
-// 使用项目中的图片资源（从public目录加载，用中文文件名）
-const beijingImg = "/images/beijing.jpg";  // 使用您的北京图片
-const shanghaiImg = "/images/shanghai.jpg";    // 使用您的上海图片
-const xiAnImg = "/images/xian.jpg";        // 使用您的西安图片
-const guilinImg = "/images/guilin.jpg";      // 使用您的桂林图片
-const chengduImg = "/images/chengdu.jpg";     // 使用您的成都图片
-const hongkongImg = "/images/hongkong.jpg";    // 使用您的香港图片
+// 导入图片资源
+import beijingImg from '../assets/images/beijing.jpg';
+import shanghaiImg from '../assets/images/shanghai.jpg';
+import xiAnImg from '../assets/images/xian.jpg';
+import guilinImg from '../assets/images/guilin.jpg';
+import chengduImg from '../assets/images/chengdu.jpg';
+import hongkongImg from '../assets/images/hongkong.jpg';
+import backgroundImg from '../assets/images/background.jpg';
 
 import './Home.css';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const featuresRef = useRef<HTMLDivElement>(null);
+  
+  // 设置背景图片
+  useEffect(() => {
+    document.documentElement.style.setProperty('--bg-image', `url(${backgroundImg})`);
+    
+    // 清理函数
+    return () => {
+      document.documentElement.style.removeProperty('--bg-image');
+    };
+  }, []);
   
   const scrollToFeatures = () => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -77,6 +90,8 @@ const Home: React.FC = () => {
       
       <div className="home-container">
         <header className="hero-section">
+          <CommentWaterfall limit={10} autoRefresh={true} refreshInterval={30000} />
+          
           <h1>{t('home.hero.title')}</h1>
           <p>{t('home.hero.subtitle')}</p>
           <div className="scroll-indicator" onClick={scrollToFeatures}>
@@ -122,6 +137,14 @@ const Home: React.FC = () => {
               {t('nav.community')}
             </Link>
           </div>
+        </section>
+        
+        {/* 添加分类文章展示 */}
+        <section className="category-articles-section">
+          <CategoryArticles category="visa-free" limit={3} autoRefresh={true} />
+          <CategoryArticles category="attractions" limit={3} autoRefresh={true} />
+          <CategoryArticles category="culture" limit={3} autoRefresh={true} />
+          <CategoryArticles category="travel-tips" limit={3} autoRefresh={true} />
         </section>
         
         <section className="destinations-section">
