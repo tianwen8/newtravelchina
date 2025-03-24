@@ -32,7 +32,15 @@
       ]
     },
     {
-      "source": "/assets/(.*)\\.tsx?",
+      "source": "/assets/(.*)\\.ts",
+      "headers": [
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)\\.tsx",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
@@ -47,21 +55,28 @@
       ]
     },
     {
-      "source": "/(.*)\\.js$",
+      "source": "/(.*)\\.js",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
     },
     {
-      "source": "/(.*)\\.tsx?$",
+      "source": "/(.*)\\.ts",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
     },
     {
-      "source": "/(.*\\.[a-z0-9]{1,})$",
+      "source": "/(.*)\\.tsx",
+      "headers": [
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=604800" }
+      ]
+    },
+    {
+      "source": "/(.*\\.[a-z0-9]{1,})",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
