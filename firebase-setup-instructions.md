@@ -1,74 +1,154 @@
-# 配置 Firebase 社交账号登录的指南
+# Firebase 设置指南
 
-要启用社交媒体登录功能，您需要在 Firebase 控制台中进行以下配置：
+本指南将帮助您为中国旅游网站项目设置 Firebase。
 
-## 1. 登录 Firebase 控制台
+## 步骤 1: 创建 Firebase 项目
 
 1. 访问 [Firebase 控制台](https://console.firebase.google.com/)
-2. 选择您的项目
+2. 点击"添加项目"
+3. 输入项目名称（例如 "travel-china"）
+4. 选择是否启用 Google Analytics（推荐启用）
+5. 点击"创建项目"
 
-## 2. 配置身份验证方法
+## 步骤 2: 添加网页应用
 
-1. 在左侧导航栏中，点击 "Build" -> "Authentication"
-2. 点击 "Sign-in method" 选项卡
-3. 启用您想要使用的登录方式：
+1. 在项目概览页面，点击"网页"图标 (</>) 以添加网页应用
+2. 输入应用昵称（例如 "travel-china-web"）
+3. 勾选"同时设置 Firebase Hosting"（可选）
+4. 点击"注册应用"
+5. 复制显示的 Firebase 配置代码
 
-### Google 登录
-1. 点击 "Google" 行
-2. 将开关切换到 "启用" 位置
-3. 输入您的支持电子邮件地址
-4. 点击 "保存"
+## 步骤 3: 更新项目配置
 
-### Facebook 登录
-1. 点击 "Facebook" 行
-2. 将开关切换到 "启用" 位置
-3. 您需要创建一个 Facebook 应用，请访问 [Facebook 开发者控制台](https://developers.facebook.com/)
-4. 创建应用后，复制应用 ID 和应用密钥到 Firebase 控制台相应字段
-5. 在 Facebook 开发者控制台中，添加 OAuth 重定向 URI（可从 Firebase 控制台获取）
-6. 点击 "保存"
+1. 打开项目中的 `src/firebase/config.ts` 文件
+2. 将 Firebase 配置替换为您自己的配置：
 
-### GitHub 登录
-1. 点击 "GitHub" 行
-2. 将开关切换到 "启用" 位置
-3. 您需要创建一个 GitHub OAuth 应用，请访问 [GitHub 开发者设置](https://github.com/settings/developers)
-4. 创建应用后，复制客户端 ID 和客户端密钥到 Firebase 控制台相应字段
-5. 在 GitHub 开发者设置中，添加授权回调 URL（可从 Firebase 控制台获取）
-6. 点击 "保存"
+```typescript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID" // 如果您启用了 Analytics
+};
+```
 
-### Apple 登录
-1. 点击 "Apple" 行
-2. 将开关切换到 "启用" 位置
-3. 您需要使用 Apple Developer 帐户，设置 Sign in with Apple
-4. 配置服务 ID 和密钥
-5. 详细步骤可参考 [Firebase 文档](https://firebase.google.com/docs/auth/web/apple)
-6. 点击 "保存"
+## 步骤 4: 设置 Authentication 认证
 
-### 微信登录（需要特殊配置）
-微信登录需要特殊配置，不能直接通过 Firebase 控制台启用。您需要：
+1. 在 Firebase 控制台左侧菜单，点击"构建" > "Authentication"
+2. 点击"开始使用"按钮
+3. 启用以下登录方式：
+   - **邮箱/密码** - 必需
+   - **Google** - 推荐
+   - 其他登录方式（如 GitHub, Facebook, 等）- 可选
 
-1. 创建微信开发者账户并注册应用
-2. 使用 Firebase 自定义身份验证
-3. 创建后端服务，处理微信授权流程
-4. 生成自定义令牌，供前端使用
+### 邮箱/密码设置
+1. 点击"邮箱/密码"
+2. 切换"启用"开关
+3. 可选：启用"邮箱链接"（无密码登录）
+4. 点击"保存"
 
-详细步骤可参考 [Custom Authentication System](https://firebase.google.com/docs/auth/web/custom-auth)
+### Google 登录设置
+1. 点击"Google"
+2. 切换"启用"开关
+3. 添加支持邮箱（项目管理员的邮箱）
+4. 点击"保存"
 
-## 3. 更新应用配置
+## 步骤 5: 设置 Firestore 数据库
 
-完成身份验证提供商配置后，请确保您的应用配置也已更新：
+1. 在左侧菜单，点击"构建" > "Firestore Database"
+2. 点击"创建数据库"
+3. 选择初始安全规则模式（建议选择"测试模式"开始）
+4. 选择数据库位置（建议选择接近目标用户的区域）
+5. 点击"启用"
 
-1. 在 Firebase 控制台的项目设置中，确认您的应用 ID 和域名设置正确
-2. 确保已将应用域名添加到授权域中
-3. 如果部署到生产环境，请将生产域名也添加到授权域列表
+## 步骤 6: 设置 Storage 存储
 
-## 4. 测试登录流程
+1. 在左侧菜单，点击"构建" > "Storage"
+2. 点击"开始使用"
+3. 选择安全规则设置（建议开始时选择"测试模式"）
+4. 点击"下一步"
+5. 选择存储位置（与 Firestore 选择相同的区域）
+6. 点击"完成"
 
-1. 使用各种社交媒体账号测试登录流程
-2. 检查用户数据是否正确存储在 Firebase Authentication 中
-3. 确保登录后可以正确获取用户信息
+## 步骤 7: 设置安全规则
 
-## 注意事项
+### Firestore 规则
 
-- 不同的社交媒体平台可能有不同的审批流程，特别是 Facebook 和 Apple
-- 在开发环境中，某些提供商可能需要特殊配置才能正常工作
-- 确保您的应用遵循各平台的品牌使用指南 
+在 Firestore Database > 规则 标签页，将以下规则复制粘贴进去：
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 允许所有读操作
+    match /{document=**} {
+      allow read: if true;
+    }
+    
+    // 允许所有写操作，但仅在开发阶段
+    // 注意：这在生产中是不安全的，仅用于初始化数据库
+    match /{document=**} {
+      allow write: if true;
+    }
+  }
+}
+```
+
+初始化后，可以使用更严格的规则（见 `firebase-rules.txt`）。
+
+### Storage 规则
+
+在 Storage > 规则 标签页，将以下规则复制粘贴进去：
+
+```
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      // 允许公共读取，仅认证用户可写入
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
+```
+
+## 步骤 8: 初始化应用
+
+1. 启动应用（`npm run dev`）
+2. 在浏览器中访问 `http://localhost:5173/complete-init`
+3. 点击"一键初始化数据库"按钮
+4. 使用管理员账户登录（邮箱: `x253400489@gmail.com`，密码: `admin123456`）
+5. 登录成功后，您可以访问 `/admin` 路径来管理内容
+
+## 故障排除
+
+### Authentication 认证问题
+
+**问题**: 登录时显示 "Firebase: Error (auth/operation-not-allowed)"
+**解决方案**: 确保在 Firebase 控制台中启用了相应的登录方式。
+
+### 权限问题
+
+**问题**: 写入数据库或存储时出现 "permission-denied" 错误
+**解决方案**: 检查 Firestore 和 Storage 的安全规则，确保为用户提供了适当的权限。
+
+### 初始化问题
+
+**问题**: 数据库初始化失败
+**解决方案**: 
+- 确保 Firebase 项目配置正确
+- 检查网络连接
+- 查看浏览器控制台中的错误消息
+
+## 生产环境注意事项
+
+在将应用部署到生产环境之前：
+
+1. 更新安全规则，使用更严格的访问控制
+2. 设置 Firebase Authentication 域名（如果使用自定义域名）
+3. 考虑启用 Firebase App Check 提高安全性
+4. 监控流量和使用情况，以避免超出免费配额 
