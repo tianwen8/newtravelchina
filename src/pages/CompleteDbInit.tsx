@@ -4,17 +4,22 @@ import { setDoc, doc, collection, addDoc, getDocs, query, limit } from 'firebase
 import { auth, db } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
 
+// 管理员账户信息 - 从环境变量或配置文件中读取（安全起见）
+// 注意：在实际项目中，这些值应该通过环境变量或受保护的配置文件提供
+const ADMIN_CONFIG = {
+  email: process.env.REACT_APP_ADMIN_EMAIL || 'admin@example.com', // 默认值作为占位符
+  password: process.env.REACT_APP_ADMIN_PASSWORD || 'admin123456', // 默认值作为占位符
+  displayName: '系统管理员'
+};
+
 const CompleteDbInit: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [logs, setLogs] = useState<string[]>([]);
   const [success, setSuccess] = useState(false);
+  const [adminEmail, setAdminEmail] = useState(ADMIN_CONFIG.email);
+  const [adminPassword, setAdminPassword] = useState('');
   const navigate = useNavigate();
-  
-  // 定义管理员信息
-  const adminEmail = 'x253400489@gmail.com';
-  const adminPassword = 'admin123456';
-  const adminDisplayName = '系统管理员';
 
   const addLog = (log: string) => {
     setLogs(prevLogs => [...prevLogs, `${new Date().toLocaleTimeString()}: ${log}`]);
@@ -25,19 +30,24 @@ const CompleteDbInit: React.FC = () => {
     setMessage('正在完整初始化数据库，请稍候...');
     setLogs([]);
     
+    // 使用表单输入的值或配置值
+    const finalEmail = adminEmail || ADMIN_CONFIG.email;
+    const finalPassword = adminPassword || ADMIN_CONFIG.password;
+    const adminDisplayName = ADMIN_CONFIG.displayName;
+    
     try {
       // 步骤1: 创建/获取管理员用户
       addLog('开始创建管理员用户...');
       let uid;
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, adminEmail, adminPassword);
+        const userCredential = await createUserWithEmailAndPassword(auth, finalEmail, finalPassword);
         uid = userCredential.user.uid;
         addLog(`管理员用户创建成功，UID: ${uid}`);
       } catch (createError: any) {
         if (createError.code === 'auth/email-already-in-use') {
           addLog('邮箱已存在，尝试登录...');
           try {
-            const userCredential = await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+            const userCredential = await signInWithEmailAndPassword(auth, finalEmail, finalPassword);
             uid = userCredential.user.uid;
             addLog(`登录成功，UID: ${uid}`);
           } catch (loginError: any) {
@@ -54,7 +64,7 @@ const CompleteDbInit: React.FC = () => {
       addLog('创建users集合...');
       try {
         await setDoc(doc(db, 'users', uid), {
-          email: adminEmail,
+          email: finalEmail,
           displayName: adminDisplayName,
           isAdmin: true,
           createdAt: new Date()
@@ -156,8 +166,8 @@ const CompleteDbInit: React.FC = () => {
 
       // 完成
       setSuccess(true);
-      setMessage('数据库初始化完成！现在您可以使用管理员账户登录。');
-      addLog('数据库初始化成功完成！');
+      setMessage(`数据库初始化完成！现在您可以使用管理员账户 (${finalEmail}) 登录。`);
+      addLog(`数据库初始化成功完成！管理员账户: ${finalEmail}`);
       
       // 5秒后跳转到登录页面
       setTimeout(() => {
@@ -181,13 +191,52 @@ const CompleteDbInit: React.FC = () => {
       <div style={{ margin: '2rem 0', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
         <p>将自动完成以下操作：</p>
         <ol style={{ textAlign: 'left' }}>
-          <li>创建管理员账户：<strong>{adminEmail}</strong>（密码：{adminPassword}）</li>
+          <li>创建管理员账户（您可以自定义邮箱）</li>
           <li>创建 users 集合并设置管理员权限</li>
           <li>创建 articles 集合并添加示例文章</li>
           <li>创建 comments 集合并添加示例评论</li>
         </ol>
+        
+        <div style={{ margin: '1rem 0', padding: '1rem', backgroundColor: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+          <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+              管理员邮箱:
+            </label>
+            <input
+              type="email"
+              value={adminEmail}
+              onChange={(e) => setAdminEmail(e.target.value)}
+              placeholder="输入管理员邮箱"
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px'
+              }}
+            />
+          </div>
+          
+          <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+              管理员密码:
+            </label>
+            <input
+              type="password"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
+              placeholder="输入管理员密码（留空使用默认密码）"
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px'
+              }}
+            />
+          </div>
+        </div>
+        
         <p style={{ color: '#dc3545', fontWeight: 'bold' }}>
-          初始化完成后，您可以使用上述管理员账户登录。请立即更改默认密码！
+          初始化完成后，请使用上述管理员账户登录，并立即更改默认密码！
         </p>
       </div>
       

@@ -4,18 +4,24 @@ import { setDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
 
+// 管理员账户默认显示名称
+const ADMIN_DISPLAY_NAME = '系统管理员';
+
 const DirectAdminInit: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
+  const [adminEmail, setAdminEmail] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
   const navigate = useNavigate();
-  
-  // 定义管理员信息
-  const adminEmail = 'x253400489@gmail.com';
-  const adminPassword = 'admin123456';
-  const adminDisplayName = '系统管理员';
 
   const handleInitialize = async () => {
+    // 表单验证
+    if (!adminEmail || !adminPassword) {
+      setMessage('请输入管理员邮箱和密码');
+      return;
+    }
+    
     setLoading(true);
     setMessage('正在初始化管理员账户，请稍候...');
     
@@ -23,7 +29,7 @@ const DirectAdminInit: React.FC = () => {
       // 步骤1: 尝试创建用户（如果已存在则尝试登录）
       let uid;
       try {
-        console.log('尝试创建用户:', adminEmail);
+        console.log('尝试创建用户');
         const userCredential = await createUserWithEmailAndPassword(auth, adminEmail, adminPassword);
         uid = userCredential.user.uid;
         console.log('用户创建成功, UID:', uid);
@@ -55,13 +61,13 @@ const DirectAdminInit: React.FC = () => {
           console.log('设置管理员权限, UID:', uid);
           await setDoc(doc(db, 'users', uid), {
             email: adminEmail,
-            displayName: adminDisplayName,
+            displayName: ADMIN_DISPLAY_NAME,
             isAdmin: true,
             createdAt: new Date()
           }, { merge: true });
           
           setSuccess(true);
-          setMessage(`管理员账户 ${adminEmail} 已成功初始化。请使用此账户登录。`);
+          setMessage(`管理员账户已成功初始化，请使用此账户登录。`);
           
           // 5秒后跳转到登录页面
           setTimeout(() => {
@@ -85,23 +91,60 @@ const DirectAdminInit: React.FC = () => {
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem', textAlign: 'center' }}>
       <h1>管理员账户直接初始化</h1>
-      <p>此页面将直接为指定邮箱创建管理员账户。</p>
+      <p>此页面将创建并授权管理员账户。请输入您想使用的管理员邮箱和密码。</p>
       
       <div style={{ margin: '2rem 0', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-        <p>将为以下邮箱创建/确认管理员权限：</p>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li><strong>邮箱：</strong> {adminEmail}</li>
-          <li><strong>密码：</strong> {adminPassword}</li>
-          <li><strong>显示名称：</strong> {adminDisplayName}</li>
-        </ul>
-        <p style={{ color: '#dc3545', fontWeight: 'bold' }}>
-          重要提示：初始化后请立即登录并修改默认密码！
+        <div style={{ margin: '1rem 0', padding: '1rem', backgroundColor: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+          <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+              管理员邮箱:
+            </label>
+            <input
+              type="email"
+              value={adminEmail}
+              onChange={(e) => setAdminEmail(e.target.value)}
+              placeholder="输入管理员邮箱"
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px'
+              }}
+              required
+            />
+          </div>
+          
+          <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+              管理员密码:
+            </label>
+            <input
+              type="password"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
+              placeholder="输入管理员密码"
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px'
+              }}
+              required
+            />
+            <p style={{ fontSize: '0.8rem', color: '#666', margin: '0.5rem 0 0' }}>
+              请使用强密码，建议包含大小写字母、数字和特殊字符。
+            </p>
+          </div>
+        </div>
+        
+        <p style={{ color: '#dc3545', fontWeight: 'bold', marginTop: '1rem' }}>
+          重要安全提示：请记住您设置的凭据。初始化后建议立即登录并验证权限。
         </p>
       </div>
       
       <button 
         onClick={handleInitialize}
-        disabled={loading}
+        disabled={loading || !adminEmail || !adminPassword}
         style={{
           padding: '0.75rem 1.5rem',
           backgroundColor: '#0077be',
@@ -109,8 +152,8 @@ const DirectAdminInit: React.FC = () => {
           border: 'none',
           borderRadius: '4px',
           fontSize: '1rem',
-          cursor: loading ? 'not-allowed' : 'pointer',
-          opacity: loading ? 0.7 : 1
+          cursor: (loading || !adminEmail || !adminPassword) ? 'not-allowed' : 'pointer',
+          opacity: (loading || !adminEmail || !adminPassword) ? 0.7 : 1
         }}
       >
         {loading ? '初始化中...' : '初始化管理员账户'}
