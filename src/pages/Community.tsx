@@ -10,6 +10,9 @@ interface Comment {
   email: string;
   content: string;
   timestamp: number;
+  featured?: boolean;
+  likes?: number;
+  tags?: string[];
 }
 
 const Community: React.FC = () => {
@@ -18,15 +21,36 @@ const Community: React.FC = () => {
   const [newComment, setNewComment] = useState({
     name: '',
     email: '',
-    content: ''
+    content: '',
+    tags: [] as string[]
   });
   const [submitStatus, setSubmitStatus] = useState<string | null>(null);
-
-  // 从本地存储加载评论（在实际应用中，这应该是从API获取）
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  
+  // 预定义标签
+  const availableTags = [
+    'beijing', 'shanghai', 'xian', 'guilin', 'chengdu', 'hongkong',
+    'food', 'transport', 'accommodation', 'tips', 'visa', 'shopping'
+  ];
+  
+  // 从本地存储加载评论
   useEffect(() => {
     const savedComments = localStorage.getItem('communityComments');
     if (savedComments) {
-      setComments(JSON.parse(savedComments));
+      try {
+        const parsedComments = JSON.parse(savedComments);
+        // 确保所有评论都有默认属性
+        const enhancedComments = parsedComments.map((comment: Comment) => ({
+          ...comment,
+          likes: comment.likes || 0,
+          tags: comment.tags || []
+        }));
+        setComments(enhancedComments);
+      } catch (error) {
+        console.error('解析评论时出错:', error);
+        setComments([]);
+      }
     }
   }, []);
 
@@ -37,6 +61,40 @@ const Community: React.FC = () => {
       ...newComment,
       [name]: value
     });
+  };
+  
+  // 处理标签选择
+  const handleTagToggle = (tag: string) => {
+    if (newComment.tags.includes(tag)) {
+      setNewComment({
+        ...newComment,
+        tags: newComment.tags.filter(t => t !== tag)
+      });
+    } else {
+      // 最多选择3个标签
+      if (newComment.tags.length < 3) {
+        setNewComment({
+          ...newComment,
+          tags: [...newComment.tags, tag]
+        });
+      }
+    }
+  };
+  
+  // 处理点赞
+  const handleLike = (id: string) => {
+    const updatedComments = comments.map(comment => {
+      if (comment.id === id) {
+        return {
+          ...comment,
+          likes: (comment.likes || 0) + 1
+        };
+      }
+      return comment;
+    });
+    
+    setComments(updatedComments);
+    localStorage.setItem('communityComments', JSON.stringify(updatedComments));
   };
 
   // 提交评论
@@ -52,22 +110,28 @@ const Community: React.FC = () => {
     // 创建新评论
     const comment: Comment = {
       id: Date.now().toString(),
-      ...newComment,
-      timestamp: Date.now()
+      name: newComment.name,
+      email: newComment.email,
+      content: newComment.content,
+      timestamp: Date.now(),
+      likes: 0,
+      tags: newComment.tags,
+      featured: false
     };
     
     // 更新状态
     const updatedComments = [...comments, comment];
     setComments(updatedComments);
     
-    // 保存到本地存储（在实际应用中，这应该是保存到数据库）
+    // 保存到本地存储
     localStorage.setItem('communityComments', JSON.stringify(updatedComments));
     
     // 重置表单
     setNewComment({
       name: '',
       email: '',
-      content: ''
+      content: '',
+      tags: []
     });
     
     setSubmitStatus('success');
@@ -78,10 +142,56 @@ const Community: React.FC = () => {
     }, 3000);
   };
 
-  // 格式化日期
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleString();
+  // 格式化日期，显示相对时间
+  const formatRelativeTime = (timestamp: number) => {
+    const now = Date.now();
+    const diffInSeconds = Math.floor((now - timestamp) / 1000);
+    
+    if (diffInSeconds < 60) {
+      return t('time.justNow');
+    }
+    
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return t('time.minutesAgo', { count: diffInMinutes });
+    }
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return t('time.hoursAgo', { count: diffInHours });
+    }
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 30) {
+      return t('time.daysAgo', { count: diffInDays });
+    }
+    
+    // 如果超过30天，则显示具体日期
+    return new Date(timestamp).toLocaleDateString();
   };
+  
+  // 过滤和排序评论
+  const getFilteredComments = () => {
+    // 首先按照标签过滤
+    let filtered = selectedTag 
+      ? comments.filter(comment => comment.tags?.includes(selectedTag))
+      : comments;
+    
+    // 然后按照搜索词过滤
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        comment => 
+          comment.content.toLowerCase().includes(term) || 
+          comment.name.toLowerCase().includes(term)
+      );
+    }
+    
+    // 按时间排序（最新的在前面）
+    return filtered.sort((a, b) => b.timestamp - a.timestamp);
+  };
+
+  const filteredComments = getFilteredComments();
 
   return (
     <>
@@ -142,6 +252,24 @@ const Community: React.FC = () => {
                 ></textarea>
               </div>
               
+              <div className="form-group">
+                <label>{t('community.comments.tags')}</label>
+                <div className="tags-container">
+                  {availableTags.map(tag => (
+                    <span 
+                      key={tag}
+                      className={`tag ${newComment.tags.includes(tag) ? 'selected' : ''}`}
+                      onClick={() => handleTagToggle(tag)}
+                    >
+                      {t(`tags.${tag}`, { defaultValue: tag })}
+                    </span>
+                  ))}
+                </div>
+                <small className="tags-hint">
+                  {t('community.comments.tagsHint')}
+                </small>
+              </div>
+              
               <button type="submit" className="submit-btn">
                 {t('community.comments.submit')}
               </button>
@@ -160,19 +288,92 @@ const Community: React.FC = () => {
             </form>
           </div>
           
+          {/* 评论过滤和搜索 */}
+          <div className="comments-filter">
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder={t('community.comments.searchPlaceholder')}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm && (
+                <button 
+                  className="clear-search" 
+                  onClick={() => setSearchTerm('')}
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            
+            <div className="tag-filters">
+              <span 
+                className={`tag-filter ${selectedTag === null ? 'active' : ''}`}
+                onClick={() => setSelectedTag(null)}
+              >
+                {t('community.comments.allComments')}
+              </span>
+              {availableTags.map(tag => (
+                <span 
+                  key={tag}
+                  className={`tag-filter ${selectedTag === tag ? 'active' : ''}`}
+                  onClick={() => setSelectedTag(tag)}
+                >
+                  {t(`tags.${tag}`, { defaultValue: tag })}
+                </span>
+              ))}
+            </div>
+          </div>
+          
           {/* 评论列表 */}
           <div className="comments-list">
-            <h3>{t('community.comments.recentComments')}</h3>
-            {comments.length === 0 ? (
-              <p className="no-comments">{t('community.comments.noComments')}</p>
+            <h3>
+              {t('community.comments.recentComments')}
+              {filteredComments.length > 0 && (
+                <span className="comment-count">({filteredComments.length})</span>
+              )}
+            </h3>
+            
+            {filteredComments.length === 0 ? (
+              <p className="no-comments">
+                {searchTerm || selectedTag
+                  ? t('community.comments.noMatchingComments')
+                  : t('community.comments.noComments')}
+              </p>
             ) : (
-              comments.map((comment) => (
+              filteredComments.map((comment) => (
                 <div key={comment.id} className="comment-item">
                   <div className="comment-header">
                     <span className="comment-author">{comment.name}</span>
-                    <span className="comment-date">{formatDate(comment.timestamp)}</span>
+                    <span className="comment-date">{formatRelativeTime(comment.timestamp)}</span>
                   </div>
                   <div className="comment-content">{comment.content}</div>
+                  <div className="comment-footer">
+                    {comment.tags && comment.tags.length > 0 && (
+                      <div className="comment-tags">
+                        {comment.tags.map(tag => (
+                          <span 
+                            key={tag} 
+                            className="comment-tag"
+                            onClick={() => setSelectedTag(tag)}
+                          >
+                            #{t(`tags.${tag}`, { defaultValue: tag })}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="comment-actions">
+                      <button 
+                        className="like-button" 
+                        onClick={() => handleLike(comment.id)}
+                        aria-label="Like comment"
+                      >
+                        ❤️ {comment.likes || 0}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ))
             )}

@@ -1,0 +1,92 @@
+.travel-guides-page,
+.travel-guide-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.guides-coming-soon {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 3rem;
+}
+
+.coming-soon-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.coming-soon-content p {
+  color: #4a4a4a;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.guide-not-available {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.guide-not-available h1 {
+  color: #0078a8;
+  margin-bottom: 1.5rem;
+}
+
+.guide-not-available p {
+  color: #4a4a4a;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.back-button {
+  display: inline-block;
+  background-color: #0078a8;
+  color: white;
+  padding: 0.8rem 1.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #00628a;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .guides-coming-soon,
+  .guide-not-available {
+    padding: 3rem 1.5rem;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+} 

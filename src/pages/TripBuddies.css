@@ -1,0 +1,156 @@
+.trip-buddies-page,
+.trip-buddy-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 1.2rem;
+  color: #6c757d;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.feature-coming-soon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3rem;
+  background-color: #f8f9fa;
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.coming-soon-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.coming-soon-content h2 {
+  color: #0078a8;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.coming-soon-content p {
+  color: #4a4a4a;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.feature-list {
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.feature-list li {
+  margin-bottom: 0.8rem;
+  color: #4a4a4a;
+  line-height: 1.5;
+}
+
+.coming-soon-image {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coming-soon-image img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-block;
+  padding: 0.8rem 1.8rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.primary-button {
+  background-color: #0078a8;
+  color: white;
+}
+
+.primary-button:hover {
+  background-color: #00628a;
+}
+
+.secondary-button {
+  background-color: #e9ecef;
+  color: #2c3e50;
+}
+
+.secondary-button:hover {
+  background-color: #dee2e6;
+}
+
+.detail-not-available {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.detail-not-found h1 {
+  color: #0078a8;
+  margin-bottom: 1rem;
+}
+
+.detail-not-found p {
+  color: #4a4a4a;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .feature-coming-soon {
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .detail-not-available {
+    padding: 3rem 1.5rem;
+  }
+  
+  .action-buttons {
+    justify-content: center;
+  }
+}

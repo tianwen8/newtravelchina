@@ -11,6 +11,22 @@
       "chineseLearning": "学习中文",
       "community": "社区"
     },
+    "general": {
+      "previous": "上一个",
+      "next": "下一个",
+      "viewAll": "查看全部",
+      "loading": "加载中...",
+      "readMore": "阅读更多",
+      "noResults": "未找到结果",
+      "error": "错误",
+      "backToList": "返回列表"
+    },
+    "time": {
+      "justNow": "刚刚",
+      "minutesAgo": "{{count}}分钟前",
+      "hoursAgo": "{{count}}小时前",
+      "daysAgo": "{{count}}天前"
+    },
     "home": {
       "hero": {
         "title": "发现中国之美",
@@ -65,6 +81,29 @@
       "testimonials": {
         "title": "旅行者的故事",
         "subtitle": "听听其他游客分享他们在中国的难忘经历"
+      },
+      "comments": {
+        "title": "精选旅行者评价",
+        "subtitle": "来自社区成员的真实体验分享"
+      },
+      "featuredArticles": {
+        "title": "精选文章",
+        "subtitle": "为您的中国之旅提供最新信息和指南"
+      },
+      "popularGuides": {
+        "title": "热门旅行攻略",
+        "subtitle": "由经验丰富的旅行者分享的旅行指南"
+      },
+      "tripBuddies": {
+        "title": "寻找旅伴",
+        "subtitle": "与其他计划中国之旅的旅行者联系"
+      },
+      "categories": {
+        "visa-free": "免签政策",
+        "attractions": "景点推荐",
+        "routes": "旅行路线",
+        "seasonal": "季节指南",
+        "tips": "旅行贴士"
       },
       "cta": {
         "title": "准备好开始您的中国之旅了吗？",
@@ -143,6 +182,65 @@
         "title": "分享您的故事",
         "description": "与其他旅行者分享您的旅行日记、照片和推荐"
       },
+      "travelGuides": {
+        "title": "旅游攻略",
+        "subtitle": "分享您的旅行经验和提示",
+        "createGuide": "创建攻略",
+        "destination": "目的地",
+        "duration": "行程时间",
+        "budget": "预算",
+        "tips": "旅行提示",
+        "viewsCount": "{{count}}次浏览",
+        "likesCount": "{{count}}个赞",
+        "savedCount": "{{count}}次收藏"
+      },
+      "guides": {
+        "title": "旅行指南",
+        "comingSoon": "旅行指南功能即将推出，敬请期待！",
+        "description": "我们将为您提供详细的中国旅行指南，包括行程规划、交通信息、住宿推荐等。",
+        "detail": {
+          "title": "旅行指南详情",
+          "notAvailable": "指南未找到",
+          "message": "您请求的旅行指南（ID: {{id}}）目前不可用。"
+        }
+      },
+      "tripBuddies": {
+        "title": "结伴同行",
+        "subtitle": "为您的中国之旅寻找旅伴",
+        "createPost": "发布新请求",
+        "destination": "目的地",
+        "travelDate": "出行日期",
+        "duration": "行程时间",
+        "budget": "预算",
+        "requirements": "要求",
+        "contactInfo": "联系方式",
+        "status": {
+          "open": "开放中",
+          "closed": "已关闭"
+        },
+        "expressInterest": "我感兴趣",
+        "cancelInterest": "取消兴趣",
+        "closeRequest": "关闭请求",
+        "interestedUsers": "感兴趣的用户",
+        "noInterestedUsers": "暂时没有人表示兴趣",
+        "interestedUsersCount": "{{count}}人感兴趣",
+        "comingSoon": {
+          "title": "功能即将推出",
+          "message": "我们正在努力开发此功能，很快您就可以："
+        },
+        "features": {
+          "find": "寻找前往同一目的地的旅行伙伴",
+          "share": "分享行程计划和旅行预算",
+          "connect": "与其他旅行者建立联系",
+          "create": "创建自己的旅行伙伴招募帖"
+        },
+        "backToCommunity": "返回社区",
+        "detail": {
+          "title": "旅行伙伴详情",
+          "notAvailable": "信息不可用",
+          "message": "您请求的旅行伙伴信息（ID: {{id}}）目前不可用。"
+        }
+      },
       "experience": {
         "title": "旅行经验",
         "transportation": {
@@ -169,6 +267,19 @@
           "description": "旅行安全预防措施和紧急联系方式"
         }
       }
+    },
+    "article": {
+      "viewCount": "{{count}}次浏览",
+      "relatedArticles": "相关文章",
+      "categories": {
+        "title": "文章",
+        "visa-free": "免签政策",
+        "attractions": "景点推荐",
+        "culture": "中国文化",
+        "travel-tips": "旅行技巧"
+      },
+      "fetchError": "加载文章失败",
+      "notFound": "未找到文章"
     }
   }
 } 

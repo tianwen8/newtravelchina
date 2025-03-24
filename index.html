@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/china-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>中国旅游 - 探索中国之美</title>
     <meta name="description" content="计划您的中国之旅 - 探索免签政策，文化景点，学习中文，与其他旅行者交流。体验中国丰富的文化遗产。" />
     <meta name="keywords" content="中国旅游, 免签旅行, 中国景点, 中国文化, 学习中文, 北京, 上海, 西安, 桂林, 成都, 香港" />
@@ -12,6 +14,19 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://travelchina.com" />
     <meta property="og:image" content="/china-preview.jpg" />
+    <!-- 修复MIME类型问题的内联脚本 -->
+    <script>
+      // 确保浏览器正确处理JavaScript MIME类型
+      if (typeof window !== 'undefined') {
+        window.addEventListener('DOMContentLoaded', () => {
+          // 尝试强制重新加载页面，如果检测到MIME类型问题
+          const scripts = document.querySelectorAll('script[type="module"]');
+          if (scripts.length > 0 && document.body.textContent.includes('<!doctype html>')) {
+            window.location.reload();
+          }
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

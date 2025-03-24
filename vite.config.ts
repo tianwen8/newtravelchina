@@ -5,7 +5,6 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
   plugins: [
     react(),
     svgr({
@@ -23,19 +22,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
-    }
-  },
-  server: {
-    headers: {
-      'Content-Type': 'text/javascript; charset=utf-8'
-    }
-  },
-  preview: {
-    port: 4173,
-    strictPort: false,
-    headers: {
-      'Content-Type': 'text/javascript; charset=utf-8',
-      'Access-Control-Allow-Origin': '*'
     }
   }
 })

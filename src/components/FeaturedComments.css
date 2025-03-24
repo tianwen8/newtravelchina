@@ -1,0 +1,146 @@
+.featured-comments-section {
+  margin: 4rem 0;
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.featured-comments-section .section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.featured-comments-section .section-header h2 {
+  font-size: 2rem;
+  color: #0077be;
+  margin-bottom: 0.5rem;
+}
+
+.featured-comments-section .section-header p {
+  color: #6c757d;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.featured-comments-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.featured-comment-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  margin: 0 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  max-width: 800px;
+  position: relative;
+}
+
+.featured-comment-card .comment-content {
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.featured-comment-card .comment-content p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+  font-style: italic;
+  margin: 0;
+}
+
+.featured-comment-card .comment-author {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.featured-comment-card .author-info {
+  text-align: right;
+}
+
+.featured-comment-card .author-info h4 {
+  margin: 0;
+  color: #0077be;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.featured-comment-card .comment-date {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.carousel-nav {
+  background-color: #0077be;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.carousel-nav:hover {
+  background-color: #005b8e;
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.indicator.active {
+  background-color: #0077be;
+}
+
+@media (max-width: 768px) {
+  .featured-comments-section {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .featured-comment-card {
+    padding: 1.5rem;
+    min-height: 150px;
+  }
+  
+  .featured-comment-card .comment-content p {
+    font-size: 1rem;
+  }
+  
+  .carousel-nav {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+  }
+} 

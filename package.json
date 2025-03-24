@@ -5,11 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:local": "node local-dev.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "serve": "node simple-server.js",
+    "serve:basic": "node basic-server.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "express-dev": "node dev-express.js"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",

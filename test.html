@@ -1,13 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>极简测试页面</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试页面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #0077be;
+    }
+  </style>
 </head>
 <body>
-    <h1>测试页面</h1>
-    <p>这是一个极简的测试页面，不需要服务器即可查看。</p>
-    <script>
-        document.body.innerHTML += '<p>JavaScript执行成功！</p>';
-    </script>
+  <h1>测试页面正常工作</h1>
+  <p>如果您能看到这个页面，说明基本的HTML渲染正常。</p>
+  
+  <button id="testButton">测试JavaScript</button>
+  
+  <p id="result"></p>
+  
+  <script>
+    document.getElementById('testButton').addEventListener('click', function() {
+      document.getElementById('result').textContent = '成功：JavaScript正常工作！' + new Date().toLocaleString();
+    });
+  </script>
 </body>
 </html> 

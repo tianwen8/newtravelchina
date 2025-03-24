@@ -11,6 +11,25 @@
       "chineseLearning": "Learn Chinese",
       "community": "Community"
     },
+    "general": {
+      "previous": "Previous",
+      "next": "Next",
+      "viewAll": "View All",
+      "loading": "Loading...",
+      "readMore": "Read More",
+      "noResults": "No results found",
+      "error": "Error",
+      "backToList": "Back to list"
+    },
+    "time": {
+      "justNow": "Just now",
+      "minutesAgo": "{{count}} minute ago",
+      "minutesAgo_plural": "{{count}} minutes ago",
+      "hoursAgo": "{{count}} hour ago",
+      "hoursAgo_plural": "{{count}} hours ago",
+      "daysAgo": "{{count}} day ago",
+      "daysAgo_plural": "{{count}} days ago"
+    },
     "home": {
       "hero": {
         "title": "Discover China's Beauty",
@@ -65,6 +84,29 @@
       "testimonials": {
         "title": "Travelers' Stories",
         "subtitle": "Hear from other visitors about their memorable experiences in China"
+      },
+      "comments": {
+        "title": "Featured Traveler Comments",
+        "subtitle": "Real experiences shared by our community members"
+      },
+      "featuredArticles": {
+        "title": "Featured Articles",
+        "subtitle": "Latest information and guides for your China journey"
+      },
+      "popularGuides": {
+        "title": "Popular Travel Guides",
+        "subtitle": "Travel guides shared by experienced travelers"
+      },
+      "tripBuddies": {
+        "title": "Find Travel Companions",
+        "subtitle": "Connect with other travelers planning their China trip"
+      },
+      "categories": {
+        "visa-free": "Visa-Free",
+        "attractions": "Attractions",
+        "routes": "Routes",
+        "seasonal": "Seasonal",
+        "tips": "Travel Tips"
       },
       "cta": {
         "title": "Ready to Start Your China Journey?",
@@ -143,6 +185,69 @@
         "title": "Share Your Story",
         "description": "Share your travel diary, photos, and recommendations with other travelers"
       },
+      "travelGuides": {
+        "title": "Travel Guides",
+        "subtitle": "Share your travel experience and tips",
+        "createGuide": "Create Guide",
+        "destination": "Destination",
+        "duration": "Duration",
+        "budget": "Budget",
+        "tips": "Travel Tips",
+        "viewsCount": "{{count}} view",
+        "viewsCount_plural": "{{count}} views",
+        "likesCount": "{{count}} like",
+        "likesCount_plural": "{{count}} likes",
+        "savedCount": "{{count}} save",
+        "savedCount_plural": "{{count}} saves"
+      },
+      "guides": {
+        "title": "Travel Guides",
+        "comingSoon": "The travel guide feature is coming soon. Stay tuned!",
+        "description": "We'll provide detailed China travel guides, including itinerary planning, transportation information, accommodation recommendations, and more.",
+        "detail": {
+          "title": "Travel Guide Details",
+          "notAvailable": "Guide Not Found",
+          "message": "The travel guide you requested (ID: {{id}}) is currently not available."
+        }
+      },
+      "tripBuddies": {
+        "title": "Travel Companions",
+        "subtitle": "Find travel partners for your China journey",
+        "createPost": "Post New Request",
+        "destination": "Destination",
+        "travelDate": "Travel Date",
+        "duration": "Duration",
+        "budget": "Budget",
+        "requirements": "Requirements",
+        "contactInfo": "Contact Information",
+        "status": {
+          "open": "Open",
+          "closed": "Closed"
+        },
+        "expressInterest": "I'm Interested",
+        "cancelInterest": "Cancel Interest",
+        "closeRequest": "Close Request",
+        "interestedUsers": "Interested Users",
+        "noInterestedUsers": "No one has expressed interest yet",
+        "interestedUsersCount": "{{count}} person interested",
+        "interestedUsersCount_plural": "{{count}} people interested",
+        "comingSoon": {
+          "title": "Coming Soon",
+          "message": "We're working hard to develop this feature. Soon you'll be able to:"
+        },
+        "features": {
+          "find": "Find travel companions going to the same destination",
+          "share": "Share itinerary plans and travel budgets",
+          "connect": "Connect with other travelers",
+          "create": "Create your own travel companion recruitment post"
+        },
+        "backToCommunity": "Back to Community",
+        "detail": {
+          "title": "Travel Companion Details",
+          "notAvailable": "Information Not Available",
+          "message": "The travel companion information you requested (ID: {{id}}) is currently not available."
+        }
+      },
       "experience": {
         "title": "Travel Experience",
         "transportation": {
@@ -169,6 +274,20 @@
           "description": "Travel safety precautions and emergency contacts"
         }
       }
+    },
+    "article": {
+      "categories": {
+        "title": "Articles",
+        "visa-free": "Visa-Free Policy",
+        "attractions": "Attractions",
+        "culture": "Chinese Culture",
+        "travel-tips": "Travel Tips"
+      },
+      "viewCount": "{{count}} view",
+      "viewCount_plural": "{{count}} views",
+      "relatedArticles": "Related Articles",
+      "fetchError": "Failed to load article",
+      "notFound": "Article not found"
     }
   }
 } 

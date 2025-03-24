@@ -1,0 +1,5 @@
+3ed2d4d - 添加本地测试支持，使用localStorage代替Firebase
+369ba98 - 添加Firebase留言功能和首页留言展示组件
+7e8aeac - 添加Google Analytics ID
+4c08068 - 修复国际化问题并添加Google Analytics统计功能
+27aa3dc - 修复MIME类型问题和优化资源路径配置

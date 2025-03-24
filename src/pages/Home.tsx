@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import FeaturedComments from '../components/FeaturedComments';
 
 import visaIcon from '../assets/icons/visa.svg';
 import landmarkIcon from '../assets/icons/landmark.svg';
@@ -19,7 +20,7 @@ const hongkongImg = "/images/hongkong.jpg";    // 使用您的香港图片
 import './Home.css';
 
 const Home: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const featuresRef = useRef<HTMLDivElement>(null);
   
   const scrollToFeatures = () => {
@@ -63,28 +64,6 @@ const Home: React.FC = () => {
       name: t('home.destinations.hongkong.name'), 
       image: hongkongImg, 
       description: t('home.destinations.hongkong.description') 
-    }
-  ];
-
-  // 根据当前语言创建见证数据
-  const testimonials = [
-    {
-      id: 1,
-      text: i18n.language === 'zh' 
-        ? '中国旅游网为我提供了所有需要的信息，从签证到景点推荐，让我的旅行变得轻松愉快。特别感谢提供的中文学习资源，让我能够与当地人交流。'
-        : 'The Travel China website provided me with all the information I needed, from visa policies to attraction recommendations, making my trip smooth and enjoyable. Special thanks for the Chinese learning resources that helped me communicate with locals.',
-      name: 'Sarah Johnson',
-      country: i18n.language === 'zh' ? '美国' : 'USA',
-      avatar: 'https://randomuser.me/api/portraits/women/44.jpg'
-    },
-    {
-      id: 2,
-      text: i18n.language === 'zh'
-        ? '作为一个第一次访问中国的游客，这个网站真的帮了我很大忙。免签政策信息非常清晰，我很容易就规划好了我的行程。'
-        : 'As a first-time visitor to China, this website was incredibly helpful. The visa-free policy information was very clear, and I was able to plan my itinerary with ease.',
-      name: 'Michael Chen',
-      country: i18n.language === 'zh' ? '加拿大' : 'Canada',
-      avatar: 'https://randomuser.me/api/portraits/men/32.jpg'
     }
   ];
   
@@ -168,27 +147,7 @@ const Home: React.FC = () => {
           </div>
         </section>
         
-        <section className="testimonials-section">
-          <div className="section-header">
-            <h2>{t('home.testimonials.title')}</h2>
-            <p>{t('home.testimonials.subtitle')}</p>
-          </div>
-          
-          <div className="testimonials-container">
-            {testimonials.map(testimonial => (
-              <div key={testimonial.id} className="testimonial-card">
-                <p className="testimonial-text">{testimonial.text}</p>
-                <div className="testimonial-author">
-                  <img src={testimonial.avatar} alt={testimonial.name} className="author-avatar" />
-                  <div className="author-info">
-                    <h4>{testimonial.name}</h4>
-                    <p>{testimonial.country}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <FeaturedComments />
         
         <section className="cta-section">
           <h2>{t('home.cta.title')}</h2>

@@ -10,11 +10,11 @@ const resources = {
   zh: zhTranslations
 };
 
-// 浏览器语言检测 - 暂时不使用，强制默认英文
-const getBrowserLanguage = () => {
-  const browserLang = navigator.language.split('-')[0];
-  return browserLang === 'zh' ? 'zh' : 'en'; // 支持中文或默认英文
-};
+// 注释掉未使用的函数
+// const getBrowserLanguage = () => {
+//   const browserLang = navigator.language.split('-')[0];
+//   return browserLang === 'zh' ? 'zh' : 'en'; // 支持中文或默认英文
+// };
 
 i18n
   .use(initReactI18next)
