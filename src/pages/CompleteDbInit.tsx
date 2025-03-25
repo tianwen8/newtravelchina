@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 // 管理员账户信息 - 从环境变量或配置文件中读取（安全起见）
 // 注意：在实际项目中，这些值应该通过环境变量或受保护的配置文件提供
 const ADMIN_CONFIG = {
-  email: process.env.REACT_APP_ADMIN_EMAIL || 'admin@example.com', // 默认值作为占位符
-  password: process.env.REACT_APP_ADMIN_PASSWORD || 'admin123456', // 默认值作为占位符
+  email: import.meta.env.VITE_ADMIN_EMAIL || 'admin@example.com', // 默认值作为占位符
+  password: import.meta.env.VITE_ADMIN_PASSWORD || 'admin123456', // 默认值作为占位符
   displayName: '系统管理员'
 };
 
