@@ -20,6 +20,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminInit from './pages/AdminInit';
 import DirectAdminInit from './pages/DirectAdminInit';
 import CompleteDbInit from './pages/CompleteDbInit';
+import ImageUploadTest from './pages/ImageUploadTest';
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +72,9 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ) 
       },
+      
+      // 图片上传测试页面
+      { path: '/image-upload-test', element: <ImageUploadTest /> },
       
       // 404页面
       { path: '*', element: <NotFound /> }

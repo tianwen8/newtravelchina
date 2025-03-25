@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import FeaturedComments from '../components/FeaturedComments';
 import CategoryArticles from '../components/CategoryArticles';
 import CommentWaterfall from '../components/CommentWaterfall';
+import FloatingComments from '../components/FloatingComments';
 
 import visaIcon from '../assets/icons/visa.svg';
 import landmarkIcon from '../assets/icons/landmark.svg';
@@ -87,6 +88,8 @@ const Home: React.FC = () => {
         <meta name="description" content={`${t('home.hero.subtitle')}. ${t('home.features.visaFree.description')}, ${t('home.features.attractions.description')}, ${t('home.features.chineseLearning.description')}`} />
         <meta name="keywords" content="China travel, visa-free China, Chinese culture, tourism China, travel guide, Beijing, Shanghai, Xi'an, Guilin, Chengdu, Hong Kong" />
       </Helmet>
+      
+      <FloatingComments />
       
       <div className="home-container">
         <header className="hero-section">

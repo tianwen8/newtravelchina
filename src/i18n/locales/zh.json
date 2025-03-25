@@ -85,7 +85,8 @@
       },
       "comments": {
         "title": "精选旅行者评价",
-        "subtitle": "来自社区成员的真实体验分享"
+        "subtitle": "来自社区成员的真实体验分享",
+        "latestTitle": "最新留言"
       },
       "featuredArticles": {
         "title": "精选文章",

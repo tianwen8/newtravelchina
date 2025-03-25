@@ -25,6 +25,7 @@ export interface Comment {
   featured?: boolean;
   likes?: number;
   tags?: string[];
+  imageUrl?: string;
 }
 
 // 集合名称
@@ -80,29 +81,49 @@ class CommentService {
   
   // 添加新评论
   async addComment(commentData: Omit<Comment, 'id' | 'timestamp' | 'likes' | 'featured'>): Promise<Comment> {
-    // 确保集合已初始化
-    await this.checkAndInitializeCollection();
-
     try {
-      console.log('准备添加评论:', commentData);
+      await this.checkAndInitializeCollection();
       
-      const newComment = {
-        ...commentData,
-        timestamp: serverTimestamp(),
-        likes: 0,
-        featured: false
-      };
-      
-      const docRef = await addDoc(collection(db, COMMENTS_COLLECTION), newComment);
-      console.log('评论已成功添加，ID:', docRef.id);
-      
-      return {
-        ...newComment,
-        id: docRef.id,
-        timestamp: Date.now()
-      } as Comment;
+      if (useLocalStorage) {
+        // 本地存储模式的处理逻辑
+        // 获取现有评论
+        const comments = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]') as Comment[];
+        
+        // 创建新评论
+        const newComment: Comment = {
+          id: 'comment-' + Date.now(),
+          ...commentData,
+          timestamp: Date.now(),
+          likes: 0,
+          featured: false
+        };
+        
+        // 添加到数组并保存
+        comments.unshift(newComment);
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(comments));
+        
+        return newComment;
+      } else {
+        // Firestore模式
+        // 创建新评论
+        const commentRef = await addDoc(collection(db, COMMENTS_COLLECTION), {
+          ...commentData,
+          timestamp: serverTimestamp(),
+          likes: 0,
+          featured: false
+        });
+        
+        // 获取新创建的评论的ID
+        return {
+          id: commentRef.id,
+          ...commentData,
+          timestamp: new Date(),
+          likes: 0,
+          featured: false
+        };
+      }
     } catch (error) {
-      console.error('添加评论失败:', error);
+      console.error('添加评论时出错:', error);
       throw error;
     }
   }
