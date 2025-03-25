@@ -9,7 +9,6 @@ import {
   User as FirebaseUser,
   GoogleAuthProvider,
   signInWithPopup,
-  GithubAuthProvider,
   FacebookAuthProvider,
   OAuthProvider,
   AuthProvider as FirebaseAuthProvider,
@@ -36,10 +35,8 @@ interface AuthContextType {
   error: string | null;
   login: (email: string, password: string) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
-  loginWithGithub: () => Promise<void>;
   loginWithFacebook: () => Promise<void>;
   loginWithApple: () => Promise<void>;
-  loginWithWeChat: () => Promise<void>;
   register: (email: string, password: string, displayName: string) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -133,12 +130,6 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     await signInWithProvider(provider);
   };
 
-  // GitHub登录
-  const loginWithGithub = async (): Promise<void> => {
-    const provider = new GithubAuthProvider();
-    await signInWithProvider(provider);
-  };
-
   // Facebook登录
   const loginWithFacebook = async (): Promise<void> => {
     const provider = new FacebookAuthProvider();
@@ -149,27 +140,6 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const loginWithApple = async (): Promise<void> => {
     const provider = new OAuthProvider('apple.com');
     await signInWithProvider(provider);
-  };
-
-  // 微信登录 (需要特殊配置)
-  const loginWithWeChat = async (): Promise<void> => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // 注意：Firebase直接支持的社交登录不包括微信
-      // 这里需要使用自定义令牌或微信网页授权方式
-      // 需要服务端配合生成自定义令牌
-      
-      // 实际项目中，这里应该调用自己的后端API获取微信授权
-      throw new Error('微信登录需要特殊配置，请联系管理员');
-      
-    } catch (e) {
-      setError('微信登录失败: ' + (e instanceof Error ? e.message : String(e)));
-      throw e;
-    } finally {
-      setLoading(false);
-    }
   };
 
   // 登录
@@ -275,10 +245,8 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     error,
     login,
     loginWithGoogle,
-    loginWithGithub,
     loginWithFacebook,
     loginWithApple,
-    loginWithWeChat,
     register,
     logout,
     resetPassword,

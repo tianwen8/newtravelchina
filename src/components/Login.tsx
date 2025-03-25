@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
-import { FaGoogle, FaGithub, FaFacebook, FaApple, FaWeixin } from 'react-icons/fa';
+import { FaGoogle, FaFacebook, FaApple } from 'react-icons/fa';
 import '../styles/Auth.css';
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
-  const { login, loginWithGoogle, loginWithGithub, loginWithFacebook, loginWithApple, loginWithWeChat, error: authError } = useAuth();
+  const { login, loginWithGoogle, loginWithFacebook, loginWithApple, error: authError } = useAuth();
   const navigate = useNavigate();
   
   const [email, setEmail] = useState('');
@@ -127,37 +127,19 @@ const Login: React.FC = () => {
             </button>
             
             <button 
-              onClick={() => handleSocialLogin(loginWithGithub, 'GitHub')} 
-              className="social-button github"
-              disabled={loading}
-            >
-              <FaGithub /> GitHub
-            </button>
-            
-            <button 
               onClick={() => handleSocialLogin(loginWithFacebook, 'Facebook')} 
               className="social-button facebook"
               disabled={loading}
             >
               <FaFacebook /> Facebook
             </button>
-          </div>
-          
-          <div className="social-buttons">
+            
             <button 
               onClick={() => handleSocialLogin(loginWithApple, 'Apple')} 
               className="social-button apple"
               disabled={loading}
             >
               <FaApple /> Apple
-            </button>
-            
-            <button 
-              onClick={() => handleSocialLogin(loginWithWeChat, '微信')} 
-              className="social-button wechat"
-              disabled={loading}
-            >
-              <FaWeixin /> 微信
             </button>
           </div>
         </div>
