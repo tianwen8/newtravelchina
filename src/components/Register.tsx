@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
-import { FaGoogle, FaFacebook, FaApple } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 import '../styles/Auth.css';
 
 const Register: React.FC = () => {
   const { t } = useTranslation();
-  const { register, loginWithGoogle, loginWithFacebook, loginWithApple, error: authError } = useAuth();
+  const { register, loginWithGoogle, error: authError } = useAuth();
   const navigate = useNavigate();
   
   const [email, setEmail] = useState('');
@@ -65,11 +65,15 @@ const Register: React.FC = () => {
       <div className="auth-form-container">
         <h2>{t('auth.register')}</h2>
         
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="error-message">
+            <p>{error}</p>
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="displayName">{t('auth.displayName')}</label>
+            <label htmlFor="displayName">{t('auth.name')}</label>
             <input
               type="text"
               id="displayName"
@@ -127,22 +131,6 @@ const Register: React.FC = () => {
               disabled={loading}
             >
               <FaGoogle /> Google
-            </button>
-            
-            <button 
-              onClick={() => handleSocialLogin(loginWithFacebook, 'Facebook')} 
-              className="social-button facebook"
-              disabled={loading}
-            >
-              <FaFacebook /> Facebook
-            </button>
-            
-            <button 
-              onClick={() => handleSocialLogin(loginWithApple, 'Apple')} 
-              className="social-button apple"
-              disabled={loading}
-            >
-              <FaApple /> Apple
             </button>
           </div>
         </div>

@@ -9,8 +9,6 @@ import {
   User as FirebaseUser,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider,
-  OAuthProvider,
   AuthProvider as FirebaseAuthProvider,
   Auth,
   signInWithCredential
@@ -35,8 +33,6 @@ interface AuthContextType {
   error: string | null;
   login: (email: string, password: string) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
-  loginWithFacebook: () => Promise<void>;
-  loginWithApple: () => Promise<void>;
   register: (email: string, password: string, displayName: string) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -127,18 +123,6 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   // 谷歌登录
   const loginWithGoogle = async (): Promise<void> => {
     const provider = new GoogleAuthProvider();
-    await signInWithProvider(provider);
-  };
-
-  // Facebook登录
-  const loginWithFacebook = async (): Promise<void> => {
-    const provider = new FacebookAuthProvider();
-    await signInWithProvider(provider);
-  };
-
-  // Apple登录
-  const loginWithApple = async (): Promise<void> => {
-    const provider = new OAuthProvider('apple.com');
     await signInWithProvider(provider);
   };
 
@@ -245,8 +229,6 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     error,
     login,
     loginWithGoogle,
-    loginWithFacebook,
-    loginWithApple,
     register,
     logout,
     resetPassword,
@@ -265,7 +247,7 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth必须在AuthProvider内部使用');
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }; 

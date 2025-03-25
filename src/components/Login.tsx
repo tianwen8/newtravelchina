@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
-import { FaGoogle, FaFacebook, FaApple } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 import '../styles/Auth.css';
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
-  const { login, loginWithGoogle, loginWithFacebook, loginWithApple, error: authError } = useAuth();
+  const { login, loginWithGoogle, error: authError } = useAuth();
   const navigate = useNavigate();
   
   const [email, setEmail] = useState('');
@@ -125,27 +125,13 @@ const Login: React.FC = () => {
             >
               <FaGoogle /> Google
             </button>
-            
-            <button 
-              onClick={() => handleSocialLogin(loginWithFacebook, 'Facebook')} 
-              className="social-button facebook"
-              disabled={loading}
-            >
-              <FaFacebook /> Facebook
-            </button>
-            
-            <button 
-              onClick={() => handleSocialLogin(loginWithApple, 'Apple')} 
-              className="social-button apple"
-              disabled={loading}
-            >
-              <FaApple /> Apple
-            </button>
           </div>
         </div>
         
         <div className="auth-links">
-          <Link to="/forgot-password">{t('auth.forgotPassword')}</Link>
+          <p>
+            <Link to="/forgot-password">{t('auth.forgotPassword')}</Link>
+          </p>
           <p>
             {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
           </p>
