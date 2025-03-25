@@ -144,10 +144,18 @@ const Home: React.FC = () => {
         
         {/* 添加分类文章展示 */}
         <section className="category-articles-section">
-          <CategoryArticles category="visa-free" limit={3} autoRefresh={true} />
-          <CategoryArticles category="attractions" limit={3} autoRefresh={true} />
-          <CategoryArticles category="culture" limit={3} autoRefresh={true} />
-          <CategoryArticles category="travel-tips" limit={3} autoRefresh={true} />
+          <CategoryArticles 
+            category="visa-free" 
+            limit={5} 
+            autoRefresh={true} 
+            highlightNew={true} 
+          />
+          <CategoryArticles 
+            category="attractions" 
+            limit={5} 
+            autoRefresh={true} 
+            highlightNew={true} 
+          />
         </section>
         
         <section className="destinations-section">

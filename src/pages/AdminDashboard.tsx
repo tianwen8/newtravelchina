@@ -39,7 +39,7 @@ const AdminDashboard: React.FC = () => {
     title: '',
     summary: '',
     content: '',
-    category: 'travel-tips',
+    category: 'visa-free',
     tags: '',
     coverImage: ''
   });
@@ -175,7 +175,7 @@ const AdminDashboard: React.FC = () => {
         title: '',
         summary: '',
         content: '',
-        category: 'travel-tips',
+        category: 'visa-free',
         tags: '',
         coverImage: ''
       });
@@ -327,8 +327,6 @@ const AdminDashboard: React.FC = () => {
                 >
                   <option value="visa-free">免签政策</option>
                   <option value="attractions">景点推荐</option>
-                  <option value="culture">中国文化</option>
-                  <option value="travel-tips">旅行技巧</option>
                 </select>
               </div>
               

@@ -158,6 +158,38 @@
   100% { transform: rotate(360deg); }
 }
 
+/* 最新文章徽章 */
+.new-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #ff6b6b;
+  color: white;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+/* 特色文章样式（第一篇） */
+.category-article-card.featured {
+  grid-column: span 2;
+}
+
+.category-article-card.featured .article-image {
+  height: 250px;
+}
+
+.category-article-card.featured .article-info h3 {
+  font-size: 1.5rem;
+}
+
+.category-article-card.featured .article-info p {
+  font-size: 1rem;
+}
+
 /* 响应式调整 */
 @media (max-width: 768px) {
   .category-header h2 {
@@ -170,6 +202,14 @@
   
   .article-image {
     height: 160px;
+  }
+  
+  .category-article-card.featured {
+    grid-column: auto;
+  }
+  
+  .category-article-card.featured .article-image {
+    height: 180px;
   }
 }
 

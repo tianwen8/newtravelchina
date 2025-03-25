@@ -10,6 +10,7 @@ interface CategoryArticlesProps {
   showTitle?: boolean;
   autoRefresh?: boolean;
   refreshInterval?: number;
+  highlightNew?: boolean;
 }
 
 const CategoryArticles: React.FC<CategoryArticlesProps> = ({ 
@@ -17,7 +18,8 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
   limit = 3, 
   showTitle = true,
   autoRefresh = false,
-  refreshInterval = 60000 // 默认1分钟刷新一次
+  refreshInterval = 60000, // 默认1分钟刷新一次
+  highlightNew = true
 }) => {
   const { t } = useTranslation();
   const [articles, setArticles] = useState<any[]>([]);
@@ -54,6 +56,13 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
       }
     };
   }, [category, limit, autoRefresh, refreshInterval]);
+  
+  // 检查文章是否是最新的（3天内发布）
+  const isNewArticle = (publishDate: string | number | Date): boolean => {
+    const publishTime = new Date(publishDate).getTime();
+    const threeDaysAgo = new Date().getTime() - (3 * 24 * 60 * 60 * 1000);
+    return publishTime > threeDaysAgo;
+  };
   
   // 获取分类的中文名称
   const getCategoryName = () => {
@@ -103,10 +112,10 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
       )}
       
       <div className="category-articles-grid">
-        {articles.map(article => (
+        {articles.map((article, index) => (
           <Link 
             to={`/articles/${article.id}`} 
-            className="category-article-card" 
+            className={`category-article-card ${index === 0 ? 'featured' : ''}`} 
             key={article.id}
           >
             <div className="article-image">
@@ -117,6 +126,9 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
                   (e.target as HTMLImageElement).src = '/images/placeholder.jpg';
                 }}
               />
+              {highlightNew && isNewArticle(article.publishDate) && (
+                <span className="new-badge">最新</span>
+              )}
             </div>
             <div className="article-info">
               <h3>{article.title}</h3>

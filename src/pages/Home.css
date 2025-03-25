@@ -197,6 +197,22 @@
   font-size: 1.4rem;
 }
 
+/* 分类文章区块样式 */
+.category-articles-section {
+  padding: 3rem 2rem;
+  background-color: #fff;
+  margin-bottom: 2rem;
+}
+
+.category-articles-section .category-articles-container:first-child {
+  margin-bottom: 4rem;
+}
+
+.category-articles-section .category-header h2 {
+  color: #0077be;
+  font-size: 2rem;
+}
+
 .experiences-section {
   padding: 5rem 2rem;
   background-color: #f2f8fc;
