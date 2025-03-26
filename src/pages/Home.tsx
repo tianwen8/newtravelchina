@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -26,6 +26,8 @@ import './Home.css';
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const featuresRef = useRef<HTMLDivElement>(null);
+  // 添加状态来存储屏幕宽度是否为移动设备
+  const [isMobile, setIsMobile] = useState(false);
   
   // 设置背景图片
   useEffect(() => {
@@ -34,6 +36,24 @@ const Home: React.FC = () => {
     // 清理函数
     return () => {
       document.documentElement.style.removeProperty('--bg-image');
+    };
+  }, []);
+  
+  // 检测屏幕大小并设置状态
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // 初始检查
+    checkScreenSize();
+    
+    // 监听屏幕大小变化
+    window.addEventListener('resize', checkScreenSize);
+    
+    // 清理函数
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
   
@@ -93,7 +113,11 @@ const Home: React.FC = () => {
       
       <div className="home-container">
         <header className="hero-section">
-          <CommentWaterfall limit={10} autoRefresh={true} refreshInterval={30000} />
+          <CommentWaterfall 
+            limit={isMobile ? 5 : 10} 
+            autoRefresh={true} 
+            refreshInterval={30000} 
+          />
           
           <h1>{t('home.hero.title')}</h1>
           <p>{t('home.hero.subtitle')}</p>

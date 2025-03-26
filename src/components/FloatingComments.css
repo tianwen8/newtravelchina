@@ -159,10 +159,13 @@
     width: 280px;
     right: 10px;
     top: 80px;
+    max-height: 300px;
+    display: none; /* 在移动端隐藏浮动留言框 */
   }
   
   .floating-comments .comment-content p {
-    font-size: 13px;
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
 }
 

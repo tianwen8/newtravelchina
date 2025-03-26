@@ -83,13 +83,25 @@
 /* 移动端调整 */
 @media (max-width: 768px) {
   .floating-comment {
-    max-width: 200px;
-    padding: 10px 12px;
+    width: 200px;
+    padding: 10px;
+    min-height: auto;
+    font-size: 0.85rem;
   }
   
   .comment-content p {
-    font-size: 12px;
-    -webkit-line-clamp: 2;
+    font-size: 0.85rem;
+    max-height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  
+  /* 调整飘落评论的数量和位置 */
+  .comment-waterfall-container {
+    overflow: hidden;
   }
 }
 
