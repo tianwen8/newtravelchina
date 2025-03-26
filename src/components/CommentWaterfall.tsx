@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { commentService, Comment } from '../services/commentService';
 import { Timestamp } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 import './CommentWaterfall.css';
 
-// 扩展Comment类型，添加position属性
+// 带有位置信息的评论接口
 interface CommentWithPosition extends Comment {
   position?: {
     transitionDelay: string;
@@ -14,12 +15,14 @@ interface CommentWithPosition extends Comment {
   };
 }
 
+// 组件属性接口
 interface CommentWaterfallProps {
   limit?: number;
   autoRefresh?: boolean;
   refreshInterval?: number;
 }
 
+// CommentWaterfall组件
 const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
   limit = 10,
   autoRefresh = true,
@@ -27,147 +30,149 @@ const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
 }) => {
   const { t } = useTranslation();
   const [comments, setComments] = useState<CommentWithPosition[]>([]);
-  const [loading, setLoading] = useState(true);
   const [visibleComments, setVisibleComments] = useState<CommentWithPosition[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const timer = useRef<NodeJS.Timeout | null>(null);
-  
+  const navigate = useNavigate(); // 使用React Router的导航钩子
+
+  // 设置随机位置
   const getRandomPosition = () => {
-    // 为每个评论生成随机的位置和延迟
     return {
-      transitionDelay: `${Math.random() * 0.5}s`,
-      animationDelay: `${Math.random() * 2}s`,
-      left: `${Math.max(5, Math.min(85, Math.random() * 85))}%`,
-      zIndex: Math.floor(Math.random() * 5) + 1
+      transitionDelay: `${Math.random() * 2}s`,
+      animationDelay: `${Math.random() * 5}s`,
+      left: `${Math.random() * 80 + 10}%`,
+      zIndex: Math.floor(Math.random() * 10 + 1)
     };
   };
-  
-  const fetchComments = async () => {
+
+  // 获取最新评论
+  const fetchComments = useCallback(async () => {
     try {
-      setLoading(true);
-      const fetchedComments = await commentService.getFeaturedComments(limit);
+      // 获取所有评论并按时间排序，显示最新的评论
+      const allComments = await commentService.getComments();
       
-      // 为每个评论添加随机位置信息
-      const commentsWithPosition = fetchedComments.map(comment => ({
+      // 按时间戳降序排序，确保最新的排在前面
+      const sortedComments = allComments.sort((a, b) => {
+        const timeA = getTimeInMs(a.timestamp);
+        const timeB = getTimeInMs(b.timestamp);
+        return timeB - timeA; // 降序排序，最新的排在前面
+      });
+      
+      // 获取前limit条评论
+      const limitedComments = sortedComments.slice(0, limit);
+      
+      // 设置位置信息
+      const commentsWithPosition = limitedComments.map(comment => ({
         ...comment,
         position: getRandomPosition()
-      })) as CommentWithPosition[];
+      }));
       
       setComments(commentsWithPosition);
-      
-      // 初始显示2个评论
-      if (commentsWithPosition.length > 0) {
-        setVisibleComments(commentsWithPosition.slice(0, 2));
-        setCurrentIndex(2 % commentsWithPosition.length);
-      }
     } catch (error) {
-      console.error('获取精选评论失败:', error);
-    } finally {
-      setLoading(false);
+      console.error("获取评论失败:", error);
     }
-  };
-  
-  // 轮换显示评论
-  const rotateComments = () => {
-    if (comments.length === 0) return;
-    
-    // 添加下一个评论到可见评论列表
-    const nextIndex = currentIndex % comments.length;
-    const updatedVisibleComments = [...visibleComments, comments[nextIndex]];
-    
-    // 如果可见评论超过5个，移除最早的一个
-    if (updatedVisibleComments.length > 5) {
-      updatedVisibleComments.shift();
-    }
-    
-    setVisibleComments(updatedVisibleComments);
-    setCurrentIndex((currentIndex + 1) % comments.length);
-  };
-  
-  // 格式化相对时间
-  const formatRelativeTime = (timestamp: number | Date | Timestamp) => {
-    const now = new Date().getTime();
-    let time: number;
-    
+  }, [limit]);
+
+  // 将不同类型的时间戳转换为毫秒数
+  const getTimeInMs = (timestamp: number | Date | Timestamp): number => {
     if (timestamp instanceof Date) {
-      time = timestamp.getTime();
-    } else if (timestamp instanceof Timestamp) {
-      time = timestamp.toDate().getTime();
+      return timestamp.getTime();
+    } else if (typeof timestamp === 'number') {
+      return timestamp;
+    } else if (timestamp && typeof timestamp.toDate === 'function') {
+      // 处理Firebase Timestamp对象
+      return timestamp.toDate().getTime();
     } else {
-      time = timestamp;
+      // 尝试转换其他格式
+      return new Date(timestamp as any).getTime();
     }
-    
-    const diff = now - time;
-    
-    // 小于1分钟
-    if (diff < 60 * 1000) {
-      return t('general.justNow');
-    }
-    
-    // 小于1小时
-    if (diff < 60 * 60 * 1000) {
-      const minutes = Math.floor(diff / (60 * 1000));
-      return t('general.minutesAgo', { count: minutes });
-    }
-    
-    // 小于1天
-    if (diff < 24 * 60 * 60 * 1000) {
-      const hours = Math.floor(diff / (60 * 60 * 1000));
-      return t('general.hoursAgo', { count: hours });
-    }
-    
-    // 小于30天
-    if (diff < 30 * 24 * 60 * 60 * 1000) {
-      const days = Math.floor(diff / (24 * 60 * 60 * 1000));
-      return t('general.daysAgo', { count: days });
-    }
-    
-    // 超过30天，显示具体日期
-    return new Date(time).toLocaleDateString();
   };
-  
+
+  // 初始加载评论和刷新设置
   useEffect(() => {
     fetchComments();
     
-    // 清理函数
-    return () => {
-      if (timer.current) {
-        clearInterval(timer.current);
-      }
-    };
-  }, []);
-  
-  useEffect(() => {
-    // 开始评论轮换
-    if (comments.length > 0 && autoRefresh) {
-      timer.current = setInterval(rotateComments, refreshInterval / 3);
-      
-      // 定期刷新评论数据
-      const refreshTimer = setInterval(fetchComments, refreshInterval);
-      
-      return () => {
-        if (timer.current) clearInterval(timer.current);
-        clearInterval(refreshTimer);
-      };
+    // 如果开启自动刷新，设置定时器
+    let timer: NodeJS.Timeout | null = null;
+    if (autoRefresh) {
+      timer = setInterval(fetchComments, refreshInterval);
     }
-  }, [comments, autoRefresh, refreshInterval]);
-  
-  if (loading && visibleComments.length === 0) {
-    return null; // 初始加载时不显示任何内容
-  }
-  
+    
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [fetchComments, autoRefresh, refreshInterval]);
+
+  // 轮换显示的评论
+  const rotateComments = useCallback(() => {
+    if (comments.length > 0) {
+      // 随机选择几条评论来显示
+      const displayCount = Math.min(
+        Math.max(3, Math.floor(limit / 2)), // 至少显示3条，最多显示limit/2条
+        comments.length
+      );
+      
+      // 随机选择，但优先选择最新的评论
+      const selected = [...comments]
+        .sort(() => Math.random() > 0.3 ? 1 : -1) // 70%的概率保持原有排序（时间倒序）
+        .slice(0, displayCount)
+        .map(comment => ({
+          ...comment,
+          position: getRandomPosition()
+        }));
+      
+      setVisibleComments(selected);
+    }
+  }, [comments, limit]);
+
+  // 设置初始评论显示和轮换
+  useEffect(() => {
+    rotateComments();
+    
+    // 每10秒轮换一次显示的评论
+    const rotateTimer = setInterval(rotateComments, 10000);
+    
+    return () => {
+      clearInterval(rotateTimer);
+    };
+  }, [comments, rotateComments]);
+
+  // 处理点击评论跳转到社区页面
+  const handleCommentClick = () => {
+    navigate('/community');
+  };
+
+  // 格式化时间显示
+  const formatRelativeTime = (timestamp: number | Date | Timestamp) => {
+    const now = new Date().getTime();
+    const timeMs = getTimeInMs(timestamp);
+    const diffMs = now - timeMs;
+    
+    // 时间差
+    const seconds = Math.floor(diffMs / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    
+    if (seconds < 60) return t('time.justNow', '刚刚');
+    if (minutes < 60) return t('time.minutesAgo', { count: minutes });
+    if (hours < 24) return t('time.hoursAgo', { count: hours });
+    if (days < 30) return t('time.daysAgo', { count: days });
+    
+    return new Date(timeMs).toLocaleDateString();
+  };
+
   return (
     <div className="comment-waterfall-container">
       {visibleComments.map((comment, index) => (
-        <div 
+        <div
           key={`${comment.id}-${index}`}
           className="floating-comment"
+          onClick={handleCommentClick}
           style={{
-            left: comment.position?.left,
-            transitionDelay: comment.position?.transitionDelay,
             animationDelay: comment.position?.animationDelay,
+            left: comment.position?.left,
             zIndex: comment.position?.zIndex
           }}
+          title={t('community.viewAllComments', '点击查看社区全部评论')}
         >
           <div className="comment-content">
             <p>{comment.content}</p>
