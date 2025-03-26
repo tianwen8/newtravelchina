@@ -1,4 +1,4 @@
-.visa-free-container {
+.attractions-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
@@ -22,185 +22,108 @@
   margin: 0 auto;
 }
 
-.policy-section {
+.regions-section {
   margin-bottom: 3rem;
 }
 
-.policy-section h2 {
+.regions-section h2 {
   font-size: 1.8rem;
   color: #333;
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
-.policy-cards {
+.region-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 1.5rem;
 }
 
-.policy-card {
-  background: white;
+.region-card {
+  background-color: white;
   border-radius: 8px;
-  padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.3s;
+  padding: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.policy-card:hover {
+.region-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-.policy-card.selected {
-  border: 2px solid #0077be;
-  box-shadow: 0 5px 15px rgba(0, 119, 190, 0.25);
-}
-
-.policy-card h3 {
+.region-card h3 {
   color: #0077be;
   margin-bottom: 1rem;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 
-.policy-card p {
+.region-card p {
   color: #555;
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }
 
-.policy-details {
-  display: flex;
-  align-items: center;
-  margin-top: auto;
-}
-
-.duration {
-  font-weight: bold;
-  color: #333;
-  padding: 0.5rem 1rem;
-  background: #f3f3f3;
-  border-radius: 4px;
-}
-
-.eligibility-section {
-  margin-bottom: 3rem;
-  background: #f9f9f9;
-  padding: 2rem;
-  border-radius: 8px;
-}
-
-.eligibility-section h2 {
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.eligibility-form {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #444;
-}
-
-.form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.check-button {
-  background: #0077be;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  width: 100%;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.check-button:hover:not(:disabled) {
-  background: #005fa3;
-}
-
-.check-button:disabled {
-  background: #cccccc;
-  cursor: not-allowed;
-}
-
-.eligibility-result {
-  margin-top: 1.5rem;
+.culture-info {
+  background-color: #f5f9fc;
   padding: 1rem;
   border-radius: 4px;
-  text-align: center;
-  font-weight: 500;
+  border-left: 3px solid #0077be;
 }
 
-.eligibility-result.eligible {
-  background: #e6f7e6;
-  color: #2e7d32;
-  border: 1px solid #c8e6c9;
-}
-
-.eligibility-result.not-eligible {
-  background: #ffebee;
-  color: #c62828;
-  border: 1px solid #ffcdd2;
-}
-
-.travel-tips {
-  margin-bottom: 3rem;
-}
-
-.travel-tips h2 {
-  font-size: 1.8rem;
+.culture-info h4 {
   color: #333;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.tips-list {
-  max-width: 800px;
-  margin: 0 auto;
-  padding-left: 1.5rem;
-}
-
-.tips-list li {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-  color: #444;
+  margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
 
-/* 文章列表样式 */
-.related-articles-section {
-  margin-bottom: 3rem;
+.culture-info p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
 }
 
-.related-articles-section h2 {
+.seasonal-info {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.seasonal-info h2 {
   font-size: 1.8rem;
   color: #333;
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
-.visa-articles-list {
+.season-tips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.season-tips p {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #444;
+  line-height: 1.6;
+}
+
+/* 文章列表样式 */
+.attractions-articles-section {
+  margin-bottom: 3rem;
+}
+
+.attractions-articles-section h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.attractions-articles-list {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -291,7 +214,11 @@
 }
 
 @media (max-width: 768px) {
-  .policy-cards {
+  .region-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .season-tips {
     grid-template-columns: 1fr;
   }
   
@@ -299,10 +226,9 @@
     font-size: 2rem;
   }
   
-  .policy-section h2,
-  .eligibility-section h2,
-  .travel-tips h2,
-  .related-articles-section h2 {
+  .regions-section h2,
+  .seasonal-info h2,
+  .attractions-articles-section h2 {
     font-size: 1.5rem;
   }
   

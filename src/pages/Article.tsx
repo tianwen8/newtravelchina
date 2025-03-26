@@ -64,8 +64,22 @@ const Article: React.FC = () => {
     );
   }
 
-  // 构建返回链接，确保包含分类信息
-  const backToListLink = `/articles?category=${article.category}`;
+  // 根据文章分类确定返回链接对应的顶部导航路径
+  const getCategoryRoute = (category: string): string => {
+    switch (category) {
+      case 'visa-free':
+        return '/visa-free';
+      case 'attractions':
+      case 'culture':
+        return '/attractions';
+      case 'travel-tips':
+        return '/visa-free'; // 旅行技巧暂时放在免签政策页面
+      default:
+        return `/articles?category=${category}`; // 如果没有对应的专用页面，则返回通用文章列表
+    }
+  };
+
+  const backToListLink = getCategoryRoute(article.category);
 
   return (
     <div className="article-container">
@@ -76,7 +90,7 @@ const Article: React.FC = () => {
 
       <div className="article-header">
         <div className="category-label">
-          <Link to={`/articles?category=${article.category}`}>
+          <Link to={getCategoryRoute(article.category)}>
             {t(`article.categories.${article.category}`, {defaultValue: article.category})}
           </Link>
         </div>
