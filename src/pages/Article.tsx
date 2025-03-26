@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import { articleService, Article as ArticleType } from '../services/articleService';
@@ -12,12 +12,16 @@ const Article: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [relatedArticles, setRelatedArticles] = useState<ArticleType[]>([]);
+  const [imgLoading, setImgLoading] = useState(true);
+  const [relatedImgLoading, setRelatedImgLoading] = useState<{[key: string]: boolean}>({});
+  const location = useLocation();
 
   useEffect(() => {
     const fetchArticle = async () => {
       if (!articleId) return;
       
       setIsLoading(true);
+      setImgLoading(true);
       try {
         const articleData = await articleService.getArticleById(articleId);
         setArticle(articleData);
@@ -28,6 +32,13 @@ const Article: React.FC = () => {
         // 获取相关文章
         const related = await articleService.getRelatedArticles(articleId);
         setRelatedArticles(related);
+        
+        // 初始化相关文章图片加载状态
+        const imgLoadingState: {[key: string]: boolean} = {};
+        related.forEach(relatedArticle => {
+          imgLoadingState[relatedArticle.id] = true;
+        });
+        setRelatedImgLoading(imgLoadingState);
       } catch (err) {
         console.error('获取文章失败:', err);
         setError(t('article.fetchError'));
@@ -41,6 +52,33 @@ const Article: React.FC = () => {
     // 滚动到顶部
     window.scrollTo(0, 0);
   }, [articleId, t]);
+
+  // 处理主图片加载完成
+  const handleMainImageLoaded = () => {
+    setImgLoading(false);
+  };
+  
+  // 处理主图片加载错误
+  const handleMainImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.target as HTMLImageElement;
+    img.src = '/images/placeholder.jpg';
+    setImgLoading(false);
+  };
+  
+  // 处理相关文章图片加载完成
+  const handleRelatedImageLoaded = (articleId: string) => {
+    setRelatedImgLoading(prev => ({
+      ...prev,
+      [articleId]: false
+    }));
+  };
+  
+  // 处理相关文章图片加载错误
+  const handleRelatedImageError = (e: React.SyntheticEvent<HTMLImageElement>, articleId: string) => {
+    const img = e.target as HTMLImageElement;
+    img.src = '/images/placeholder.jpg';
+    handleRelatedImageLoaded(articleId);
+  };
 
   if (isLoading) {
     return (
@@ -62,6 +100,9 @@ const Article: React.FC = () => {
       </div>
     );
   }
+
+  // 构建返回链接，确保包含分类信息
+  const backToListLink = `/articles?category=${article.category}`;
 
   return (
     <div className="article-container">
@@ -88,12 +129,21 @@ const Article: React.FC = () => {
       </div>
 
       {article.coverImage && (
-        <div className="article-cover">
+        <div className={`article-cover ${imgLoading ? 'image-loading' : ''}`}>
+          {imgLoading && (
+            <div className="article-image-placeholder">
+              <div className="image-spinner"></div>
+            </div>
+          )}
           <img 
             src={article.coverImage} 
             alt={article.title}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = '/images/placeholder.jpg';
+            loading="eager"
+            onLoad={handleMainImageLoaded}
+            onError={handleMainImageError}
+            style={{ 
+              opacity: imgLoading ? 0 : 1,
+              transition: 'opacity 0.3s ease-in-out'
             }}
           />
         </div>
@@ -111,13 +161,24 @@ const Article: React.FC = () => {
                 key={relatedArticle.id} 
                 className="related-article-card"
               >
-                <img 
-                  src={relatedArticle.coverImage} 
-                  alt={relatedArticle.title}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/images/placeholder.jpg';
-                  }}
-                />
+                <div className={`related-article-image ${relatedImgLoading[relatedArticle.id] ? 'image-loading' : ''}`}>
+                  {relatedImgLoading[relatedArticle.id] && (
+                    <div className="article-image-placeholder">
+                      <div className="image-spinner"></div>
+                    </div>
+                  )}
+                  <img 
+                    src={relatedArticle.coverImage} 
+                    alt={relatedArticle.title}
+                    loading="lazy"
+                    onLoad={() => handleRelatedImageLoaded(relatedArticle.id)}
+                    onError={(e) => handleRelatedImageError(e, relatedArticle.id)}
+                    style={{ 
+                      opacity: relatedImgLoading[relatedArticle.id] ? 0 : 1,
+                      transition: 'opacity 0.3s ease-in-out'
+                    }}
+                  />
+                </div>
                 <h4>{relatedArticle.title}</h4>
               </Link>
             ))}
@@ -126,7 +187,7 @@ const Article: React.FC = () => {
       )}
 
       <div className="article-navigation">
-        <Link to="/articles" className="back-button">
+        <Link to={backToListLink} className="back-button">
           {t('general.backToList')}
         </Link>
       </div>
