@@ -10,7 +10,6 @@ const ArticlesList: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
-  const [imgLoading, setImgLoading] = useState<{[key: string]: boolean}>({});
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -62,14 +61,7 @@ const ArticlesList: React.FC = () => {
           return dateB - dateA;
         });
         
-        // 初始化图片加载状态
-        const imgLoadingState: {[key: string]: boolean} = {};
-        articlesList.forEach(article => {
-          imgLoadingState[article.id] = true;
-        });
-        
         setArticles(articlesList);
-        setImgLoading(imgLoadingState);
       } catch (error) {
         console.error('获取文章失败:', error);
       } finally {
@@ -79,20 +71,24 @@ const ArticlesList: React.FC = () => {
 
     fetchArticles();
   }, [selectedCategory]);
-  
-  // 处理图片加载完成
-  const handleImageLoaded = (articleId: string) => {
-    setImgLoading(prev => ({
-      ...prev,
-      [articleId]: false
-    }));
-  };
-  
-  // 处理图片加载错误
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, articleId: string) => {
-    const img = e.target as HTMLImageElement;
-    img.src = '/images/placeholder.jpg';
-    handleImageLoaded(articleId);
+
+  // 格式化时间为相对时间
+  const formatRelativeTime = (dateString: string): string => {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}秒前`;
+    } else if (diffInSeconds < 3600) {
+      return `${Math.floor(diffInSeconds / 60)}分钟前`;
+    } else if (diffInSeconds < 86400) {
+      return `${Math.floor(diffInSeconds / 3600)}小时前`;
+    } else if (diffInSeconds < 2592000) {
+      return `${Math.floor(diffInSeconds / 86400)}天前`;
+    } else {
+      return date.toLocaleDateString();
+    }
   };
 
   return (
@@ -143,41 +139,23 @@ const ArticlesList: React.FC = () => {
             <p>{t('general.noResults')}</p>
           </div>
         ) : (
-          <div className="articles-grid">
+          <div className="articles-list-view">
             {articles.map(article => (
               <Link 
                 to={`/articles/${article.id}`} 
                 key={article.id} 
-                className="article-card"
+                className="article-list-item"
               >
-                <div className={`article-image ${imgLoading[article.id] ? 'image-loading' : ''}`}>
-                  {imgLoading[article.id] && (
-                    <div className="article-image-placeholder">
-                      <div className="image-spinner"></div>
-                    </div>
-                  )}
-                  <img 
-                    src={article.coverImage} 
-                    alt={article.title}
-                    loading="lazy"
-                    onLoad={() => handleImageLoaded(article.id)}
-                    onError={(e) => handleImageError(e, article.id)}
-                    style={{ 
-                      opacity: imgLoading[article.id] ? 0 : 1,
-                      transition: 'opacity 0.3s ease-in-out'
-                    }}
-                  />
-                  <span className="category-tag">
-                    {t(`article.categories.${article.category}`, {defaultValue: article.category})}
-                  </span>
-                </div>
-                <div className="article-info">
-                  <h3>{article.title}</h3>
-                  <p>{article.summary}</p>
-                  <div className="article-meta">
+                <div className="article-list-content">
+                  <h3 className="article-list-title">{article.title}</h3>
+                  <p className="article-list-summary">{article.summary}</p>
+                  <div className="article-list-meta">
+                    <span className="category">
+                      {t(`article.categories.${article.category}`, {defaultValue: article.category})}
+                    </span>
                     <span className="views">{t('article.viewCount', {count: article.viewCount})}</span>
                     <span className="date">
-                      {new Date(article.publishDate).toLocaleDateString()}
+                      {formatRelativeTime(article.publishDate)}
                     </span>
                   </div>
                 </div>

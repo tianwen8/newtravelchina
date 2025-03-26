@@ -59,6 +59,17 @@
   margin-right: 0.35rem;
 }
 
+.article-summary {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  padding: 1rem 1.5rem;
+  background-color: #f8f8f8;
+  border-left: 4px solid #0077be;
+  border-radius: 0 4px 4px 0;
+}
+
 .article-cover {
   width: 100%;
   max-height: 450px;
@@ -115,6 +126,8 @@
   font-size: 1.6rem;
   color: #333;
   margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
 }
 
 .article-content h3 {
@@ -136,6 +149,23 @@
   margin-bottom: 0.5rem;
 }
 
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5rem auto;
+  border-radius: 4px;
+}
+
+.article-content blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #0077be;
+  background-color: #f8f8f8;
+  font-style: italic;
+  color: #555;
+}
+
 .related-articles {
   margin-top: 3rem;
   padding-top: 1.5rem;
@@ -145,46 +175,39 @@
 .related-articles h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  color: #333;
 }
 
-.related-articles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
+.related-articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.related-article-card {
+.related-article-item {
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
   text-decoration: none;
   color: inherit;
-  border-radius: 8px;
-  overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.related-article-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+.related-article-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.related-article-image {
-  height: 120px;
-  position: relative;
-  overflow: hidden;
-  background-color: #f5f5f5;
+.related-article-item h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #0077be;
 }
 
-.related-article-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.related-article-card h4 {
-  padding: 0.75rem;
+.related-article-item p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  color: #666;
   line-height: 1.4;
 }
 
@@ -253,8 +276,9 @@
   .article-content {
     font-size: 1rem;
   }
-
-  .related-articles-grid {
-    grid-template-columns: 1fr;
+  
+  .article-summary {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
   }
 } 
