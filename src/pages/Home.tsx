@@ -133,7 +133,7 @@ const Home: React.FC = () => {
             <img src={visaIcon} alt="Visa-free travel icon" className="feature-icon" />
             <h2>{t('home.features.visaFree.title')}</h2>
             <p>{t('home.features.visaFree.description')}</p>
-            <Link to="/visa-free" className="cta-button" style={{marginTop: 'auto', padding: '0.75rem 1.5rem', fontSize: '1rem'}}>
+            <Link to="/articles?category=visa-free" className="cta-button" style={{marginTop: 'auto', padding: '0.75rem 1.5rem', fontSize: '1rem'}}>
               {t('nav.visaFree')}
             </Link>
           </div>
@@ -212,7 +212,7 @@ const Home: React.FC = () => {
         <section className="cta-section">
           <h2>{t('home.cta.title')}</h2>
           <p>{t('home.cta.subtitle')}</p>
-          <Link to="/visa-free" className="cta-button">
+          <Link to="/articles?category=visa-free" className="cta-button">
             {t('home.cta.button')}
           </Link>
         </section>

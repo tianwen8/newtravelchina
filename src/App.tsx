@@ -34,7 +34,7 @@ function App() {
         <Link to="/" className="nav-logo">{t('app.title')}</Link>
         
         <div className="nav-links">
-          <Link to="/visa-free">{t('nav.visaFree')}</Link>
+          <Link to="/articles?category=visa-free">{t('nav.visaFree')}</Link>
           <Link to="/attractions">{t('nav.attractions')}</Link>
           <Link to="/chinese-learning">{t('nav.chineseLearning')}</Link>
           <Link to="/community">{t('nav.community')}</Link>

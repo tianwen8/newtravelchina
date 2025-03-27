@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import Home from './pages/Home';
 import VisaFree from './pages/VisaFree';
@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { path: '/', element: <Home /> },
-      { path: '/visa-free', element: <VisaFree /> },
+      { path: '/visa-free', element: <Navigate to="/articles?category=visa-free" replace /> },
       { path: '/attractions', element: <Attractions /> },
       { path: '/chinese-learning', element: <ChineseLearning /> },
       { path: '/community', element: <Community /> },
