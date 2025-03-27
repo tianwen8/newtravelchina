@@ -3,25 +3,25 @@ import { initReactI18next } from 'react-i18next';
 
 import enTranslations from './locales/en.json';
 
-// 资源
+// Resources
 const resources = {
   en: enTranslations
 };
 
-// 注释掉未使用的函数
+// Commented unused function
 // const getBrowserLanguage = () => {
 //   const browserLang = navigator.language.split('-')[0];
-//   return browserLang === 'zh' ? 'zh' : 'en'; // 支持中文或默认英文
+//   return browserLang === 'zh' ? 'zh' : 'en'; // Support Chinese or default to English
 // };
 
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en', // 使用英文
+    lng: 'en', // Use English
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false // 不转义 React 中的值
+      escapeValue: false // Don't escape values in React
     }
   });
 

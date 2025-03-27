@@ -19,15 +19,15 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, useLocalStorage } from '../firebase/config';
 
-// 文章分类
+// Article categories
 export const ARTICLE_CATEGORIES = [
-  { id: 'visa-free', name: '免签政策' },
-  { id: 'attractions', name: '景点推荐' },
-  { id: 'culture', name: '中国文化' },
-  { id: 'travel-tips', name: '旅行技巧' },
+  { id: 'visa-free', name: 'Visa-Free Policy' },
+  { id: 'attractions', name: 'Attractions' },
+  { id: 'culture', name: 'Chinese Culture' },
+  { id: 'travel-tips', name: 'Travel Tips' },
 ];
 
-// 文章接口
+// Article interface
 export interface Article {
   id: string;
   title: string;
@@ -47,7 +47,7 @@ class ArticleService {
   private readonly COLLECTION_NAME = 'articles';
   private readonly USER_VIEWS_COLLECTION = 'article_views';
 
-  // 获取所有文章
+  // Get all articles
   private async getArticles(): Promise<Article[]> {
     if (useLocalStorage) {
       const articlesJson = localStorage.getItem(this.STORAGE_KEY);
@@ -58,7 +58,7 @@ class ArticleService {
         const articlesRef = collection(db, this.COLLECTION_NAME);
         const snapshot = await getDocs(articlesRef);
         
-        // 如果集合是空的，则初始化数据
+        // If collection is empty, initialize data
         if (snapshot.empty) {
           return this.seedInitialArticles();
         }
@@ -80,20 +80,20 @@ class ArticleService {
     }
   }
 
-  // 保存所有文章
+  // Save all articles
   private saveArticles(articles: Article[]): void {
     if (useLocalStorage) {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(articles));
     }
-    // Firebase不需要这个方法，因为每篇文章都是单独保存的
+    // Firebase doesn't need this method as each article is saved individually
   }
 
-  // 生成随机ID
+  // Generate random ID
   private generateId(): string {
     return 'article_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
-  // 保存新文章
+  // Save new article
   public async publishArticle(articleData: Omit<Article, 'id' | 'viewCount' | 'publishDate'>): Promise<Article> {
     if (useLocalStorage) {
       const articles = await this.getArticles();
@@ -132,10 +132,10 @@ class ArticleService {
     }
   }
 
-  // 上传文章图片
+  // Upload article image
   public async uploadArticleImage(file: File): Promise<string> {
     if (useLocalStorage) {
-      // 模拟上传
+      // Mock upload
       const mockImages = [
         '/images/china1.jpg',
         '/images/china2.jpg',
@@ -161,7 +161,7 @@ class ArticleService {
     }
   }
 
-  // 获取推荐文章
+  // Get featured articles
   public async getFeaturedArticles(limitCount = 5): Promise<Article[]> {
     if (useLocalStorage) {
       const articles = await this.getArticles();
@@ -191,7 +191,7 @@ class ArticleService {
     }
   }
 
-  // 按分类获取文章
+  // Get articles by category
   public async getArticlesByCategory(category: string, page = 1, pageSize = 10): Promise<Article[]> {
     if (useLocalStorage) {
       const articles = await this.getArticles();
@@ -199,12 +199,12 @@ class ArticleService {
         ? articles.filter(article => article.category === category)
         : articles;
       
-      // 按发布日期排序（最新的先显示）
+      // Sort by publish date (latest first)
       const sortedArticles = filteredArticles.sort(
         (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
       );
       
-      // 简单分页
+      // Simple pagination
       const startIndex = (page - 1) * pageSize;
       return sortedArticles.slice(startIndex, startIndex + pageSize);
     } else {
@@ -224,7 +224,7 @@ class ArticleService {
         
         const snapshot = await getDocs(q);
         
-        // 手动分页 (Firestore需要付费计划才支持offset分页)
+        // Manual pagination (Firestore needs paid plan to support offset pagination)
         const allArticles = snapshot.docs.map(doc => {
           const data = doc.data() as DocumentData;
           return {
@@ -245,14 +245,14 @@ class ArticleService {
     }
   }
 
-  // 按ID获取单篇文章
+  // Get article by ID
   public async getArticleById(articleId: string): Promise<Article> {
     if (useLocalStorage) {
       const articles = await this.getArticles();
       const article = articles.find(a => a.id === articleId);
       
       if (!article) {
-        throw new Error('文章不存在');
+        throw new Error('Article not found');
       }
       
       return article;
@@ -262,7 +262,7 @@ class ArticleService {
         const articleDoc = await getDoc(articleRef);
         
         if (!articleDoc.exists()) {
-          throw new Error('文章不存在');
+          throw new Error('Article not found');
         }
         
         const data = articleDoc.data() as DocumentData;
@@ -280,7 +280,7 @@ class ArticleService {
     }
   }
 
-  // 记录文章浏览量
+  // Record article view count
   public async recordView(articleId: string): Promise<void> {
     if (useLocalStorage) {
       const articles = await this.getArticles();
@@ -290,7 +290,7 @@ class ArticleService {
         articles[articleIndex].viewCount += 1;
         this.saveArticles(articles);
         
-        // 也可以在这里记录用户查看历史
+        // Also record user view history here
         this.recordUserView(articleId);
       }
     } else {
@@ -300,7 +300,7 @@ class ArticleService {
           viewCount: increment(1)
         });
         
-        // 记录用户查看历史
+        // Record user view history
         this.recordUserView(articleId);
       } catch (error) {
         console.error('Error recording view:', error);
@@ -308,30 +308,30 @@ class ArticleService {
     }
   }
 
-  // 记录用户查看历史
+  // Record user view history
   private recordUserView(articleId: string): void {
     if (useLocalStorage) {
       const viewsJson = localStorage.getItem(this.VIEWS_KEY);
       const views = viewsJson ? JSON.parse(viewsJson) : [];
       
-      // 添加到已查看列表（可能还需要去重）
+      // Add to viewed list (may need to deduplicate)
       views.unshift({
         articleId,
         timestamp: new Date().toISOString()
       });
       
-      // 只保留最近的30条记录
+      // Only keep recent 30 records
       const recentViews = views.slice(0, 30);
       localStorage.setItem(this.VIEWS_KEY, JSON.stringify(recentViews));
     } else {
-      // 在实际应用中，这里应该使用用户的UID
-      // 现在我们只是模拟记录，不与特定用户关联
+      // In actual application, this should use user's UID
+      // For now, we're just simulating, not associating with specific user
       try {
         const viewsRef = collection(db, this.USER_VIEWS_COLLECTION);
         addDoc(viewsRef, {
           articleId,
           timestamp: serverTimestamp(),
-          // userId: currentUser?.uid // 如果有登录用户
+          // userId: currentUser?.uid // If there's a logged-in user
         });
       } catch (error) {
         console.error('Error recording user view:', error);
@@ -339,7 +339,7 @@ class ArticleService {
     }
   }
 
-  // 获取相关文章
+  // Get related articles
   public async getRelatedArticles(articleId: string, limitCount = 3): Promise<Article[]> {
     try {
       const currentArticle = await this.getArticleById(articleId);
@@ -350,7 +350,7 @@ class ArticleService {
           .filter(article => 
             article.id !== articleId && article.category === currentArticle.category
           )
-          .sort(() => Math.random() - 0.5) // 随机排序
+          .sort(() => Math.random() - 0.5) // Random sort
           .slice(0, limitCount);
       } else {
         const articlesRef = collection(db, this.COLLECTION_NAME);
@@ -358,7 +358,7 @@ class ArticleService {
           articlesRef,
           where('category', '==', currentArticle.category),
           where('__name__', '!=', articleId),
-          firestoreLimit(limitCount + 5) // 多取几篇，以便随机选择
+          firestoreLimit(limitCount + 5) // Get a few more, so we can randomly select
         );
         
         const snapshot = await getDocs(q);
@@ -374,7 +374,7 @@ class ArticleService {
           } as Article;
         });
         
-        // 随机排序并限制数量
+        // Random sort and limit count
         return relatedArticles
           .sort(() => Math.random() - 0.5)
           .slice(0, Math.min(limitCount, relatedArticles.length));
@@ -385,24 +385,24 @@ class ArticleService {
     }
   }
 
-  // 生成初始文章数据
+  // Generate initial article data
   private async seedInitialArticles(): Promise<Article[]> {
     const initialArticles: Article[] = [
       {
         id: 'article-1',
         title: 'Exploring Beijing: Ancient Hutongs and Modern Architecture',
         summary: 'A journey through time, from old Beijing hutongs to modern architectural marvels like the Bird\'s Nest and Water Cube',
-        content: `<p>北京，这座具有三千年历史的古都，是中国政治、文化的中心。在这里，古老与现代并存，传统与创新交融。</p>
-                <p>胡同是老北京城市肌理的基本单元，也是北京传统文化的载体。这些窄窄的小巷，通常由四合院的一面墙构成，至今仍保持着过去那种悠闲自得的生活气息。南锣鼓巷、烟袋斜街、五道营胡同等地已经成为游客和本地人闲逛休憩的热门区域。</p>
-                <p>与此同时，以奥运场馆为标志的现代建筑群，例如鸟巢（国家体育场）、水立方（国家游泳中心）、国家大剧院（蛋形建筑）等，则展示了当代中国的创新设计和建筑技术。</p>
-                <h3>推荐行程</h3>
+        content: `<p>Beijing, a city with 3,000 years of history, is the political and cultural center of China. Here, ancient and modern coexist, tradition and innovation blend.</p>
+                <p>Hutongs are the basic units of old Beijing's urban fabric and carriers of Beijing's traditional culture. These narrow alleys, usually formed by the walls of siheyuan (courtyard houses), still maintain the leisurely lifestyle of the past. Areas like Nanluoguxiang, Yandai Xiejie, and Wudaoying Hutong have become popular spots for tourists and locals to wander and relax.</p>
+                <p>Meanwhile, modern architectural complexes marked by Olympic venues, such as the Bird's Nest (National Stadium), Water Cube (National Aquatics Center), and the National Center for the Performing Arts (egg-shaped building), showcase contemporary Chinese innovative design and architectural technology.</p>
+                <h3>Recommended Itinerary</h3>
                 <ul>
-                  <li>上午：参观天安门、故宫等传统景点</li>
-                  <li>中午：在簋街或前门大街品尝地道北京美食</li>
-                  <li>下午：漫步南锣鼓巷，体验传统胡同文化</li>
-                  <li>傍晚：前往奥林匹克公园欣赏鸟巢、水立方的夜景</li>
+                  <li>Morning: Visit traditional attractions like Tiananmen Square and the Forbidden City</li>
+                  <li>Noon: Enjoy authentic Beijing cuisine at Gui Street or Qianmen Street</li>
+                  <li>Afternoon: Stroll through Nanluoguxiang and experience traditional hutong culture</li>
+                  <li>Evening: Visit the Olympic Park to admire the night view of the Bird's Nest and Water Cube</li>
                 </ul>
-                <p>无论您是历史爱好者还是现代艺术追求者，北京都能满足您的好奇心。这座城市的魅力正在于它如何巧妙地将悠久历史与现代活力融为一体。</p>`,
+                <p>Whether you are a history enthusiast or a modern art pursuer, Beijing can satisfy your curiosity. The charm of this city lies in how it skillfully integrates its long history with modern vitality.</p>`,
         coverImage: '/images/beijing.jpg',
         category: 'attractions',
         tags: ['Beijing', 'Hutongs', 'Modern Architecture', 'Cultural Tour'],
@@ -414,27 +414,27 @@ class ArticleService {
         id: 'article-2',
         title: 'China\'s 144-Hour Transit Visa-Free Policy Explained',
         summary: 'Learn how to use China\'s 144-hour transit visa-free policy to plan your short visit to China',
-        content: `<p>自2019年起，中国进一步扩大了144小时过境免签政策的适用范围，目前已覆盖北京、上海、广州、成都等多个主要城市和地区。这一政策为短期访问中国提供了极大便利。</p>
-                <h3>政策要点</h3>
+        content: `<p>Since 2019, China has further expanded the applicable scope of the 144-hour transit visa-free policy, now covering major cities and regions including Beijing, Shanghai, Guangzhou, Chengdu, and more. This policy provides great convenience for short-term visits to China.</p>
+                <h3>Key Policy Points</h3>
                 <ul>
-                  <li>适用于53个国家的公民，包括美国、加拿大、英国、澳大利亚等</li>
-                  <li>停留时间最长为144小时（6天）</li>
-                  <li>必须有前往第三国（地区）的确认机票</li>
-                  <li>在规定的行政区域内活动</li>
+                  <li>Applicable to citizens of 53 countries, including the United States, Canada, United Kingdom, Australia, etc.</li>
+                  <li>Maximum stay of 144 hours (6 days)</li>
+                  <li>Must have a confirmed ticket to a third country (region)</li>
+                  <li>Activities within specified administrative areas</li>
                 </ul>
-                <h3>申请流程</h3>
-                <p>1. 抵达中国口岸后，前往边检处</p>
-                <p>2. 填写"外国人入境申请表"，申请"过境免签停留"</p>
-                <p>3. 提供有效护照和72小时内前往第三国的确认机票</p>
-                <p>4. 边检官员核实信息后，会在您的护照上盖章，注明允许停留的时限</p>
-                <h3>适用城市和活动范围</h3>
-                <p>各地区的活动范围有所不同：</p>
+                <h3>Application Process</h3>
+                <p>1. After arriving at a Chinese port of entry, proceed to immigration</p>
+                <p>2. Fill out the "Foreigner Entry Application Form" and apply for "Transit Visa-Free Stay"</p>
+                <p>3. Provide a valid passport and confirmed ticket to a third country within 72 hours</p>
+                <p>4. After verification, immigration officers will stamp your passport indicating the allowed stay duration</p>
+                <h3>Applicable Cities and Activity Ranges</h3>
+                <p>Activity ranges differ by region:</p>
                 <ul>
-                  <li>京津冀地区：北京、天津市以及河北省石家庄、秦皇岛、唐山、廊坊、保定市等</li>
-                  <li>长三角地区：上海、江苏省南京、苏州、无锡等城市以及浙江省杭州、宁波等城市</li>
-                  <li>粤港澳大湾区：广东省广州、深圳、珠海等城市</li>
+                  <li>Beijing-Tianjin-Hebei Area: Beijing, Tianjin, and cities in Hebei Province including Shijiazhuang, Qinhuangdao, Tangshan, Langfang, Baoding, etc.</li>
+                  <li>Yangtze River Delta Area: Shanghai, cities in Jiangsu Province like Nanjing, Suzhou, Wuxi, and cities in Zhejiang Province like Hangzhou, Ningbo, etc.</li>
+                  <li>Greater Bay Area: Cities in Guangdong Province such as Guangzhou, Shenzhen, Zhuhai, etc.</li>
                 </ul>
-                <p>此政策为短期商务旅行、旅游观光、探亲访友提供了便利，但请注意计算好时间，确保在允许的时间内离境。</p>`,
+                <p>This policy provides convenience for short-term business travel, tourism, and family visits, but please be sure to calculate your time properly to ensure departure within the allowed period.</p>`,
         coverImage: '/images/visa-free.jpg',
         category: 'visa-free',
         tags: ['Visa-Free Policy', 'Travel Planning', 'Entry Guide'],
@@ -446,25 +446,25 @@ class ArticleService {
         id: 'article-3',
         title: 'Chinese Tea Culture: Savoring 5000 Years of Fragrance',
         summary: 'From Longjing to Pu\'er, explore the profound heritage and rich connotations of Chinese tea culture',
-        content: `<p>茶，作为中国的国饮，拥有超过5000年的历史。从神农尝百草到陆羽《茶经》，从唐代煮茶到宋代点茶，再到明清的泡茶，中国茶文化历经变迁，形成了独特而完整的体系。</p>
-                <h3>中国六大茶类</h3>
+        content: `<p>Tea, as China's national drink, has a history of over 5,000 years. From Shennong tasting a hundred herbs to Lu Yu's "Tea Classic," from Tang Dynasty's tea boiling to Song Dynasty's whisked tea, to Ming and Qing Dynasties' steeped tea, Chinese tea culture has evolved through changes, forming a unique and complete system.</p>
+                <h3>Six Major Tea Categories in China</h3>
                 <ul>
-                  <li>绿茶：如西湖龙井、碧螺春、黄山毛峰等，保留了茶叶的天然物质</li>
-                  <li>红茶：如祁门红茶、滇红、正山小种等，全发酵茶，红汤红叶</li>
-                  <li>青茶（乌龙茶）：如铁观音、大红袍、凤凰单枞等，介于绿茶和红茶之间的半发酵茶</li>
-                  <li>白茶：如白毫银针、白牡丹等，微发酵茶，以芽尖为主</li>
-                  <li>黄茶：如君山银针、蒙顶黄芽等，轻微发酵后形成特有的黄色</li>
-                  <li>黑茶：如普洱茶、安化黑茶等，后发酵茶，越陈越香</li>
+                  <li>Green Tea: Such as West Lake Longjing, Biluochun, Huangshan Maofeng, which preserve the natural substances of tea leaves</li>
+                  <li>Black Tea: Such as Qimen black tea, Dianhong, Zhengshan Xiaozhong, fully fermented tea with red soup and red leaves</li>
+                  <li>Oolong Tea: Such as Tieguanyin, Da Hong Pao, Phoenix Dancong, semi-fermented tea between green tea and black tea</li>
+                  <li>White Tea: Such as White Hair Silver Needle, White Peony, slightly fermented tea, mainly buds</li>
+                  <li>Yellow Tea: Such as Junshan Silver Needle, Mengding Yellow Bud, forming a unique yellow color after slight fermentation</li>
+                  <li>Dark Tea: Such as Pu'er tea, Anhua dark tea, post-fermented tea that gets better with age</li>
                 </ul>
-                <h3>茶文化体验</h3>
-                <p>在中国旅行时，一定不要错过这些茶文化体验：</p>
+                <h3>Tea Culture Experiences</h3>
+                <p>When traveling in China, don't miss these tea culture experiences:</p>
                 <ul>
-                  <li>杭州龙井村：体验采茶、炒茶的乐趣</li>
-                  <li>武夷山：探访"茶中状元"大红袍的原产地</li>
-                  <li>昆明、普洱：了解普洱茶的制作工艺和收藏文化</li>
-                  <li>广州：参观广州茶叶市场，体验岭南茶文化</li>
+                  <li>Longjing Village in Hangzhou: Experience the fun of picking and frying tea</li>
+                  <li>Wuyi Mountain: Visit the origin of Da Hong Pao, the "champion of teas"</li>
+                  <li>Kunming, Pu'er: Learn about Pu'er tea production and collection culture</li>
+                  <li>Guangzhou: Visit Guangzhou tea market and experience Lingnan tea culture</li>
                 </ul>
-                <p>中国茶道讲究"和、静、怡、真"，品茶不仅是味觉的享受，更是身心的修行。在快节奏的现代生活中，沏一壶茶，品一份闲适，感受中国传统文化的魅力。</p>`,
+                <p>Chinese tea ceremony emphasizes "harmony, tranquility, enjoyment, and authenticity." Drinking tea is not only a gustatory pleasure but also a spiritual practice. In the fast-paced modern life, brewing a pot of tea and enjoying a leisure moment allows you to experience the charm of traditional Chinese culture.</p>`,
         coverImage: '/images/tea-culture.jpg',
         category: 'culture',
         tags: ['Tea Culture', 'Traditional Culture', 'Cultural Experience'],
@@ -476,34 +476,34 @@ class ArticleService {
         id: 'article-4',
         title: 'Essential Mobile Apps for Traveling in China',
         summary: 'These must-have apps will help make your travel in China more convenient, from navigation to payment',
-        content: `<p>在中国旅行，拥有合适的手机应用可以大大提升您的旅行体验。本文将为您推荐几款在中国旅行时必不可少的应用程序。</p>
-                <h3>地图与导航</h3>
+        content: `<p>Having the right mobile applications can greatly enhance your travel experience in China. This article will recommend several essential apps for traveling in China.</p>
+                <h3>Maps and Navigation</h3>
                 <ul>
-                  <li><strong>高德地图</strong>：中国最流行的导航应用之一，支持离线地图、实时公交信息</li>
-                  <li><strong>百度地图</strong>：覆盖面广，提供详细的室内地图和景点导览</li>
+                  <li><strong>Amap (Gaode Maps)</strong>: One of China's most popular navigation apps, supporting offline maps and real-time public transit information</li>
+                  <li><strong>Baidu Maps</strong>: Offers wide coverage, providing detailed indoor maps and attraction guides</li>
                 </ul>
-                <h3>交通出行</h3>
+                <h3>Transportation</h3>
                 <ul>
-                  <li><strong>滴滴出行</strong>：中国最大的打车平台，支持多种语言</li>
-                  <li><strong>铁路12306</strong>：官方铁路售票应用，可查询时刻表、购买火车票</li>
-                  <li><strong>航旅纵横</strong>：航班查询与管理应用，提供实时航班动态</li>
+                  <li><strong>DiDi</strong>: China's largest ride-hailing platform, supporting multiple languages</li>
+                  <li><strong>China Railway 12306</strong>: Official railway ticketing app, for checking timetables and purchasing train tickets</li>
+                  <li><strong>Umetrip</strong>: Flight query and management app, providing real-time flight status</li>
                 </ul>
-                <h3>支付工具</h3>
+                <h3>Payment Tools</h3>
                 <ul>
-                  <li><strong>支付宝</strong>：中国主要移动支付平台，支持外国游客注册使用</li>
-                  <li><strong>微信支付</strong>：另一主要支付平台，结合了社交功能</li>
+                  <li><strong>Alipay</strong>: China's major mobile payment platform, accessible to foreign tourists with registration</li>
+                  <li><strong>WeChat Pay</strong>: Another major payment platform, integrated with social functions</li>
                 </ul>
-                <h3>翻译与沟通</h3>
+                <h3>Translation and Communication</h3>
                 <ul>
-                  <li><strong>百度翻译</strong>：支持拍照翻译、语音翻译等功能</li>
-                  <li><strong>微信</strong>：中国最流行的社交应用，几乎所有本地人都在使用</li>
+                  <li><strong>Baidu Translate</strong>: Supports photo translation, voice translation, and other functions</li>
+                  <li><strong>WeChat</strong>: China's most popular social app, used by almost all locals</li>
                 </ul>
-                <h3>实用建议</h3>
-                <p>1. 出发前下载并测试这些应用</p>
-                <p>2. 考虑在中国使用当地SIM卡或租用移动WiFi设备</p>
-                <p>3. 提前设置好VPN（如果您需要访问国际网站）</p>
-                <p>4. 为支付宝或微信绑定国际信用卡</p>
-                <p>这些应用将帮助您克服语言障碍，让您的中国之旅更加顺畅、便捷。祝您旅途愉快！</p>`,
+                <h3>Practical Advice</h3>
+                <p>1. Download and test these apps before departure</p>
+                <p>2. Consider using a local SIM card or renting a mobile WiFi device in China</p>
+                <p>3. Set up a VPN in advance (if you need to access international websites)</p>
+                <p>4. Link an international credit card to Alipay or WeChat</p>
+                <p>These apps will help you overcome language barriers and make your journey in China smoother and more convenient. Have a pleasant trip!</p>`,
         coverImage: '/images/travel-apps.jpg',
         category: 'travel-tips',
         tags: ['Travel Tips', 'Mobile Apps', 'Travel Planning'],
@@ -515,37 +515,37 @@ class ArticleService {
         id: 'article-5',
         title: 'Chengdu 72-Hour Transit Visa-Free: A Journey of Food and Pandas',
         summary: 'Make use of Chengdu\'s 72-hour transit visa-free policy to experience the food culture of the Land of Abundance and adorable giant pandas',
-        content: `<p>成都，这座有着2300多年历史的文化名城，是中国四川省的省会，也是中国西南地区的经济、文化中心。自2019年起，成都已实施144小时过境免签政策，为国际旅客提供了更加便利的旅行选择。</p>
-                <h3>免签政策要点</h3>
+        content: `<p>Chengdu, a cultural city with over 2,300 years of history, is the capital of Sichuan Province and the economic and cultural center of Southwest China. Since 2019, Chengdu has implemented the 144-hour transit visa-free policy, providing international travelers with a more convenient travel option.</p>
+                <h3>Visa-Free Policy Key Points</h3>
                 <ul>
-                  <li>适用于53个国家的公民</li>
-                  <li>须持有有效国际旅行证件和前往第三国（地区）的联程客票</li>
-                  <li>可在成都市行政区域内停留不超过144小时</li>
+                  <li>Applicable to citizens of 53 countries</li>
+                  <li>Must hold valid international travel documents and connecting tickets to a third country (region)</li>
+                  <li>Can stay within Chengdu's administrative area for no more than 144 hours</li>
                 </ul>
-                <h3>72小时行程推荐</h3>
-                <p><strong>第一天：市区文化之旅</strong></p>
+                <h3>72-Hour Itinerary Recommendation</h3>
+                <p><strong>Day One: Urban Cultural Tour</strong></p>
                 <ul>
-                  <li>上午：参观宽窄巷子，体验老成都的历史风貌</li>
-                  <li>中午：在锦里品尝正宗四川火锅</li>
-                  <li>下午：游览杜甫草堂，感受诗人的历史遗迹</li>
-                  <li>晚上：欣赏川剧变脸表演</li>
+                  <li>Morning: Visit Wide and Narrow Alleys to experience the historical style of old Chengdu</li>
+                  <li>Noon: Taste authentic Sichuan hotpot at Jinli</li>
+                  <li>Afternoon: Tour Du Fu Thatched Cottage and experience the poet's historical site</li>
+                  <li>Evening: Enjoy a Sichuan opera face-changing performance</li>
                 </ul>
-                <p><strong>第二天：熊猫之旅</strong></p>
+                <p><strong>Day Two: Panda Tour</strong></p>
                 <ul>
-                  <li>全天：参观成都大熊猫繁育研究基地，近距离观察可爱的大熊猫</li>
-                  <li>晚上：探索太古里，感受现代成都的时尚与活力</li>
+                  <li>Full day: Visit the Chengdu Research Base of Giant Panda Breeding to observe adorable giant pandas up close</li>
+                  <li>Evening: Explore Taikoo Li and experience the fashion and vitality of modern Chengdu</li>
                 </ul>
-                <p><strong>第三天：美食与购物</strong></p>
+                <p><strong>Day Three: Food and Shopping</strong></p>
                 <ul>
-                  <li>上午：参加四川菜烹饪课，学习制作宫保鸡丁、回锅肉等经典川菜</li>
-                  <li>下午：在春熙路购物，采购纪念品和特产</li>
-                  <li>晚上：前往机场，结束愉快的成都之旅</li>
+                  <li>Morning: Take a Sichuan cuisine cooking class, learn to make classic Sichuan dishes like Kung Pao Chicken and Twice-Cooked Pork</li>
+                  <li>Afternoon: Shop on Chunxi Road for souvenirs and local products</li>
+                  <li>Evening: Head to the airport, concluding your pleasant Chengdu journey</li>
                 </ul>
-                <h3>实用建议</h3>
-                <p>1. 提前规划行程，确保在规定时间内离境</p>
-                <p>2. 携带现金和国际信用卡，尽管成都许多地方支持移动支付</p>
-                <p>3. 学习几句简单的中文问候语，增进与当地人的交流</p>
-                <p>成都的悠闲生活节奏、丰富的美食文化和可爱的大熊猫，一定会给您带来难忘的旅行体验！</p>`,
+                <h3>Practical Tips</h3>
+                <p>1. Plan your itinerary in advance to ensure departure within the specified time</p>
+                <p>2. Carry cash and international credit cards, although many places in Chengdu support mobile payments</p>
+                <p>3. Learn a few simple Chinese greeting phrases to enhance communication with locals</p>
+                <p>Chengdu's leisurely lifestyle, rich food culture, and adorable giant pandas will surely bring you an unforgettable travel experience!</p>`,
         coverImage: '/images/chengdu.jpg',
         category: 'visa-free',
         tags: ['Chengdu', 'Transit Visa-Free', 'Pandas', 'Sichuan Cuisine'],
@@ -560,10 +560,10 @@ class ArticleService {
       return initialArticles;
     } else {
       try {
-        // 将初始数据写入Firestore
+        // Write initial data to Firestore
         const articlesRef = collection(db, this.COLLECTION_NAME);
         
-        // 使用Promise.all并行添加所有文章
+        // Use Promise.all to parallel add all articles
         const articlePromises = initialArticles.map(async (article) => {
           const docRef = await addDoc(articlesRef, {
             ...article,
@@ -584,10 +584,10 @@ class ArticleService {
   }
 
   /**
-   * 获取特定分类的最新文章
-   * @param category 文章分类
-   * @param limitCount 返回的文章数量
-   * @returns 最新的文章列表
+   * Get the latest articles for a specific category
+   * @param category Article category
+   * @param limitCount Number of articles to return
+   * @returns List of latest articles
    */
   public async getLatestArticlesByCategory(category: string, limitCount = 3): Promise<Article[]> {
     try {
@@ -606,7 +606,7 @@ class ArticleService {
         console.log(`Retrieved ${sortedArticles.length} articles from local storage`);
         return sortedArticles;
       } else {
-        // 从Firestore获取数据
+        // Fetch data from Firestore
         console.log('Fetching data from Firestore');
         const articlesCollection = collection(db, this.COLLECTION_NAME);
         let articlesQuery;
@@ -638,7 +638,7 @@ class ArticleService {
         const results = snapshot.docs.map(doc => {
           const data = doc.data() as DocumentData;
           
-          // 处理发布日期
+          // Process publish date
           let publishDate = data.publishDate;
           if (data.publishDate instanceof Timestamp) {
             publishDate = data.publishDate.toDate().toISOString();
