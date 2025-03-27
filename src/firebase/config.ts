@@ -31,7 +31,7 @@ export const auth = getAuth(app);
 export const storage = getStorage(app);
 
 // 设置为false以使用Firebase服务，设置为true则使用本地存储作为备份
-export const useLocalStorage = false;
+export const useLocalStorage = true;
 
 // 检查用户是否为管理员
 export const isUserAdmin = async (userId: string): Promise<boolean> => {
