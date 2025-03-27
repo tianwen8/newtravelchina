@@ -21,10 +21,10 @@ import { db, storage, useLocalStorage } from '../firebase/config';
 
 // 文章分类
 export const ARTICLE_CATEGORIES = [
-  { id: 'visa-free', name: 'Visa-Free Policy' },
-  { id: 'attractions', name: 'Attractions' },
-  { id: 'culture', name: 'Chinese Culture' },
-  { id: 'travel-tips', name: 'Travel Tips' },
+  { id: 'visa-free', name: '免签政策' },
+  { id: 'attractions', name: '景点推荐' },
+  { id: 'culture', name: '中国文化' },
+  { id: 'travel-tips', name: '旅行技巧' },
 ];
 
 // 文章接口

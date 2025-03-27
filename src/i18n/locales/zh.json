@@ -332,14 +332,14 @@
       "relatedArticles": "相关文章",
       "categories": {
         "title": "文章",
-        "visa-free": "Visa-Free Policy",
-        "attractions": "Attractions",
-        "culture": "Chinese Culture",
-        "travel-tips": "Travel Tips",
-        "policy": "Policy Updates",
-        "transit": "Transit Information",
-        "palace": "Palace & Museums",
-        "heritage": "Heritage Sites"
+        "visa-free": "免签政策",
+        "attractions": "景点推荐",
+        "culture": "中国文化",
+        "travel-tips": "旅行技巧",
+        "policy": "政策更新",
+        "transit": "过境信息",
+        "palace": "宫殿与博物馆",
+        "heritage": "遗产景点"
       },
       "fetchError": "加载文章失败",
       "notFound": "未找到文章"

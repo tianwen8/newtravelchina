@@ -11,14 +11,14 @@ export default {
   'nav.admin': '管理',
 
   // 分类名称
-  'category.visa-free': 'Visa-Free Policy',
-  'category.attractions': 'Attractions',
-  'category.culture': 'Chinese Culture',
-  'category.travel-tips': 'Travel Tips',
-  'category.policy': 'Policy Updates',
-  'category.transit': 'Transit Information',
-  'category.palace': 'Palace & Museums',
-  'category.heritage': 'Heritage Sites',
+  'category.visa-free': '免签政策',
+  'category.attractions': '景点推荐',
+  'category.culture': '中国文化',
+  'category.travel-tips': '旅行技巧',
+  'category.policy': '政策更新',
+  'category.transit': '过境信息',
+  'category.palace': '宫殿与博物馆',
+  'category.heritage': '遗产景点',
   
   // 按钮和标签
   'button.readMore': '阅读更多',
