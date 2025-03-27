@@ -400,7 +400,7 @@
 
 .eligibility-header {
   padding: 2rem;
-  background: linear-gradient(135deg, #0077be 0%, #00a0dc 100%);
+  background: #0077be;
   color: white;
   text-align: center;
 }
@@ -437,9 +437,9 @@
 
 .policy-button {
   padding: 0.8rem 1.5rem;
-  border: 2px solid #eee;
+  border: none;
   border-radius: 8px;
-  background: none;
+  background: #f0f8ff;
   cursor: pointer;
   font-size: 1rem;
   transition: all 0.3s;
@@ -448,21 +448,19 @@
 }
 
 .policy-button.selected {
-  border-color: #0077be;
-  background-color: #f0f8ff;
-  color: #0077be;
+  background-color: #0077be;
+  color: white;
   font-weight: bold;
 }
 
 .policy-button:hover {
-  border-color: #0077be;
-  background-color: #f8f8f8;
+  background-color: #e0f0ff;
 }
 
 .country-dropdown {
   width: 100%;
   padding: 0.9rem;
-  border: 2px solid #eee;
+  border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   color: #444;
@@ -479,28 +477,14 @@
   border-color: #0077be;
 }
 
-.eligibility-result {
-  padding: 1.5rem;
+.eligibility-result-text {
   margin: 1.5rem 0;
-  border-radius: 8px;
+  padding: 0 0.5rem;
   text-align: center;
   font-weight: 500;
   font-size: 1.1rem;
-  border-width: 1px;
-  border-style: solid;
+  color: #333;
   animation: fadeInUp 0.5s;
-}
-
-.eligibility-result.eligible {
-  background-color: #e6f7e6;
-  color: #2e7d32;
-  border-color: #c8e6c9;
-}
-
-.eligibility-result.not-eligible {
-  background-color: #ffebee;
-  color: #c62828;
-  border-color: #ffcdd2;
 }
 
 .more-info {
@@ -561,8 +545,7 @@
     font-size: 1.2rem;
   }
   
-  .eligibility-result {
+  .eligibility-result-text {
     font-size: 1rem;
-    padding: 1rem;
   }
 } 

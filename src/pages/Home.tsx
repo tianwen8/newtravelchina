@@ -259,7 +259,7 @@ const Home: React.FC = () => {
               </div>
               
               {showEligibilityCheck && userCountry && selectedPolicyId && (
-                <div className={`eligibility-result ${isEligible ? 'eligible' : 'not-eligible'}`}>
+                <div className="eligibility-result-text">
                   {isEligible 
                     ? `You are eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`
                     : `Sorry, citizens from ${userCountry} are not eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`}
