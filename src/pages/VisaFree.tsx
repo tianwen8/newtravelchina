@@ -7,13 +7,36 @@ import { articleService, Article } from '../services/articleService';
 import './VisaFree.css';
 import { useTranslation } from 'react-i18next';
 
+// 创建一个更全面的国家列表（包括符合免签和不符合的国家）
+const countryList = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 
+  'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Belarus', 'Belgium', 'Belize', 
+  'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 
+  'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chile', 'China', 'Colombia', 
+  'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Ecuador', 'Egypt', 
+  'El Salvador', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 
+  'Germany', 'Ghana', 'Greece', 'Guatemala', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 
+  'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 
+  'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 
+  'Lebanon', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 
+  'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 
+  'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nepal', 
+  'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'North Macedonia', 'Norway', 
+  'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 
+  'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 
+  'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Somalia', 'South Africa', 'South Korea', 'Spain', 
+  'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 
+  'Thailand', 'Togo', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Uganda', 'Ukraine', 
+  'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Venezuela', 
+  'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
+].sort();
+
 const VisaFree: React.FC = () => {
   const dispatch = useAppDispatch();
   const { policies, selectedPolicyId, userCountry, isEligible } = useAppSelector(state => state.visa);
   const [showEligibilityCheck, setShowEligibilityCheck] = useState(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState<{[key: string]: boolean}>({});
   const { t } = useTranslation();
   const location = useLocation();
   
@@ -34,15 +57,7 @@ const VisaFree: React.FC = () => {
         });
         
         console.log(`Retrieved ${allArticles.length} articles`);
-        
-        // Initialize image loading states
-        const imgLoadingState: {[key: string]: boolean} = {};
-        allArticles.forEach(article => {
-          imgLoadingState[article.id] = true;
-        });
-        
         setArticles(allArticles);
-        setImgLoading(imgLoadingState);
       } catch (error) {
         console.error('Error fetching articles:', error);
       } finally {
@@ -68,28 +83,6 @@ const VisaFree: React.FC = () => {
     setShowEligibilityCheck(true);
     dispatch(checkEligibility());
   };
-
-  // Handle image loading completion
-  const handleImageLoaded = (articleId: string) => {
-    setImgLoading(prev => ({
-      ...prev,
-      [articleId]: false
-    }));
-  };
-  
-  // Handle image loading failure
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, articleId: string) => {
-    console.log(`Image failed to load for article ${articleId}, using placeholder`);
-    const img = e.target as HTMLImageElement;
-    img.src = '/images/placeholder.jpg'; // Use a generic placeholder image
-    handleImageLoaded(articleId); // Mark as loaded
-  };
-  
-  // Common countries list
-  const commonCountries = [
-    'United States', 'United Kingdom', 'Canada', 'Australia', 
-    'France', 'Germany', 'Japan', 'South Korea'
-  ];
   
   // Format time as relative time (English)
   const formatRelativeTime = (dateString: string): string => {
@@ -118,7 +111,7 @@ const VisaFree: React.FC = () => {
       <Helmet>
         <title>{t('visaFree.title')} - {t('app.title')}</title>
         <meta name="description" content={`${t('visaFree.subtitle')}. ${t('visaFree.policies.144hour.description')}, ${t('visaFree.policies.72hour.description')}`} />
-        <meta name="keywords" content="China visa-free transit, 144-hour visa-free, 72-hour visa-free, China travel tips, Beijing visa-free, Shanghai visa-free, transit visa China, visa exemption" />
+        <meta name="keywords" content="China visa-free transit, 240-hour visa-free, 72-hour visa-free, China travel tips, Beijing visa-free, Shanghai visa-free, transit visa China, visa exemption" />
       </Helmet>
       <div className="visa-free-container">
         <header className="page-header">
@@ -127,7 +120,7 @@ const VisaFree: React.FC = () => {
         </header>
         
         <section className="policy-section">
-          <h2>{t('visaFree.policies.title')}</h2>
+          <h2>Latest Visa-Free Policies</h2>
           <div className="policy-cards">
             {policies.map(policy => (
               <div 
@@ -135,8 +128,8 @@ const VisaFree: React.FC = () => {
                 className={`policy-card ${selectedPolicyId === policy.id ? 'selected' : ''}`}
                 onClick={() => handlePolicySelect(policy.id)}
               >
-                <h3>{t(`visaFree.policies.${policy.translationKey}.name`)}</h3>
-                <p>{t(`visaFree.policies.${policy.translationKey}.description`)}</p>
+                <h3>{policy.name}</h3>
+                <p>{policy.description}</p>
                 <div className="policy-details">
                   <span className="duration">{policy.duration}</span>
                 </div>
@@ -146,17 +139,17 @@ const VisaFree: React.FC = () => {
         </section>
         
         <section className="eligibility-section">
-          <h2>{t('visaFree.eligibility.title')}</h2>
+          <h2>Check Eligibility</h2>
           <div className="eligibility-form">
             <div className="form-group">
-              <label htmlFor="country-select">{t('visaFree.eligibility.selectCountry')}</label>
+              <label htmlFor="country-select">Select your country:</label>
               <select 
                 id="country-select" 
                 value={userCountry || ''}
                 onChange={handleCountryChange}
               >
-                <option value="">{t('visaFree.eligibility.countryPlaceholder')}</option>
-                {commonCountries.map(country => (
+                <option value="">-- Select Country --</option>
+                {countryList.map(country => (
                   <option key={country} value={country}>{country}</option>
                 ))}
               </select>
@@ -167,79 +160,46 @@ const VisaFree: React.FC = () => {
               disabled={!selectedPolicyId || !userCountry}
               onClick={handleCheckEligibility}
             >
-              {t('visaFree.eligibility.checkButton')}
+              Check Eligibility
             </button>
             
             {showEligibilityCheck && userCountry && selectedPolicyId && (
               <div className={`eligibility-result ${isEligible ? 'eligible' : 'not-eligible'}`}>
                 {isEligible 
-                  ? t('visaFree.eligibility.eligible', { 
-                      policy: policies.find(p => p.id === selectedPolicyId)?.translationKey 
-                        ? t(`visaFree.policies.${policies.find(p => p.id === selectedPolicyId)?.translationKey}.name`) 
-                        : policies.find(p => p.id === selectedPolicyId)?.name 
-                    }) 
-                  : t('visaFree.eligibility.notEligible', { 
-                      country: userCountry, 
-                      policy: policies.find(p => p.id === selectedPolicyId)?.translationKey 
-                        ? t(`visaFree.policies.${policies.find(p => p.id === selectedPolicyId)?.translationKey}.name`) 
-                        : policies.find(p => p.id === selectedPolicyId)?.name 
-                    })}
+                  ? `You are eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`
+                  : `Sorry, citizens from ${userCountry} are not eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`}
               </div>
             )}
           </div>
         </section>
         
         <section className="travel-tips">
-          <h2>{t('visaFree.tips.title')}</h2>
+          <h2>Travel Tips</h2>
           <ul className="tips-list">
-            <li>{t('visaFree.tips.prepare')}</li>
-            <li>{t('visaFree.tips.research')}</li>
-            <li>{t('visaFree.tips.plan')}</li>
-            <li>{t('visaFree.tips.arrange')}</li>
+            <li>Prepare required documents in advance</li>
+            <li>Research destination city information</li>
+            <li>Plan reasonable itinerary duration</li>
+            <li>Arrange necessary transportation</li>
           </ul>
         </section>
 
         {/* Related articles list */}
         <section className="related-articles-section">
-          <h2>{t('visaFree.relatedArticles', 'Related Articles & Travel Information')}</h2>
+          <h2>Related Articles & Travel Information</h2>
           
           {isLoading ? (
             <div className="loading-spinner">
               <div className="spinner"></div>
-              <p>{t('general.loading')}</p>
+              <p>Loading...</p>
             </div>
           ) : articles.length > 0 ? (
-            <div className="visa-articles-grid">
+            <div className="visa-articles-list">
               {articles.map(article => (
                 <Link 
                   to={`/articles/${article.id}`} 
                   key={article.id} 
-                  className="article-card"
+                  className="article-list-item"
                 >
-                  <div className={`article-image ${imgLoading[article.id] ? 'image-loading' : ''}`}>
-                    {imgLoading[article.id] && (
-                      <div className="article-image-placeholder">
-                        <div className="image-spinner"></div>
-                      </div>
-                    )}
-                    {article.coverImage ? (
-                      <img 
-                        src={article.coverImage} 
-                        alt={article.title}
-                        onLoad={() => handleImageLoaded(article.id)}
-                        onError={(e) => handleImageError(e, article.id)}
-                        style={{ opacity: imgLoading[article.id] ? 0 : 1 }}
-                      />
-                    ) : (
-                      // No cover image available, use placeholder directly
-                      <img 
-                        src="/images/placeholder.jpg" 
-                        alt={article.title}
-                        onLoad={() => handleImageLoaded(article.id)}
-                        style={{ opacity: imgLoading[article.id] ? 0 : 1 }}
-                      />
-                    )}
-                  </div>
                   <div className="article-content">
                     <div className="article-category">
                       {t(`article.categories.${article.category}`, {defaultValue: article.category})}
@@ -256,7 +216,7 @@ const VisaFree: React.FC = () => {
             </div>
           ) : (
             <div className="no-articles">
-              <p>{t('general.noArticles')}</p>
+              <p>No articles found.</p>
             </div>
           )}
         </section>

@@ -20,33 +20,45 @@ interface VisaState {
   error: string | null;
 }
 
+// 符合240小时免签的54个国家（按字母顺序排列）
+const eligible240HourCountries = [
+  'Albania', 'Argentina', 'Australia', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 
+  'Brazil', 'Brunei', 'Bulgaria', 'Canada', 'Chile', 'Croatia', 'Cyprus', 'Czech Republic', 
+  'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 
+  'Ireland', 'Italy', 'Japan', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Mexico', 
+  'Monaco', 'Montenegro', 'Netherlands', 'New Zealand', 'North Macedonia', 'Norway', 'Poland', 
+  'Portugal', 'Qatar', 'Romania', 'Russia', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 
+  'South Korea', 'Spain', 'Sweden', 'Switzerland', 'Ukraine', 'United Arab Emirates', 
+  'United Kingdom', 'United States'
+];
+
 // 初始状态
 const initialState: VisaState = {
   policies: [
     {
       id: '1',
-      name: '144-Hour Transit Visa-Free',
-      duration: '144 hours',
-      eligibleCountries: ['United States', 'United Kingdom', 'Canada', 'Australia', 'France', 'Germany', 'Japan', 'South Korea'],
+      name: '240-Hour Transit Visa-Free',
+      duration: '240 hours',
+      eligibleCountries: eligible240HourCountries,
       requirements: [
         'Valid passport with at least 6 months validity',
         'Confirmed onward ticket to a third country',
         'Completed arrival/departure card'
       ],
-      description: '144-hour visa-free transit policy applies to citizens of 53 countries traveling through specific ports of entry.',
+      description: '240-hour visa-free transit policy applies to citizens of 54 countries traveling through specific ports of entry.',
       translationKey: '144hour'
     },
     {
       id: '2',
       name: '72-Hour Transit Visa-Free',
       duration: '72 hours',
-      eligibleCountries: ['United States', 'United Kingdom', 'Canada', 'Australia', 'France', 'Germany', 'Japan', 'South Korea'],
+      eligibleCountries: eligible240HourCountries,
       requirements: [
         'Valid passport with at least 6 months validity',
         'Confirmed onward ticket to a third country',
         'Completed arrival/departure card'
       ],
-      description: '72-hour visa-free transit policy applies to citizens of 53 countries traveling through specific ports of entry.',
+      description: '72-hour visa-free transit policy applies to citizens of 54 countries traveling through specific ports of entry.',
       translationKey: '72hour'
     }
   ],
