@@ -5,7 +5,7 @@ import { Timestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import './CommentWaterfall.css';
 
-// 带有位置信息的评论接口
+// Comments with position information
 interface CommentWithPosition extends Comment {
   position?: {
     transitionDelay: string;
@@ -15,25 +15,25 @@ interface CommentWithPosition extends Comment {
   };
 }
 
-// 组件属性接口
+// Component props interface
 interface CommentWaterfallProps {
   limit?: number;
   autoRefresh?: boolean;
   refreshInterval?: number;
 }
 
-// CommentWaterfall组件
+// CommentWaterfall Component
 const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
   limit = 10,
   autoRefresh = true,
-  refreshInterval = 30000 // 默认30秒刷新一次
+  refreshInterval = 30000 // Default refresh every 30 seconds
 }) => {
   const { t } = useTranslation();
   const [comments, setComments] = useState<CommentWithPosition[]>([]);
   const [visibleComments, setVisibleComments] = useState<CommentWithPosition[]>([]);
-  const navigate = useNavigate(); // 使用React Router的导航钩子
+  const navigate = useNavigate(); // React Router navigation hook
 
-  // 设置随机位置
+  // Set random position
   const getRandomPosition = () => {
     return {
       transitionDelay: `${Math.random() * 2}s`,
@@ -43,23 +43,23 @@ const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
     };
   };
 
-  // 获取最新评论
+  // Get latest comments
   const fetchComments = useCallback(async () => {
     try {
-      // 获取所有评论并按时间排序，显示最新的评论
+      // Get all comments and sort by time, show the latest comments
       const allComments = await commentService.getComments();
       
-      // 按时间戳降序排序，确保最新的排在前面
+      // Sort by timestamp in descending order, latest first
       const sortedComments = allComments.sort((a, b) => {
         const timeA = getTimeInMs(a.timestamp);
         const timeB = getTimeInMs(b.timestamp);
-        return timeB - timeA; // 降序排序，最新的排在前面
+        return timeB - timeA; // Descending order, latest first
       });
       
-      // 获取前limit条评论
+      // Get first 'limit' comments
       const limitedComments = sortedComments.slice(0, limit);
       
-      // 设置位置信息
+      // Set position information
       const commentsWithPosition = limitedComments.map(comment => ({
         ...comment,
         position: getRandomPosition()
@@ -67,30 +67,30 @@ const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
       
       setComments(commentsWithPosition);
     } catch (error) {
-      console.error("获取评论失败:", error);
+      console.error("Failed to fetch comments:", error);
     }
   }, [limit]);
 
-  // 将不同类型的时间戳转换为毫秒数
+  // Convert different timestamp types to milliseconds
   const getTimeInMs = (timestamp: number | Date | Timestamp): number => {
     if (timestamp instanceof Date) {
       return timestamp.getTime();
     } else if (typeof timestamp === 'number') {
       return timestamp;
     } else if (timestamp && typeof timestamp.toDate === 'function') {
-      // 处理Firebase Timestamp对象
+      // Handle Firebase Timestamp object
       return timestamp.toDate().getTime();
     } else {
-      // 尝试转换其他格式
+      // Try to convert other formats
       return new Date(timestamp as any).getTime();
     }
   };
 
-  // 初始加载评论和刷新设置
+  // Initial comment loading and refresh setup
   useEffect(() => {
     fetchComments();
     
-    // 如果开启自动刷新，设置定时器
+    // If auto-refresh is enabled, set timer
     let timer: NodeJS.Timeout | null = null;
     if (autoRefresh) {
       timer = setInterval(fetchComments, refreshInterval);
@@ -101,18 +101,18 @@ const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
     };
   }, [fetchComments, autoRefresh, refreshInterval]);
 
-  // 轮换显示的评论
+  // Rotate displayed comments
   const rotateComments = useCallback(() => {
     if (comments.length > 0) {
-      // 随机选择几条评论来显示
+      // Randomly select comments to display
       const displayCount = Math.min(
-        Math.max(3, Math.floor(limit / 2)), // 至少显示3条，最多显示limit/2条
+        Math.max(3, Math.floor(limit / 2)), // At least 3, at most limit/2
         comments.length
       );
       
-      // 随机选择，但优先选择最新的评论
+      // Random selection, prioritizing newer comments
       const selected = [...comments]
-        .sort(() => Math.random() > 0.3 ? 1 : -1) // 70%的概率保持原有排序（时间倒序）
+        .sort(() => Math.random() > 0.3 ? 1 : -1) // 70% chance to keep original order (time descending)
         .slice(0, displayCount)
         .map(comment => ({
           ...comment,
@@ -123,11 +123,11 @@ const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
     }
   }, [comments, limit]);
 
-  // 设置初始评论显示和轮换
+  // Set initial comment display and rotation
   useEffect(() => {
     rotateComments();
     
-    // 每10秒轮换一次显示的评论
+    // Rotate displayed comments every 10 seconds
     const rotateTimer = setInterval(rotateComments, 10000);
     
     return () => {
@@ -135,24 +135,24 @@ const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
     };
   }, [comments, rotateComments]);
 
-  // 处理点击评论跳转到社区页面
+  // Handle click on comment to navigate to community page
   const handleCommentClick = () => {
     navigate('/community');
   };
 
-  // 格式化时间显示
+  // Format time display
   const formatRelativeTime = (timestamp: number | Date | Timestamp) => {
     const now = new Date().getTime();
     const timeMs = getTimeInMs(timestamp);
     const diffMs = now - timeMs;
     
-    // 时间差
+    // Time difference
     const seconds = Math.floor(diffMs / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
     
-    if (seconds < 60) return t('time.justNow', '刚刚');
+    if (seconds < 60) return t('time.justNow', 'Just now');
     if (minutes < 60) return t('time.minutesAgo', { count: minutes });
     if (hours < 24) return t('time.hoursAgo', { count: hours });
     if (days < 30) return t('time.daysAgo', { count: days });
@@ -172,7 +172,7 @@ const CommentWaterfall: React.FC<CommentWaterfallProps> = ({
             left: comment.position?.left,
             zIndex: comment.position?.zIndex
           }}
-          title={t('community.viewAllComments', '点击查看社区全部评论')}
+          title={t('community.viewAllComments', 'Click to view all community comments')}
         >
           <div className="comment-content">
             <p>{comment.content}</p>

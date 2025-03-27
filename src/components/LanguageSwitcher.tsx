@@ -6,15 +6,14 @@ const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   
-  const currentLanguage = i18n.language || 'en';
-  
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
   
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    localStorage.setItem('language', lng);
+  // English is the only language now
+  const changeLanguage = () => {
+    i18n.changeLanguage('en');
+    localStorage.setItem('language', 'en');
     setIsOpen(false);
   };
   
@@ -25,22 +24,16 @@ const LanguageSwitcher = () => {
         onClick={toggleDropdown}
         aria-expanded={isOpen}
       >
-        {currentLanguage === 'en' ? '🇺🇸 EN' : '🇨🇳 中文'}
+        <span className="us-flag">🇺🇸</span> EN
       </button>
       
       {isOpen && (
         <div className="language-dropdown">
           <button 
-            className={`language-option ${currentLanguage === 'en' ? 'active' : ''}`}
-            onClick={() => changeLanguage('en')}
+            className="language-option active"
+            onClick={changeLanguage}
           >
-            🇺🇸 English
-          </button>
-          <button 
-            className={`language-option ${currentLanguage === 'zh' ? 'active' : ''}`}
-            onClick={() => changeLanguage('zh')}
-          >
-            🇨🇳 中文
+            <span className="us-flag">🇺🇸</span> English
           </button>
         </div>
       )}

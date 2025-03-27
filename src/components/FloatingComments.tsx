@@ -10,50 +10,44 @@ const FloatingComments: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
 
-  // 从Firestore获取最新评论
+  // Fetch latest comments from Firestore
   useEffect(() => {
     const loadLatestComments = async () => {
       setIsLoading(true);
       try {
-        // 获取最新评论
+        // Get latest comments
         const comments = await commentService.getComments();
         
-        // 只取前5条评论
+        // Take only the first 5 comments
         const latestFiveComments = comments.slice(0, 5);
         
         if (latestFiveComments && latestFiveComments.length > 0) {
           setLatestComments(latestFiveComments);
         } else {
-          // 如果没有评论，则使用一些默认评论
+          // If no comments, use default comments
           const defaultComments: Comment[] = [
             {
               id: 'default1',
               name: 'Sarah Johnson',
               email: 'example1@example.com',
-              content: i18n.language === 'zh' 
-                ? '中国旅游网为我提供了所有需要的信息，从签证到景点推荐，让我的旅行变得轻松愉快。'
-                : 'Travel China provided me with all the information I needed, from visa policies to attraction recommendations, making my trip smooth and enjoyable.',
-              timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2天前
+              content: 'Travel China provided me with all the information I needed, from visa policies to attraction recommendations, making my trip smooth and enjoyable.',
+              timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2 days ago
               featured: true
             },
             {
               id: 'default2',
               name: 'Michael Chen',
               email: 'example2@example.com',
-              content: i18n.language === 'zh'
-                ? '北京的长城之旅令人难忘，非常推荐每个人都去体验一次。这个网站的攻略帮了大忙！'
-                : 'The Great Wall tour in Beijing was unforgettable. I highly recommend everyone to experience it once. The guides on this website were a great help!',
-              timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000, // 3天前
+              content: 'The Great Wall tour in Beijing was unforgettable. I highly recommend everyone to experience it once. The guides on this website were a great help!',
+              timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000, // 3 days ago
               featured: true
             },
             {
               id: 'default3',
               name: 'Emma Wilson',
               email: 'example3@example.com',
-              content: i18n.language === 'zh'
-                ? '成都的熊猫基地真的太可爱了！感谢这个网站的详细信息，让我顺利规划了行程。'
-                : 'The panda base in Chengdu was so adorable! Thanks to the detailed information on this website, I was able to plan my trip smoothly.',
-              timestamp: Date.now() - 4 * 24 * 60 * 60 * 1000, // 4天前
+              content: 'The panda base in Chengdu was so adorable! Thanks to the detailed information on this website, I was able to plan my trip smoothly.',
+              timestamp: Date.now() - 4 * 24 * 60 * 60 * 1000, // 4 days ago
               featured: true
             }
           ];
@@ -61,16 +55,14 @@ const FloatingComments: React.FC = () => {
           setLatestComments(defaultComments);
         }
       } catch (error) {
-        console.error('加载最新评论时出错:', error);
-        // 出错时显示默认评论
+        console.error('Error loading latest comments:', error);
+        // Show default comments on error
         setLatestComments([
           {
             id: 'default1',
             name: 'Sarah Johnson',
             email: 'example1@example.com',
-            content: i18n.language === 'zh' 
-              ? '中国旅游网为我提供了所有需要的信息，从签证到景点推荐，让我的旅行变得轻松愉快。'
-              : 'Travel China provided me with all the information I needed, from visa policies to attraction recommendations, making my trip smooth and enjoyable.',
+            content: 'Travel China provided me with all the information I needed, from visa policies to attraction recommendations, making my trip smooth and enjoyable.',
             timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000,
             featured: true
           }
@@ -82,10 +74,10 @@ const FloatingComments: React.FC = () => {
     
     loadLatestComments();
     
-    // 每60秒自动刷新评论
+    // Auto-refresh comments every 60 seconds
     const refreshInterval = setInterval(loadLatestComments, 60000);
     
-    // 语言变更时重新加载评论
+    // Reload comments when language changes
     const handleLanguageChange = () => {
       loadLatestComments();
     };
@@ -98,7 +90,7 @@ const FloatingComments: React.FC = () => {
     };
   }, [i18n]);
   
-  // 自动轮播评论
+  // Auto-carousel for comments
   useEffect(() => {
     if (latestComments.length <= 1) return;
     
@@ -106,17 +98,17 @@ const FloatingComments: React.FC = () => {
       setCurrentIndex((prevIndex) => 
         prevIndex === latestComments.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000); // 每5秒切换一次
+    }, 5000); // Change every 5 seconds
     
     return () => clearInterval(interval);
   }, [latestComments.length]);
   
-  // 切换评论可见性
+  // Toggle comments visibility
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
   
-  // 格式化日期，显示相对时间（如"3天前"）
+  // Format date, show relative time (e.g., "3 days ago")
   const formatRelativeTime = (timestamp: number) => {
     const now = Date.now();
     const diffInSeconds = Math.floor((now - timestamp) / 1000);
@@ -140,11 +132,11 @@ const FloatingComments: React.FC = () => {
       return t('time.daysAgo', { count: diffInDays });
     }
     
-    // 如果超过30天，则显示具体日期
+    // If more than 30 days, show actual date
     return new Date(timestamp).toLocaleDateString();
   };
   
-  // 如果正在加载或没有评论，不显示或显示加载状态
+  // If loading or no comments, don't show or show loading state
   if (isLoading) {
     return (
       <div className={`floating-comments ${isVisible ? 'visible' : 'collapsed'}`}>
@@ -173,7 +165,7 @@ const FloatingComments: React.FC = () => {
   return (
     <div className={`floating-comments ${isVisible ? 'visible' : 'collapsed'}`}>
       <div className="floating-header" onClick={toggleVisibility}>
-        <h3>{t('home.comments.latestTitle') || '最新留言'}</h3>
+        <h3>{t('home.comments.latestTitle') || 'Latest Comments'}</h3>
         <button className="toggle-button">
           {isVisible ? '−' : '+'}
         </button>
