@@ -13,17 +13,18 @@ import {
   increment,
   Timestamp,
   serverTimestamp,
-  limit
+  limit,
+  DocumentData
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, useLocalStorage } from '../firebase/config';
 
 // 文章分类
 export const ARTICLE_CATEGORIES = [
-  { id: 'visa-free', name: '免签政策' },
-  { id: 'attractions', name: '景点推荐' },
-  { id: 'culture', name: '中国文化' },
-  { id: 'travel-tips', name: '旅行技巧' },
+  { id: 'visa-free', name: 'Visa-Free Policy' },
+  { id: 'attractions', name: 'Attractions' },
+  { id: 'culture', name: 'Chinese Culture' },
+  { id: 'travel-tips', name: 'Travel Tips' },
 ];
 
 // 文章接口
@@ -170,11 +171,11 @@ class ArticleService {
     } else {
       try {
         const articlesRef = collection(db, this.COLLECTION_NAME);
-        const q = query(articlesRef, orderBy('viewCount', 'desc'), firestoreLimit(limitCount));
+        const q = firestoreQuery(articlesRef, orderBy('viewCount', 'desc'), firestoreLimit(limitCount));
         const snapshot = await getDocs(q);
         
         return snapshot.docs.map(doc => {
-          const data = doc.data();
+          const data = doc.data() as DocumentData;
           return {
             id: doc.id,
             ...data,
@@ -212,20 +213,20 @@ class ArticleService {
         let q;
         
         if (category) {
-          q = query(
+          q = firestoreQuery(
             articlesRef, 
             where('category', '==', category),
             orderBy('publishDate', 'desc')
           );
         } else {
-          q = query(articlesRef, orderBy('publishDate', 'desc'));
+          q = firestoreQuery(articlesRef, orderBy('publishDate', 'desc'));
         }
         
         const snapshot = await getDocs(q);
         
         // 手动分页 (Firestore需要付费计划才支持offset分页)
         const allArticles = snapshot.docs.map(doc => {
-          const data = doc.data();
+          const data = doc.data() as DocumentData;
           return {
             id: doc.id,
             ...data,
@@ -264,7 +265,7 @@ class ArticleService {
           throw new Error('文章不存在');
         }
         
-        const data = articleDoc.data();
+        const data = articleDoc.data() as DocumentData;
         return {
           id: articleDoc.id,
           ...data,
@@ -353,7 +354,7 @@ class ArticleService {
           .slice(0, limitCount);
       } else {
         const articlesRef = collection(db, this.COLLECTION_NAME);
-        const q = query(
+        const q = firestoreQuery(
           articlesRef,
           where('category', '==', currentArticle.category),
           where('__name__', '!=', articleId),
@@ -363,7 +364,7 @@ class ArticleService {
         const snapshot = await getDocs(q);
         
         const relatedArticles = snapshot.docs.map(doc => {
-          const data = doc.data();
+          const data = doc.data() as DocumentData;
           return {
             id: doc.id,
             ...data,
@@ -389,8 +390,8 @@ class ArticleService {
     const initialArticles: Article[] = [
       {
         id: 'article-1',
-        title: '探索北京的古老胡同与现代建筑',
-        summary: '一段穿越时空的旅程，从老北京的胡同到鸟巢、水立方等现代建筑奇观',
+        title: 'Exploring Beijing: Ancient Hutongs and Modern Architecture',
+        summary: 'A journey through time, from old Beijing hutongs to modern architectural marvels like the Bird\'s Nest and Water Cube',
         content: `<p>北京，这座具有三千年历史的古都，是中国政治、文化的中心。在这里，古老与现代并存，传统与创新交融。</p>
                 <p>胡同是老北京城市肌理的基本单元，也是北京传统文化的载体。这些窄窄的小巷，通常由四合院的一面墙构成，至今仍保持着过去那种悠闲自得的生活气息。南锣鼓巷、烟袋斜街、五道营胡同等地已经成为游客和本地人闲逛休憩的热门区域。</p>
                 <p>与此同时，以奥运场馆为标志的现代建筑群，例如鸟巢（国家体育场）、水立方（国家游泳中心）、国家大剧院（蛋形建筑）等，则展示了当代中国的创新设计和建筑技术。</p>
@@ -404,15 +405,15 @@ class ArticleService {
                 <p>无论您是历史爱好者还是现代艺术追求者，北京都能满足您的好奇心。这座城市的魅力正在于它如何巧妙地将悠久历史与现代活力融为一体。</p>`,
         coverImage: '/images/beijing.jpg',
         category: 'attractions',
-        tags: ['北京', '胡同', '现代建筑', '文化之旅'],
+        tags: ['Beijing', 'Hutongs', 'Modern Architecture', 'Cultural Tour'],
         publishDate: '2023-08-15T08:30:00Z',
         viewCount: 1250,
-        author: '李文华'
+        author: 'Li Wenhua'
       },
       {
         id: 'article-2',
-        title: '中国实施144小时过境免签政策详解',
-        summary: '了解如何利用中国的144小时过境免签政策，计划您的中国短期访问',
+        title: 'China\'s 144-Hour Transit Visa-Free Policy Explained',
+        summary: 'Learn how to use China\'s 144-hour transit visa-free policy to plan your short visit to China',
         content: `<p>自2019年起，中国进一步扩大了144小时过境免签政策的适用范围，目前已覆盖北京、上海、广州、成都等多个主要城市和地区。这一政策为短期访问中国提供了极大便利。</p>
                 <h3>政策要点</h3>
                 <ul>
@@ -436,15 +437,15 @@ class ArticleService {
                 <p>此政策为短期商务旅行、旅游观光、探亲访友提供了便利，但请注意计算好时间，确保在允许的时间内离境。</p>`,
         coverImage: '/images/visa-free.jpg',
         category: 'visa-free',
-        tags: ['免签政策', '旅行规划', '入境指南'],
+        tags: ['Visa-Free Policy', 'Travel Planning', 'Entry Guide'],
         publishDate: '2023-09-20T10:45:00Z',
         viewCount: 3680,
-        author: '张国际'
+        author: 'Zhang International'
       },
       {
         id: 'article-3',
-        title: '中国茶文化：品味五千年的香韵',
-        summary: '从龙井到普洱，探索中国茶文化的深厚底蕴和丰富内涵',
+        title: 'Chinese Tea Culture: Savoring 5000 Years of Fragrance',
+        summary: 'From Longjing to Pu\'er, explore the profound heritage and rich connotations of Chinese tea culture',
         content: `<p>茶，作为中国的国饮，拥有超过5000年的历史。从神农尝百草到陆羽《茶经》，从唐代煮茶到宋代点茶，再到明清的泡茶，中国茶文化历经变迁，形成了独特而完整的体系。</p>
                 <h3>中国六大茶类</h3>
                 <ul>
@@ -466,15 +467,15 @@ class ArticleService {
                 <p>中国茶道讲究"和、静、怡、真"，品茶不仅是味觉的享受，更是身心的修行。在快节奏的现代生活中，沏一壶茶，品一份闲适，感受中国传统文化的魅力。</p>`,
         coverImage: '/images/tea-culture.jpg',
         category: 'culture',
-        tags: ['茶文化', '传统文化', '文化体验'],
+        tags: ['Tea Culture', 'Traditional Culture', 'Cultural Experience'],
         publishDate: '2023-10-05T14:20:00Z',
         viewCount: 1860,
-        author: '陈茗香'
+        author: 'Chen Mingxiang'
       },
       {
         id: 'article-4',
-        title: '在中国旅行的实用手机应用推荐',
-        summary: '这些必备应用将帮助您在中国旅行时更加便捷，从导航到支付一应俱全',
+        title: 'Essential Mobile Apps for Traveling in China',
+        summary: 'These must-have apps will help make your travel in China more convenient, from navigation to payment',
         content: `<p>在中国旅行，拥有合适的手机应用可以大大提升您的旅行体验。本文将为您推荐几款在中国旅行时必不可少的应用程序。</p>
                 <h3>地图与导航</h3>
                 <ul>
@@ -505,15 +506,15 @@ class ArticleService {
                 <p>这些应用将帮助您克服语言障碍，让您的中国之旅更加顺畅、便捷。祝您旅途愉快！</p>`,
         coverImage: '/images/travel-apps.jpg',
         category: 'travel-tips',
-        tags: ['旅行技巧', '手机应用', '旅行规划'],
+        tags: ['Travel Tips', 'Mobile Apps', 'Travel Planning'],
         publishDate: '2023-11-12T09:15:00Z',
         viewCount: 2150,
-        author: '王科技'
+        author: 'Wang Tech'
       },
       {
         id: 'article-5',
-        title: '成都72小时过境免签：一场美食与熊猫之旅',
-        summary: '利用成都72小时过境免签政策，体验天府之国的美食文化和可爱的大熊猫',
+        title: 'Chengdu 72-Hour Transit Visa-Free: A Journey of Food and Pandas',
+        summary: 'Make use of Chengdu\'s 72-hour transit visa-free policy to experience the food culture of the Land of Abundance and adorable giant pandas',
         content: `<p>成都，这座有着2300多年历史的文化名城，是中国四川省的省会，也是中国西南地区的经济、文化中心。自2019年起，成都已实施144小时过境免签政策，为国际旅客提供了更加便利的旅行选择。</p>
                 <h3>免签政策要点</h3>
                 <ul>
@@ -547,10 +548,10 @@ class ArticleService {
                 <p>成都的悠闲生活节奏、丰富的美食文化和可爱的大熊猫，一定会给您带来难忘的旅行体验！</p>`,
         coverImage: '/images/chengdu.jpg',
         category: 'visa-free',
-        tags: ['成都', '过境免签', '熊猫', '川菜'],
+        tags: ['Chengdu', 'Transit Visa-Free', 'Pandas', 'Sichuan Cuisine'],
         publishDate: '2023-12-01T11:30:00Z',
         viewCount: 1560,
-        author: '李蓉城'
+        author: 'Li Rongcheng'
       }
     ];
     
@@ -635,7 +636,7 @@ class ArticleService {
         }
           
         const results = snapshot.docs.map(doc => {
-          const data = doc.data();
+          const data = doc.data() as DocumentData;
           
           // 处理发布日期
           let publishDate = data.publishDate;
@@ -654,7 +655,7 @@ class ArticleService {
             publishDate: publishDate,
             viewCount: data.viewCount || 0,
             author: data.author
-          };
+          } as Article;
         });
         
         console.log('Processed articles:', results);

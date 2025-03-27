@@ -386,7 +386,11 @@
         "visa-free": "Visa-Free Policy",
         "attractions": "Attractions",
         "culture": "Chinese Culture",
-        "travel-tips": "Travel Tips"
+        "travel-tips": "Travel Tips",
+        "policy": "Policy Updates",
+        "transit": "Transit Information",
+        "palace": "Palace & Museums",
+        "heritage": "Heritage Sites"
       },
       "viewCount": "{{count}} view",
       "viewCount_plural": "{{count}} views",
