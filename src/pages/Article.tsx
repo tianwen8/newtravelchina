@@ -23,14 +23,14 @@ const Article: React.FC = () => {
         const articleData = await articleService.getArticleById(articleId);
         setArticle(articleData);
         
-        // 记录文章浏览量
+        // Record article view
         await articleService.recordView(articleId);
         
-        // 获取相关文章
+        // Get related articles
         const related = await articleService.getRelatedArticles(articleId);
         setRelatedArticles(related);
       } catch (err) {
-        console.error('获取文章失败:', err);
+        console.error('Failed to fetch article:', err);
         setError(t('article.fetchError'));
       } finally {
         setIsLoading(false);
@@ -39,7 +39,7 @@ const Article: React.FC = () => {
 
     fetchArticle();
     
-    // 滚动到顶部
+    // Scroll to top
     window.scrollTo(0, 0);
   }, [articleId, t]);
 
@@ -64,14 +64,14 @@ const Article: React.FC = () => {
     );
   }
 
-  // 根据文章分类确定返回链接对应的顶部导航路径
+  // Determine the return link based on the article category
   const getCategoryRoute = (category: string): string => {
-    console.log(`确定文章分类 '${category}' 的返回路径...`);
+    console.log(`Determining return path for article category '${category}'...`);
     
-    // 简化的逻辑，只判断两个主要分类，其他全部指向文章列表页面
+    // Simplified logic, only check for two main categories
     const lowerCategory = category.toLowerCase();
     
-    // 所有与景点/文化相关的，都返回到景点文化页面
+    // All attraction/culture related articles return to attractions page
     if (lowerCategory.includes('attract') || 
         lowerCategory.includes('cultur') || 
         lowerCategory.includes('palace') || 
@@ -80,7 +80,7 @@ const Article: React.FC = () => {
       return '/attractions';
     }
     
-    // 所有与签证/政策相关的，都返回到免签页面
+    // All visa/policy related articles return to visa-free page
     if (lowerCategory.includes('visa') || 
         lowerCategory.includes('poli') || 
         lowerCategory.includes('transit') || 
@@ -88,7 +88,7 @@ const Article: React.FC = () => {
       return '/visa-free';
     }
     
-    // 不做太多判断，其他情况，默认返回到景点文化页面
+    // Default to attractions page for other cases
     return '/attractions';
   };
 

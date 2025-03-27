@@ -590,7 +590,7 @@ class ArticleService {
    */
   public async getLatestArticlesByCategory(category: string, limitCount = 3): Promise<Article[]> {
     try {
-      console.log(`正在获取${category}分类的文章，限制数量${limitCount}`);
+      console.log(`Fetching articles for category '${category}', limit: ${limitCount}`);
       
       if (useLocalStorage) {
         const articles = await this.getArticles();
@@ -602,19 +602,19 @@ class ArticleService {
           .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
           .slice(0, limitCount);
           
-        console.log(`从本地存储获取到${sortedArticles.length}篇文章`);
+        console.log(`Retrieved ${sortedArticles.length} articles from local storage`);
         return sortedArticles;
       } else {
         // 从Firestore获取数据
-        console.log('从Firestore获取数据');
+        console.log('Fetching data from Firestore');
         const articlesCollection = collection(db, this.COLLECTION_NAME);
         let articlesQuery;
         
         if (category) {
-          console.log(`查询条件: category = ${category}`);
+          console.log(`Query condition: category = ${category}`);
           articlesQuery = firestoreQuery(
             articlesCollection, 
-            where('category', '==', category), 
+            where('category', '==', category),
             orderBy('publishDate', 'desc'), 
             limit(limitCount)
           );
@@ -627,10 +627,10 @@ class ArticleService {
         }
           
         const snapshot = await getDocs(articlesQuery);
-        console.log(`查询结果: 获取到${snapshot.docs.length}条记录`);
+        console.log(`Query result: got ${snapshot.docs.length} records`);
         
         if (snapshot.empty) {
-          console.log('查询结果为空');
+          console.log('Query result is empty');
           return [];
         }
           
@@ -657,11 +657,11 @@ class ArticleService {
           };
         });
         
-        console.log('处理后的文章:', results);
+        console.log('Processed articles:', results);
         return results;
       }
     } catch (error) {
-      console.error('获取最新文章时出错:', error);
+      console.error('Error getting latest articles:', error);
       return [];
     }
   }

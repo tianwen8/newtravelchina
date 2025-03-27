@@ -6,31 +6,31 @@ import { articleService, Article } from '../services/articleService';
 import './Attractions.css';
 
 const Attractions: React.FC = () => {
+  const { t } = useTranslation();
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState<{[key: string]: boolean}>({});
-  const { t } = useTranslation();
   const location = useLocation();
 
-  // 获取所有文章，不仅限于特定分类
+  // Get all articles, not limited to specific category
   useEffect(() => {
     const fetchArticles = async () => {
       setIsLoading(true);
-      console.log('获取所有文章...');
+      console.log('Fetching all articles for Attractions page...');
       try {
-        // 获取所有文章
+        // Get all articles
         const allArticles = await articleService.getArticlesByCategory('', 1, 50);
         
-        // 按日期排序（最新的在前）
+        // Sort by date (newest first)
         allArticles.sort((a, b) => {
           const dateA = new Date(a.publishDate).getTime();
           const dateB = new Date(b.publishDate).getTime();
           return dateB - dateA;
         });
         
-        console.log(`获取到${allArticles.length}篇文章`);
+        console.log(`Retrieved ${allArticles.length} articles`);
         
-        // 初始化图片加载状态
+        // Initialize image loading states
         const imgLoadingState: {[key: string]: boolean} = {};
         allArticles.forEach(article => {
           imgLoadingState[article.id] = true;
@@ -46,9 +46,9 @@ const Attractions: React.FC = () => {
     };
     
     fetchArticles();
-  }, [location.pathname]); // 当路径变化时重新获取文章
+  }, [location.pathname]); // Refresh articles when path changes
 
-  // 处理图片加载完成
+  // Handle image loading completion
   const handleImageLoaded = (articleId: string) => {
     setImgLoading(prev => ({
       ...prev,
@@ -56,14 +56,14 @@ const Attractions: React.FC = () => {
     }));
   };
   
-  // 处理图片加载失败
+  // Handle image loading failure
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, articleId: string) => {
     const img = e.target as HTMLImageElement;
     img.src = '/images/placeholder.jpg';
     handleImageLoaded(articleId);
   };
 
-  // 格式化时间为相对时间 (英文)
+  // Format time as relative time (English)
   const formatRelativeTime = (dateString: string): string => {
     const now = new Date();
     const date = new Date(dateString);

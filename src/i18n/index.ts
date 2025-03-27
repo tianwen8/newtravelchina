@@ -2,12 +2,10 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import enTranslations from './locales/en.json';
-import zhTranslations from './locales/zh.json';
 
 // 资源
 const resources = {
-  en: enTranslations,
-  zh: zhTranslations
+  en: enTranslations
 };
 
 // 注释掉未使用的函数
@@ -20,7 +18,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en', // 强制默认使用英文
+    lng: 'en', // 使用英文
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false // 不转义 React 中的值
