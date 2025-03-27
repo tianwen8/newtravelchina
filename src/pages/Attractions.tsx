@@ -8,6 +8,7 @@ import './Attractions.css';
 const Attractions: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [imgLoading, setImgLoading] = useState<{[key: string]: boolean}>({});
   const { t } = useTranslation();
 
   // 获取景点和文化相关文章
@@ -26,9 +27,16 @@ const Attractions: React.FC = () => {
           return dateB - dateA;
         });
         
+        // 初始化图片加载状态
+        const imgLoadingState: {[key: string]: boolean} = {};
+        combinedArticles.forEach(article => {
+          imgLoadingState[article.id] = true;
+        });
+        
         setArticles(combinedArticles);
+        setImgLoading(imgLoadingState);
       } catch (error) {
-        console.error('获取文章失败:', error);
+        console.error('Error fetching articles:', error);
       } finally {
         setIsLoading(false);
       }
@@ -37,20 +45,38 @@ const Attractions: React.FC = () => {
     fetchArticles();
   }, []);
 
-  // 格式化时间为相对时间
+  // 处理图片加载完成
+  const handleImageLoaded = (articleId: string) => {
+    setImgLoading(prev => ({
+      ...prev,
+      [articleId]: false
+    }));
+  };
+  
+  // 处理图片加载失败
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, articleId: string) => {
+    const img = e.target as HTMLImageElement;
+    img.src = '/images/placeholder.jpg';
+    handleImageLoaded(articleId);
+  };
+
+  // 格式化时间为相对时间 (英文)
   const formatRelativeTime = (dateString: string): string => {
     const now = new Date();
     const date = new Date(dateString);
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
     
     if (diffInSeconds < 60) {
-      return `${diffInSeconds}秒前`;
+      return `${diffInSeconds} seconds ago`;
     } else if (diffInSeconds < 3600) {
-      return `${Math.floor(diffInSeconds / 60)}分钟前`;
+      const minutes = Math.floor(diffInSeconds / 60);
+      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
     } else if (diffInSeconds < 86400) {
-      return `${Math.floor(diffInSeconds / 3600)}小时前`;
+      const hours = Math.floor(diffInSeconds / 3600);
+      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
     } else if (diffInSeconds < 2592000) {
-      return `${Math.floor(diffInSeconds / 86400)}天前`;
+      const days = Math.floor(diffInSeconds / 86400);
+      return `${days} ${days === 1 ? 'day' : 'days'} ago`;
     } else {
       return date.toLocaleDateString();
     }
@@ -119,24 +145,38 @@ const Attractions: React.FC = () => {
               <p>{t('general.loading')}</p>
             </div>
           ) : articles.length > 0 ? (
-            <div className="attractions-articles-list">
+            <div className="attractions-articles-grid">
               {articles.map(article => (
                 <Link 
                   to={`/articles/${article.id}`} 
                   key={article.id} 
-                  className="article-list-item"
+                  className="article-card"
                 >
-                  <div className="article-list-content">
-                    <h3 className="article-list-title">{article.title}</h3>
-                    <p className="article-list-summary">{article.summary}</p>
-                    <div className="article-list-meta">
-                      <span className="category">
-                        {t(`article.categories.${article.category}`, {defaultValue: article.category})}
-                      </span>
-                      <span className="views">{t('article.viewCount', {count: article.viewCount})}</span>
-                      <span className="date">
-                        {formatRelativeTime(article.publishDate)}
-                      </span>
+                  <div className={`article-image ${imgLoading[article.id] ? 'image-loading' : ''}`}>
+                    {imgLoading[article.id] && (
+                      <div className="article-image-placeholder">
+                        <div className="image-spinner"></div>
+                      </div>
+                    )}
+                    {article.coverImage && (
+                      <img 
+                        src={article.coverImage} 
+                        alt={article.title}
+                        onLoad={() => handleImageLoaded(article.id)}
+                        onError={(e) => handleImageError(e, article.id)}
+                        style={{ opacity: imgLoading[article.id] ? 0 : 1 }}
+                      />
+                    )}
+                  </div>
+                  <div className="article-content">
+                    <div className="article-category">
+                      {t(`article.categories.${article.category}`, {defaultValue: article.category})}
+                    </div>
+                    <h3 className="article-title">{article.title}</h3>
+                    <p className="article-summary">{article.summary}</p>
+                    <div className="article-meta">
+                      <span className="article-date">{formatRelativeTime(article.publishDate)}</span>
+                      <span className="article-views">{t('article.viewCount', {count: article.viewCount})}</span>
                     </div>
                   </div>
                 </Link>
