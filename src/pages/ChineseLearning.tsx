@@ -3,11 +3,13 @@ import { Helmet } from 'react-helmet';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { toggleFavorite, addRecentlyViewed } from '../store/slices/languageSlice';
 import './ChineseLearning.css';
+import { useTranslation } from 'react-i18next';
 
 const ChineseLearning: React.FC = () => {
   const dispatch = useAppDispatch();
   const { phrases, favoriteIds } = useAppSelector(state => state.language);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const { t } = useTranslation();
   
   const filteredPhrases = selectedCategory === 'all' 
     ? phrases 
@@ -32,12 +34,12 @@ const ChineseLearning: React.FC = () => {
       </Helmet>
       <div className="chinese-learning-container">
         <header className="page-header">
-          <h1>学习中文</h1>
-          <p>Practice Chinese conversation with AI assistance</p>
+          <h1>{t('chineseLearning.title')}</h1>
+          <p>{t('chineseLearning.subtitle')}</p>
         </header>
         
         <section className="category-filter">
-          <h2>选择类别</h2>
+          <h2>{t('chineseLearning.categories.title')}</h2>
           <div className="category-buttons">
             {categories.map(category => (
               <button
@@ -45,14 +47,14 @@ const ChineseLearning: React.FC = () => {
                 className={`category-button ${selectedCategory === category ? 'active' : ''}`}
                 onClick={() => setSelectedCategory(category)}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+                {category === 'all' ? t('chineseLearning.categories.all') : category.charAt(0).toUpperCase() + category.slice(1)}
               </button>
             ))}
           </div>
         </section>
         
         <section className="phrases-section">
-          <h2>常用短语</h2>
+          <h2>{t('chineseLearning.phrases.title')}</h2>
           <div className="phrases-list">
             {filteredPhrases.map(phrase => (
               <div 
@@ -81,9 +83,9 @@ const ChineseLearning: React.FC = () => {
         </section>
         
         <section className="ai-practice">
-          <h2>AI 会话练习</h2>
-          <p>Coming soon: Practice real-time Chinese conversation with AI assistant</p>
-          <button className="coming-soon-button" disabled>开始会话</button>
+          <h2>{t('chineseLearning.aiPractice.title')}</h2>
+          <p>{t('chineseLearning.aiPractice.comingSoon')}</p>
+          <button className="coming-soon-button" disabled>{t('chineseLearning.aiPractice.startButton')}</button>
         </section>
       </div>
     </>

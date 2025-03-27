@@ -77,16 +77,10 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
     return publishTime > threeDaysAgo;
   };
   
-  // 获取分类的中文名称
+  // 获取分类的名称（使用英文）
   const getCategoryName = () => {
-    const categoryMap: {[key: string]: string} = {
-      'visa-free': '免签政策',
-      'attractions': '景点推荐',
-      'culture': '中国文化',
-      'travel-tips': '旅行技巧'
-    };
-    
-    return categoryMap[category] || category;
+    // 使用 i18n 翻译，从 en.json 中获取英文名称
+    return t(`article.categories.${category}`, {defaultValue: category});
   };
   
   // 处理图片加载完成
@@ -156,12 +150,12 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
                     {new Date(article.publishDate).toLocaleDateString()}
                   </span>
                   <span className="view-count">
-                    {article.viewCount} 阅读
+                    {t('article.viewCount', {count: article.viewCount})}
                   </span>
                 </div>
               </div>
               {highlightNew && isNewArticle(article.publishDate) && (
-                <span className="new-badge-list">最新</span>
+                <span className="new-badge-list">{t('general.new', 'New')}</span>
               )}
             </Link>
           ))}
@@ -193,7 +187,7 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
                   }}
                 />
                 {highlightNew && isNewArticle(article.publishDate) && (
-                  <span className="new-badge">最新</span>
+                  <span className="new-badge">{t('general.new', 'New')}</span>
                 )}
               </div>
               <div className="article-info">
@@ -204,7 +198,7 @@ const CategoryArticles: React.FC<CategoryArticlesProps> = ({
                     {new Date(article.publishDate).toLocaleDateString()}
                   </span>
                   <span className="view-count">
-                    {article.viewCount} 阅读
+                    {t('article.viewCount', {count: article.viewCount})}
                   </span>
                 </div>
               </div>
