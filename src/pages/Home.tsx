@@ -88,17 +88,9 @@ const Home: React.FC = () => {
   
   // 组件加载时默认选择第一个政策（240小时免签）
   useEffect(() => {
-    if (policies.length > 0 && !selectedPolicyId) {
-      dispatch(selectPolicy('1'));
-    }
-  }, [dispatch, policies, selectedPolicyId]);
-  
-  const handlePolicySelect = (id: string) => {
-    dispatch(selectPolicy(id));
-    if (userCountry) {
-      dispatch(checkEligibility());
-    }
-  };
+    // 始终选择政策ID为1的选项（240小时）
+    dispatch(selectPolicy('1'));
+  }, [dispatch]);
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setUserCountry(e.target.value));
@@ -224,25 +216,10 @@ const Home: React.FC = () => {
           <div className="eligibility-container">
             <div className="eligibility-header">
               <h2>Check Visa-Free Eligibility</h2>
-              <p>Find out if you're eligible for China's 240-hour or 72-hour visa-free transit policy</p>
+              <p>Find out if you're eligible for China's 240-hour visa-free transit policy</p>
             </div>
             
             <div className="eligibility-content">
-              <div className="policy-selector">
-                <h3>Select Policy</h3>
-                <div className="policy-buttons">
-                  {policies.map(policy => (
-                    <button
-                      key={policy.id}
-                      className={`policy-button ${selectedPolicyId === policy.id ? 'selected' : ''}`}
-                      onClick={() => handlePolicySelect(policy.id)}
-                    >
-                      {policy.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              
               <div className="country-selector">
                 <h3>Select Your Country</h3>
                 <select 
@@ -261,8 +238,8 @@ const Home: React.FC = () => {
               {showEligibilityCheck && userCountry && selectedPolicyId && (
                 <div className="eligibility-result-text">
                   {isEligible 
-                    ? `You are eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`
-                    : `Sorry, citizens from ${userCountry} are not eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`}
+                    ? `You are eligible for the 240-hour visa-free transit policy.`
+                    : `Sorry, citizens from ${userCountry} are not eligible for the 240-hour visa-free transit policy.`}
                 </div>
               )}
               

@@ -419,42 +419,14 @@
   padding: 2rem;
 }
 
-.policy-selector, .country-selector {
+.country-selector {
   margin-bottom: 2rem;
 }
 
-.policy-selector h3, .country-selector h3 {
+.country-selector h3 {
   font-size: 1.3rem;
   color: #333;
   margin-bottom: 1rem;
-}
-
-.policy-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.policy-button {
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  background: #f0f8ff;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-  font-weight: 500;
-  color: #444;
-}
-
-.policy-button.selected {
-  background-color: #0077be;
-  color: white;
-  font-weight: bold;
-}
-
-.policy-button:hover {
-  background-color: #e0f0ff;
 }
 
 .country-dropdown {
@@ -527,21 +499,12 @@
     padding: 1.5rem;
   }
   
-  .policy-buttons {
-    flex-direction: column;
-  }
-  
-  .policy-button {
-    width: 100%;
-    text-align: center;
-  }
-  
   .more-info-button {
     width: 100%;
     padding: 1rem;
   }
   
-  .policy-selector h3, .country-selector h3 {
+  .country-selector h3 {
     font-size: 1.2rem;
   }
   
