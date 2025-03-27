@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectPolicy, setUserCountry, checkEligibility } from '../store/slices/visaSlice';
 import { articleService, Article } from '../services/articleService';
@@ -15,30 +15,51 @@ const VisaFree: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState<{[key: string]: boolean}>({});
   const { t } = useTranslation();
+  const location = useLocation();
   
   // 获取免签政策相关文章
   useEffect(() => {
     const fetchArticles = async () => {
       setIsLoading(true);
+      console.log('正在获取免签政策相关文章...');
       try {
-        const visaFreeArticles = await articleService.getArticlesByCategory('visa-free', 1, 5);
-        const travelTipsArticles = await articleService.getArticlesByCategory('travel-tips', 1, 3);
+        // 获取主要类别的文章
+        const visaFreeArticles = await articleService.getArticlesByCategory('visa-free', 1, 10);
+        const travelTipsArticles = await articleService.getArticlesByCategory('travel-tips', 1, 10);
         
-        // 合并文章并按日期排序（最新的在前）
-        const combinedArticles = [...visaFreeArticles, ...travelTipsArticles];
-        combinedArticles.sort((a, b) => {
+        // 获取其他可能相关的类别
+        const policyArticles = await articleService.getArticlesByCategory('policy', 1, 5);
+        const transitArticles = await articleService.getArticlesByCategory('transit', 1, 5);
+        
+        // 合并所有文章
+        const combinedArticles = [
+          ...visaFreeArticles, 
+          ...travelTipsArticles,
+          ...policyArticles,
+          ...transitArticles
+        ];
+        
+        // 去除重复文章
+        const uniqueArticles = combinedArticles.filter((article, index, self) =>
+          index === self.findIndex((a) => a.id === article.id)
+        );
+        
+        // 按日期排序（最新的在前）
+        uniqueArticles.sort((a, b) => {
           const dateA = new Date(a.publishDate).getTime();
           const dateB = new Date(b.publishDate).getTime();
           return dateB - dateA;
         });
         
+        console.log(`获取到${uniqueArticles.length}篇相关文章`);
+        
         // 初始化图片加载状态
         const imgLoadingState: {[key: string]: boolean} = {};
-        combinedArticles.forEach(article => {
+        uniqueArticles.forEach(article => {
           imgLoadingState[article.id] = true;
         });
         
-        setArticles(combinedArticles);
+        setArticles(uniqueArticles);
         setImgLoading(imgLoadingState);
       } catch (error) {
         console.error('Error fetching articles:', error);
@@ -48,7 +69,7 @@ const VisaFree: React.FC = () => {
     };
     
     fetchArticles();
-  }, []);
+  }, [location.pathname]); // 当路径变化时重新获取文章
   
   const handlePolicySelect = (id: string) => {
     dispatch(selectPolicy(id));

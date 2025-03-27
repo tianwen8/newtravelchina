@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { articleService, Article } from '../services/articleService';
 import './Attractions.css';
@@ -10,30 +10,51 @@ const Attractions: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState<{[key: string]: boolean}>({});
   const { t } = useTranslation();
+  const location = useLocation();
 
   // 获取景点和文化相关文章
   useEffect(() => {
     const fetchArticles = async () => {
       setIsLoading(true);
+      console.log('正在获取景点和文化相关文章...');
       try {
-        const attractionsArticles = await articleService.getArticlesByCategory('attractions', 1, 5);
-        const cultureArticles = await articleService.getArticlesByCategory('culture', 1, 3);
+        // 获取主要类别的文章
+        const attractionsArticles = await articleService.getArticlesByCategory('attractions', 1, 10);
+        const cultureArticles = await articleService.getArticlesByCategory('culture', 1, 10);
         
-        // 合并文章并按日期排序（最新的在前）
-        const combinedArticles = [...attractionsArticles, ...cultureArticles];
-        combinedArticles.sort((a, b) => {
+        // 获取其他可能相关的类别
+        const palaceArticles = await articleService.getArticlesByCategory('palace', 1, 10);
+        const heritageArticles = await articleService.getArticlesByCategory('heritage', 1, 10);
+        
+        // 合并所有文章
+        const combinedArticles = [
+          ...attractionsArticles, 
+          ...cultureArticles,
+          ...palaceArticles,
+          ...heritageArticles
+        ];
+        
+        // 去除重复文章
+        const uniqueArticles = combinedArticles.filter((article, index, self) =>
+          index === self.findIndex((a) => a.id === article.id)
+        );
+        
+        // 按日期排序（最新的在前）
+        uniqueArticles.sort((a, b) => {
           const dateA = new Date(a.publishDate).getTime();
           const dateB = new Date(b.publishDate).getTime();
           return dateB - dateA;
         });
         
+        console.log(`获取到${uniqueArticles.length}篇相关文章`);
+        
         // 初始化图片加载状态
         const imgLoadingState: {[key: string]: boolean} = {};
-        combinedArticles.forEach(article => {
+        uniqueArticles.forEach(article => {
           imgLoadingState[article.id] = true;
         });
         
-        setArticles(combinedArticles);
+        setArticles(uniqueArticles);
         setImgLoading(imgLoadingState);
       } catch (error) {
         console.error('Error fetching articles:', error);
@@ -43,7 +64,7 @@ const Attractions: React.FC = () => {
     };
     
     fetchArticles();
-  }, []);
+  }, [location.pathname]); // 当路径变化时重新获取文章
 
   // 处理图片加载完成
   const handleImageLoaded = (articleId: string) => {

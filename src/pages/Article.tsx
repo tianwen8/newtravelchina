@@ -66,17 +66,49 @@ const Article: React.FC = () => {
 
   // 根据文章分类确定返回链接对应的顶部导航路径
   const getCategoryRoute = (category: string): string => {
-    switch (category) {
-      case 'visa-free':
-        return '/visa-free';
-      case 'attractions':
-      case 'culture':
-        return '/attractions';
-      case 'travel-tips':
-        return '/visa-free'; // 旅行技巧暂时放在免签政策页面
-      default:
-        return `/articles?category=${category}`; // 如果没有对应的专用页面，则返回通用文章列表
+    console.log(`确定文章分类 '${category}' 的返回路径...`);
+    
+    // 检查类别名称，不区分大小写
+    const lowerCategory = category.toLowerCase();
+    
+    // 景点和文化相关类别 - 都指向attractions页面
+    if (lowerCategory === 'attractions' || 
+        lowerCategory === 'culture' || 
+        lowerCategory === 'heritage' || 
+        lowerCategory === 'palace' || 
+        lowerCategory === 'landmark' || 
+        lowerCategory.includes('travel') && lowerCategory.includes('dest')) {
+      return '/attractions';
     }
+    
+    // 免签政策相关类别 - 都指向visa-free页面
+    if (lowerCategory === 'visa-free' || 
+        lowerCategory === 'visa' || 
+        lowerCategory === 'policy' || 
+        lowerCategory === 'transit' || 
+        lowerCategory === 'travel-tips' ||
+        lowerCategory.includes('visa') ||
+        lowerCategory.includes('policy')) {
+      return '/visa-free';
+    }
+    
+    // 学习中文相关类别
+    if (lowerCategory === 'chinese' || 
+        lowerCategory === 'language' || 
+        lowerCategory.includes('learn')) {
+      return '/learn-chinese';
+    }
+    
+    // 社区相关类别
+    if (lowerCategory === 'community' || 
+        lowerCategory === 'forum' || 
+        lowerCategory === 'experiences' ||
+        lowerCategory.includes('share')) {
+      return '/community';
+    }
+    
+    // 默认情况下，返回文章列表页面，带上分类参数
+    return `/articles?category=${category}`;
   };
 
   const backToListLink = getCategoryRoute(article.category);
