@@ -6,6 +6,8 @@ import FeaturedComments from '../components/FeaturedComments';
 import CategoryArticles from '../components/CategoryArticles';
 import CommentWaterfall from '../components/CommentWaterfall';
 import FloatingComments from '../components/FloatingComments';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { selectPolicy, setUserCountry, checkEligibility } from '../store/slices/visaSlice';
 
 import visaIcon from '../assets/icons/visa.svg';
 import landmarkIcon from '../assets/icons/landmark.svg';
@@ -23,9 +25,36 @@ import backgroundImg from '../assets/images/background.jpg';
 
 import './Home.css';
 
+// 创建一个更全面的国家列表（包括符合免签和不符合的国家）
+const countryList = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 
+  'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Belarus', 'Belgium', 'Belize', 
+  'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 
+  'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chile', 'China', 'Colombia', 
+  'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Ecuador', 'Egypt', 
+  'El Salvador', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 
+  'Germany', 'Ghana', 'Greece', 'Guatemala', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 
+  'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 
+  'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 
+  'Lebanon', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 
+  'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 
+  'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nepal', 
+  'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'North Macedonia', 'Norway', 
+  'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 
+  'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia',
+  'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Somalia', 'South Africa', 'South Korea', 'Spain', 
+  'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 
+  'Thailand', 'Togo', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Uganda', 'Ukraine', 
+  'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Venezuela', 
+  'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
+].sort();
+
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const featuresRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
+  const { policies, selectedPolicyId, userCountry, isEligible } = useAppSelector(state => state.visa);
+  const [showEligibilityCheck, setShowEligibilityCheck] = useState(false);
   // 添加状态来存储屏幕宽度是否为移动设备
   const [isMobile, setIsMobile] = useState(false);
   
@@ -56,6 +85,30 @@ const Home: React.FC = () => {
       window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
+  
+  // 组件加载时默认选择第一个政策（240小时免签）
+  useEffect(() => {
+    if (policies.length > 0 && !selectedPolicyId) {
+      dispatch(selectPolicy('1'));
+    }
+  }, [dispatch, policies, selectedPolicyId]);
+  
+  const handlePolicySelect = (id: string) => {
+    dispatch(selectPolicy(id));
+    if (userCountry) {
+      dispatch(checkEligibility());
+    }
+  };
+  
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setUserCountry(e.target.value));
+    if (e.target.value) {
+      setShowEligibilityCheck(true);
+      dispatch(checkEligibility());
+    } else {
+      setShowEligibilityCheck(false);
+    }
+  };
   
   const scrollToFeatures = () => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -163,6 +216,62 @@ const Home: React.FC = () => {
             <Link to="/community" className="cta-button" style={{marginTop: 'auto', padding: '0.75rem 1.5rem', fontSize: '1rem'}}>
               {t('nav.community')}
             </Link>
+          </div>
+        </section>
+        
+        {/* 添加免签资格检查部分 */}
+        <section className="visa-eligibility-section">
+          <div className="eligibility-container">
+            <div className="eligibility-header">
+              <h2>Check Visa-Free Eligibility</h2>
+              <p>Find out if you're eligible for China's 240-hour or 72-hour visa-free transit policy</p>
+            </div>
+            
+            <div className="eligibility-content">
+              <div className="policy-selector">
+                <h3>Select Policy</h3>
+                <div className="policy-buttons">
+                  {policies.map(policy => (
+                    <button
+                      key={policy.id}
+                      className={`policy-button ${selectedPolicyId === policy.id ? 'selected' : ''}`}
+                      onClick={() => handlePolicySelect(policy.id)}
+                    >
+                      {policy.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="country-selector">
+                <h3>Select Your Country</h3>
+                <select 
+                  id="country-select" 
+                  value={userCountry || ''}
+                  onChange={handleCountryChange}
+                  className="country-dropdown"
+                >
+                  <option value="">-- Select Country --</option>
+                  {countryList.map(country => (
+                    <option key={country} value={country}>{country}</option>
+                  ))}
+                </select>
+              </div>
+              
+              {showEligibilityCheck && userCountry && selectedPolicyId && (
+                <div className={`eligibility-result ${isEligible ? 'eligible' : 'not-eligible'}`}>
+                  {isEligible 
+                    ? `You are eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`
+                    : `Sorry, citizens from ${userCountry} are not eligible for the ${policies.find(p => p.id === selectedPolicyId)?.name} policy.`}
+                </div>
+              )}
+              
+              <div className="more-info">
+                <Link to="/visa-free" className="more-info-button">
+                  More Information About Visa-Free Policies
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
         
