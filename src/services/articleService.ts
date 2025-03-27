@@ -590,21 +590,28 @@ class ArticleService {
    */
   public async getLatestArticlesByCategory(category: string, limitCount = 3): Promise<Article[]> {
     try {
+      console.log(`正在获取${category}分类的文章，限制数量${limitCount}`);
+      
       if (useLocalStorage) {
         const articles = await this.getArticles();
         const filteredArticles = category 
           ? articles.filter(article => article.category === category)
           : articles;
           
-        return filteredArticles
+        const sortedArticles = filteredArticles
           .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
           .slice(0, limitCount);
+          
+        console.log(`从本地存储获取到${sortedArticles.length}篇文章`);
+        return sortedArticles;
       } else {
         // 从Firestore获取数据
+        console.log('从Firestore获取数据');
         const articlesCollection = collection(db, this.COLLECTION_NAME);
         let articlesQuery;
         
         if (category) {
+          console.log(`查询条件: category = ${category}`);
           articlesQuery = firestoreQuery(
             articlesCollection, 
             where('category', '==', category), 
@@ -620,22 +627,21 @@ class ArticleService {
         }
           
         const snapshot = await getDocs(articlesQuery);
+        console.log(`查询结果: 获取到${snapshot.docs.length}条记录`);
+        
         if (snapshot.empty) {
+          console.log('查询结果为空');
           return [];
         }
           
-        return snapshot.docs.map(doc => {
-          const data = doc.data() as {
-            title: string;
-            summary: string;
-            content: string;
-            coverImage: string;
-            category: string;
-            tags?: string[];
-            publishDate: string | number | Date;
-            viewCount?: number;
-            author?: string;
-          };
+        const results = snapshot.docs.map(doc => {
+          const data = doc.data();
+          
+          // 处理发布日期
+          let publishDate = data.publishDate;
+          if (data.publishDate instanceof Timestamp) {
+            publishDate = data.publishDate.toDate().toISOString();
+          }
           
           return {
             id: doc.id,
@@ -645,11 +651,14 @@ class ArticleService {
             coverImage: data.coverImage,
             category: data.category,
             tags: data.tags || [],
-            publishDate: data.publishDate,
+            publishDate: publishDate,
             viewCount: data.viewCount || 0,
             author: data.author
           };
         });
+        
+        console.log('处理后的文章:', results);
+        return results;
       }
     } catch (error) {
       console.error('获取最新文章时出错:', error);

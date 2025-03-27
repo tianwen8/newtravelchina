@@ -171,14 +171,16 @@ const Home: React.FC = () => {
           <CategoryArticles 
             category="visa-free" 
             limit={5} 
-            autoRefresh={true} 
-            highlightNew={true} 
+            autoRefresh={false} 
+            highlightNew={true}
+            listMode={true} 
           />
           <CategoryArticles 
             category="attractions" 
             limit={5} 
-            autoRefresh={true} 
-            highlightNew={true} 
+            autoRefresh={false} 
+            highlightNew={true}
+            listMode={true} 
           />
         </section>
         
