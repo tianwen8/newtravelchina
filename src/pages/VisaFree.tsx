@@ -40,6 +40,13 @@ const VisaFree: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   
+  // 组件加载时默认选择第一个政策（240小时免签）
+  useEffect(() => {
+    if (policies.length > 0 && !selectedPolicyId) {
+      dispatch(selectPolicy('1'));
+    }
+  }, [dispatch, policies, selectedPolicyId]);
+  
   // Fetch all articles, not limited to specific categories
   useEffect(() => {
     const fetchArticles = async () => {
@@ -77,6 +84,12 @@ const VisaFree: React.FC = () => {
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setUserCountry(e.target.value));
+    if (e.target.value) {
+      setShowEligibilityCheck(true);
+      dispatch(checkEligibility());
+    } else {
+      setShowEligibilityCheck(false);
+    }
   };
   
   const handleCheckEligibility = () => {
@@ -159,6 +172,14 @@ const VisaFree: React.FC = () => {
               className="check-button"
               disabled={!selectedPolicyId || !userCountry}
               onClick={handleCheckEligibility}
+              style={{ 
+                background: (!selectedPolicyId || !userCountry) ? '#cccccc' : '#0077be', 
+                color: 'white', 
+                cursor: (!selectedPolicyId || !userCountry) ? 'not-allowed' : 'pointer',
+                padding: '12px',
+                borderRadius: '4px',
+                transition: 'background-color 0.3s'
+              }}
             >
               Check Eligibility
             </button>

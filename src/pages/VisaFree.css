@@ -56,6 +56,8 @@
 .policy-card.selected {
   border: 2px solid #0077be;
   box-shadow: 0 5px 15px rgba(0, 119, 190, 0.25);
+  background-color: #f0f8ff;
+  transform: translateY(-5px);
 }
 
 .policy-card h3 {
