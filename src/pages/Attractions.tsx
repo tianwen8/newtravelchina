@@ -58,9 +58,10 @@ const Attractions: React.FC = () => {
   
   // Handle image loading failure
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, articleId: string) => {
+    console.log(`Image failed to load for article ${articleId}, using placeholder`);
     const img = e.target as HTMLImageElement;
-    img.src = '/images/placeholder.jpg';
-    handleImageLoaded(articleId);
+    img.src = '/images/placeholder.jpg'; // Use a generic placeholder image
+    handleImageLoaded(articleId); // Mark as loaded
   };
 
   // Format time as relative time (English)
@@ -161,12 +162,20 @@ const Attractions: React.FC = () => {
                         <div className="image-spinner"></div>
                       </div>
                     )}
-                    {article.coverImage && (
+                    {article.coverImage ? (
                       <img 
                         src={article.coverImage} 
                         alt={article.title}
                         onLoad={() => handleImageLoaded(article.id)}
                         onError={(e) => handleImageError(e, article.id)}
+                        style={{ opacity: imgLoading[article.id] ? 0 : 1 }}
+                      />
+                    ) : (
+                      // No cover image available, use placeholder directly
+                      <img 
+                        src="/images/placeholder.jpg" 
+                        alt={article.title}
+                        onLoad={() => handleImageLoaded(article.id)}
                         style={{ opacity: imgLoading[article.id] ? 0 : 1 }}
                       />
                     )}
