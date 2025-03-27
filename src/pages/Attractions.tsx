@@ -12,49 +12,31 @@ const Attractions: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  // 获取景点和文化相关文章
+  // 获取所有文章，不仅限于特定分类
   useEffect(() => {
     const fetchArticles = async () => {
       setIsLoading(true);
-      console.log('正在获取景点和文化相关文章...');
+      console.log('获取所有文章...');
       try {
-        // 获取主要类别的文章
-        const attractionsArticles = await articleService.getArticlesByCategory('attractions', 1, 10);
-        const cultureArticles = await articleService.getArticlesByCategory('culture', 1, 10);
-        
-        // 获取其他可能相关的类别
-        const palaceArticles = await articleService.getArticlesByCategory('palace', 1, 10);
-        const heritageArticles = await articleService.getArticlesByCategory('heritage', 1, 10);
-        
-        // 合并所有文章
-        const combinedArticles = [
-          ...attractionsArticles, 
-          ...cultureArticles,
-          ...palaceArticles,
-          ...heritageArticles
-        ];
-        
-        // 去除重复文章
-        const uniqueArticles = combinedArticles.filter((article, index, self) =>
-          index === self.findIndex((a) => a.id === article.id)
-        );
+        // 获取所有文章
+        const allArticles = await articleService.getArticlesByCategory('', 1, 50);
         
         // 按日期排序（最新的在前）
-        uniqueArticles.sort((a, b) => {
+        allArticles.sort((a, b) => {
           const dateA = new Date(a.publishDate).getTime();
           const dateB = new Date(b.publishDate).getTime();
           return dateB - dateA;
         });
         
-        console.log(`获取到${uniqueArticles.length}篇相关文章`);
+        console.log(`获取到${allArticles.length}篇文章`);
         
         // 初始化图片加载状态
         const imgLoadingState: {[key: string]: boolean} = {};
-        uniqueArticles.forEach(article => {
+        allArticles.forEach(article => {
           imgLoadingState[article.id] = true;
         });
         
-        setArticles(uniqueArticles);
+        setArticles(allArticles);
         setImgLoading(imgLoadingState);
       } catch (error) {
         console.error('Error fetching articles:', error);

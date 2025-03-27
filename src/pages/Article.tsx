@@ -68,47 +68,28 @@ const Article: React.FC = () => {
   const getCategoryRoute = (category: string): string => {
     console.log(`确定文章分类 '${category}' 的返回路径...`);
     
-    // 检查类别名称，不区分大小写
+    // 简化的逻辑，只判断两个主要分类，其他全部指向文章列表页面
     const lowerCategory = category.toLowerCase();
     
-    // 景点和文化相关类别 - 都指向attractions页面
-    if (lowerCategory === 'attractions' || 
-        lowerCategory === 'culture' || 
-        lowerCategory === 'heritage' || 
-        lowerCategory === 'palace' || 
-        lowerCategory === 'landmark' || 
-        lowerCategory.includes('travel') && lowerCategory.includes('dest')) {
+    // 所有与景点/文化相关的，都返回到景点文化页面
+    if (lowerCategory.includes('attract') || 
+        lowerCategory.includes('cultur') || 
+        lowerCategory.includes('palace') || 
+        lowerCategory.includes('herit') || 
+        lowerCategory.includes('landmark')) {
       return '/attractions';
     }
     
-    // 免签政策相关类别 - 都指向visa-free页面
-    if (lowerCategory === 'visa-free' || 
-        lowerCategory === 'visa' || 
-        lowerCategory === 'policy' || 
-        lowerCategory === 'transit' || 
-        lowerCategory === 'travel-tips' ||
-        lowerCategory.includes('visa') ||
-        lowerCategory.includes('policy')) {
+    // 所有与签证/政策相关的，都返回到免签页面
+    if (lowerCategory.includes('visa') || 
+        lowerCategory.includes('poli') || 
+        lowerCategory.includes('transit') || 
+        lowerCategory.includes('tips')) {
       return '/visa-free';
     }
     
-    // 学习中文相关类别
-    if (lowerCategory === 'chinese' || 
-        lowerCategory === 'language' || 
-        lowerCategory.includes('learn')) {
-      return '/learn-chinese';
-    }
-    
-    // 社区相关类别
-    if (lowerCategory === 'community' || 
-        lowerCategory === 'forum' || 
-        lowerCategory === 'experiences' ||
-        lowerCategory.includes('share')) {
-      return '/community';
-    }
-    
-    // 默认情况下，返回文章列表页面，带上分类参数
-    return `/articles?category=${category}`;
+    // 不做太多判断，其他情况，默认返回到景点文化页面
+    return '/attractions';
   };
 
   const backToListLink = getCategoryRoute(article.category);

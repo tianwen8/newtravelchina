@@ -17,49 +17,31 @@ const VisaFree: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   
-  // 获取免签政策相关文章
+  // 获取所有文章，不仅限于特定分类
   useEffect(() => {
     const fetchArticles = async () => {
       setIsLoading(true);
-      console.log('正在获取免签政策相关文章...');
+      console.log('获取所有文章...');
       try {
-        // 获取主要类别的文章
-        const visaFreeArticles = await articleService.getArticlesByCategory('visa-free', 1, 10);
-        const travelTipsArticles = await articleService.getArticlesByCategory('travel-tips', 1, 10);
-        
-        // 获取其他可能相关的类别
-        const policyArticles = await articleService.getArticlesByCategory('policy', 1, 5);
-        const transitArticles = await articleService.getArticlesByCategory('transit', 1, 5);
-        
-        // 合并所有文章
-        const combinedArticles = [
-          ...visaFreeArticles, 
-          ...travelTipsArticles,
-          ...policyArticles,
-          ...transitArticles
-        ];
-        
-        // 去除重复文章
-        const uniqueArticles = combinedArticles.filter((article, index, self) =>
-          index === self.findIndex((a) => a.id === article.id)
-        );
+        // 获取所有文章
+        const allArticles = await articleService.getArticlesByCategory('', 1, 50);
         
         // 按日期排序（最新的在前）
-        uniqueArticles.sort((a, b) => {
+        allArticles.sort((a, b) => {
           const dateA = new Date(a.publishDate).getTime();
           const dateB = new Date(b.publishDate).getTime();
           return dateB - dateA;
         });
         
-        console.log(`获取到${uniqueArticles.length}篇相关文章`);
+        console.log(`获取到${allArticles.length}篇文章`);
         
         // 初始化图片加载状态
         const imgLoadingState: {[key: string]: boolean} = {};
-        uniqueArticles.forEach(article => {
+        allArticles.forEach(article => {
           imgLoadingState[article.id] = true;
         });
         
-        setArticles(uniqueArticles);
+        setArticles(allArticles);
         setImgLoading(imgLoadingState);
       } catch (error) {
         console.error('Error fetching articles:', error);
@@ -218,7 +200,7 @@ const VisaFree: React.FC = () => {
 
         {/* 相关文章列表 */}
         <section className="related-articles-section">
-          <h2>{t('visaFree.relatedArticles')}</h2>
+          <h2>{t('visaFree.relatedArticles', 'Related Articles & Travel Information')}</h2>
           
           {isLoading ? (
             <div className="loading-spinner">
