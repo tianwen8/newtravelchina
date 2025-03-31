@@ -9,7 +9,6 @@ const Attractions: React.FC = () => {
   const { t } = useTranslation();
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState<{[key: string]: boolean}>({});
   const location = useLocation();
 
   // Get all articles, not limited to specific category
@@ -29,15 +28,7 @@ const Attractions: React.FC = () => {
         });
         
         console.log(`Retrieved ${allArticles.length} articles`);
-        
-        // Initialize image loading states
-        const imgLoadingState: {[key: string]: boolean} = {};
-        allArticles.forEach(article => {
-          imgLoadingState[article.id] = true;
-        });
-        
         setArticles(allArticles);
-        setImgLoading(imgLoadingState);
       } catch (error) {
         console.error('Error fetching articles:', error);
       } finally {
@@ -47,22 +38,6 @@ const Attractions: React.FC = () => {
     
     fetchArticles();
   }, [location.pathname]); // Refresh articles when path changes
-
-  // Handle image loading completion
-  const handleImageLoaded = (articleId: string) => {
-    setImgLoading(prev => ({
-      ...prev,
-      [articleId]: false
-    }));
-  };
-  
-  // Handle image loading failure
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, articleId: string) => {
-    console.log(`Image failed to load for article ${articleId}, using placeholder`);
-    const img = e.target as HTMLImageElement;
-    img.src = '/images/placeholder.jpg'; // Use a generic placeholder image
-    handleImageLoaded(articleId); // Mark as loaded
-  };
 
   // Format time as relative time (English)
   const formatRelativeTime = (dateString: string): string => {
@@ -149,37 +124,13 @@ const Attractions: React.FC = () => {
               <p>{t('general.loading')}</p>
             </div>
           ) : articles.length > 0 ? (
-            <div className="attractions-articles-grid">
+            <div className="attractions-articles-list">
               {articles.map(article => (
                 <Link 
                   to={`/articles/${article.id}`} 
                   key={article.id} 
-                  className="article-card"
+                  className="article-list-item"
                 >
-                  <div className={`article-image ${imgLoading[article.id] ? 'image-loading' : ''}`}>
-                    {imgLoading[article.id] && (
-                      <div className="article-image-placeholder">
-                        <div className="image-spinner"></div>
-                      </div>
-                    )}
-                    {article.coverImage ? (
-                      <img 
-                        src={article.coverImage} 
-                        alt={article.title}
-                        onLoad={() => handleImageLoaded(article.id)}
-                        onError={(e) => handleImageError(e, article.id)}
-                        style={{ opacity: imgLoading[article.id] ? 0 : 1 }}
-                      />
-                    ) : (
-                      // No cover image available, use placeholder directly
-                      <img 
-                        src="/images/placeholder.jpg" 
-                        alt={article.title}
-                        onLoad={() => handleImageLoaded(article.id)}
-                        style={{ opacity: imgLoading[article.id] ? 0 : 1 }}
-                      />
-                    )}
-                  </div>
                   <div className="article-content">
                     <div className="article-category">
                       {t(`article.categories.${article.category}`, {defaultValue: article.category})}
