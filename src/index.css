@@ -1,84 +1,377 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: #213547;
-  background-color: #ffffff;
-}
-
-body {
+/* Global Reset and Base Styles */
+* {
+  box-sizing: border-box;
   margin: 0;
-  min-width: 320px;
+  padding: 0;
 }
 
-.home-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* 全局字体和基础样式 */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: #1e293b;
+  background: #ffffff;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
-.hero-section {
-  text-align: center;
-  padding: 6rem 2rem;
-  background: linear-gradient(135deg, rgba(0, 119, 190, 0.85) 0%, rgba(0, 160, 220, 0.85) 100%), url('./assets/images/chinese-temple.svg');
-  background-size: cover;
-  background-position: center;
-  color: white;
-  border-radius: 1rem;
-  margin-bottom: 3rem;
-  position: relative;
-  overflow: hidden;
+/* 重置默认样式 */
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
 }
 
-.hero-section h1 {
-  font-size: 3.2em;
+/* =============================================== */
+/* 全局字体层级系统 - 与首页HomeModern完全一致 */
+/* =============================================== */
+
+/* 主标题 - 页面级别 */
+h1, 
+.page-title, 
+.dashboard-title, 
+.article-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
   line-height: 1.1;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* 为主标题添加装饰线 */
+h1::after, 
+.page-title::after, 
+.dashboard-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+/* 二级标题 - 区块级别 */
+h2, 
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+/* 三级标题 - 卡片级别 */
+h3, 
+.card-title,
+.subsection-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.3;
   margin-bottom: 1rem;
 }
 
+/* 四级标题 - 组件级别 */
+h4, 
+.component-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+/* 五级标题 - 内容级别 */
+h5, 
+.content-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+/* 六级标题 - 细节级别 */
+h6, 
+.detail-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4b5563;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+/* =============================================== */
+/* 全局文本样式系统 */
+/* =============================================== */
+
+/* 正文文本 */
+p, 
+.text-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+/* 大文本 */
+.text-large {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+/* 小文本 */
+.text-small {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+/* 描述文本 */
+.description {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+/* 元信息文本 */
+.meta-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: #6b7280;
+}
+
+/* 强调文本 */
+.text-emphasis {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* 次要文本 */
+.text-muted {
+  color: #6b7280;
+}
+
+/* =============================================== */
+/* 页面容器样式 */
+/* =============================================== */
+
+/* 通用页面容器 */
+.page-container,
+.visa-free-page,
+.attractions-page,
+.chinese-learning-page,
+.community-page {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* 页面头部 */
+.page-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.page-header .page-title {
+  margin-bottom: 0.5rem;
+}
+
+.page-header .text-large {
+  margin-bottom: 0;
+}
+
+/* =============================================== */
+/* 响应式设计 */
+/* =============================================== */
+
+@media (max-width: 768px) {
+  h1, .page-title, .dashboard-title, .article-title {
+    font-size: 2rem;
+  }
+  
+  h2, .section-title {
+    font-size: 1.75rem;
+  }
+  
+  h3, .card-title, .subsection-title {
+    font-size: 1.25rem;
+  }
+  
+  h4, .component-title {
+    font-size: 1.125rem;
+  }
+  
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1, .page-title, .dashboard-title, .article-title {
+    font-size: 1.75rem;
+  }
+  
+  h2, .section-title {
+    font-size: 1.5rem;
+  }
+  
+  h3, .card-title, .subsection-title {
+    font-size: 1.125rem;
+  }
+  
+  body {
+    font-size: 14px;
+  }
+}
+
+/* =============================================== */
+/* 通用组件样式 */
+/* =============================================== */
+
+/* 链接样式 */
+a {
+  color: #3b82f6;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* 按钮样式 */
+button, .btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 输入框样式 */
+input, textarea, select {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem;
+}
+
+/* =============================================== */
+/* 特定页面样式覆盖 - 确保字体应用 */
+/* =============================================== */
+
+/* 免签页面特定样式 */
+.visa-free-page * {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* 景点页面特定样式 */
+.attractions-page * {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* 中文学习页面特定样式 */
+.chinese-learning-page * {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* 社区页面特定样式 */
+.community-page * {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* 管理后台特定样式 */
+.admin-dashboard * {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* =============================================== */
+/* 旧版样式保留 - 兼容性 */
+/* =============================================== */
+
+.home-container {
+  /* 首页样式保持不变 */
+}
+
+.hero-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
 .hero-section p {
-  font-size: 1.2em;
+  font-size: 1.25rem;
   opacity: 0.9;
 }
 
 .features-section {
+  padding: 4rem 2rem;
+  background: #f8fafc;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .feature-card {
   background: white;
-  padding: 2.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
-  border: none;
 }
 
 .feature-icon {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 1.5rem;
-  color: #0077be;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 }
 
 .feature-card h2 {
-  color: #213547;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
-  font-size: 1.5em;
+  color: #1e293b;
 }
 
 .feature-card p {
-  color: #666;
+  color: #64748b;
   line-height: 1.6;
 }
 
@@ -86,50 +379,14 @@ body {
   .hero-section {
     padding: 3rem 1rem;
   }
-
+  
   .hero-section h1 {
-    font-size: 2.5em;
+    font-size: 2.5rem;
   }
-
+  
   .features-section {
+    padding: 3rem 1rem;
     grid-template-columns: 1fr;
     gap: 1.5rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-  }
-
-  .feature-card {
-    background: #1a1a1a;
-  }
-
-  .feature-card h2 {
-    color: #fff;
-  }
-
-  .feature-card p {
-    color: #ccc;
-  }
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }

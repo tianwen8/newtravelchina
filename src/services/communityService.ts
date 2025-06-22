@@ -65,27 +65,27 @@ interface InterestedUser {
   date: Date | number | Timestamp;
 }
 
-// 用于初始化数据的模拟攻略数据
+// Mock travel guide data for initialization
 const mockTravelGuides: TravelGuide[] = [
   {
     id: 'guide001',
-    title: '北京三日经典游攻略',
-    content: `<p>北京是一座拥有悠久历史和丰富文化的城市，这份攻略将帮助你在三天内体验北京的精华。</p>
-      <h2>第一天：故宫和天安门</h2>
-      <p>早上参观天安门广场，然后游览故宫博物院。下午可以去景山公园俯瞰紫禁城全景。</p>
-      <h2>第二天：长城之旅</h2>
-      <p>建议前往慕田峪长城，人少景美，交通也较为便利。</p>
-      <h2>第三天：胡同文化</h2>
-      <p>游览南锣鼓巷，体验老北京胡同文化，品尝地道小吃。</p>`,
+    title: 'Beijing 3-Day Classic Tour Guide',
+    content: `<p>Beijing is a city with a long history and rich culture. This guide will help you experience the essence of Beijing in three days.</p>
+      <h2>Day 1: Forbidden City and Tiananmen</h2>
+      <p>Visit Tiananmen Square in the morning, then tour the Forbidden City. In the afternoon, you can go to Jingshan Park to overlook the panoramic view of the Forbidden City.</p>
+      <h2>Day 2: Great Wall Journey</h2>
+      <p>Recommend visiting Mutianyu Great Wall, with fewer crowds, beautiful scenery, and convenient transportation.</p>
+      <h2>Day 3: Hutong Culture</h2>
+      <p>Visit Nanluoguxiang, experience old Beijing hutong culture, and taste authentic local snacks.</p>`,
     coverImage: '/images/beijing-guide.jpg',
     gallery: ['/images/beijing-guide1.jpg', '/images/beijing-guide2.jpg'],
-    destination: '北京',
-    duration: '3天',
-    budget: '2000-3000元',
-    tips: ['避开节假日人流高峰', '故宫需要提前预约', '长城记得带足饮用水'],
-    tags: ['北京', '故宫', '长城', '胡同'],
+    destination: 'Beijing',
+    duration: '3 days',
+    budget: '$300-450',
+    tips: ['Avoid holiday crowds', 'Forbidden City requires advance booking', 'Bring enough water for the Great Wall'],
+    tags: ['Beijing', 'Forbidden City', 'Great Wall', 'Hutong'],
     authorId: 'user001',
-    authorName: '旅行家小王',
+    authorName: 'Travel Expert Wang',
     authorPhoto: '/images/avatars/user1.jpg',
     publishDate: Date.now() - 7 * 24 * 60 * 60 * 1000,
     likes: 156,
@@ -94,23 +94,23 @@ const mockTravelGuides: TravelGuide[] = [
   },
   {
     id: 'guide002',
-    title: '上海美食一日游',
-    content: `<p>上海是美食天堂，这份攻略将带你品尝上海的各种特色美食。</p>
-      <h2>早餐：四大金刚</h2>
-      <p>生煎、小笼包、烧卖和蟹壳黄是上海人喜爱的早餐。</p>
-      <h2>午餐：本帮菜</h2>
-      <p>红烧肉、松鼠桂鱼等经典上海本帮菜。</p>
-      <h2>晚餐：外滩美食</h2>
-      <p>在外滩附近的高级餐厅享用晚餐，同时欣赏夜景。</p>`,
+    title: 'Shanghai Food One-Day Tour',
+    content: `<p>Shanghai is a food paradise. This guide will take you to taste various specialty foods of Shanghai.</p>
+      <h2>Breakfast: Four Golden Classics</h2>
+      <p>Pan-fried buns, xiaolongbao, shumai, and crab shell pastry are favorite breakfast foods of Shanghai people.</p>
+      <h2>Lunch: Shanghai Cuisine</h2>
+      <p>Red-braised pork, sweet and sour mandarin fish and other classic Shanghai local dishes.</p>
+      <h2>Dinner: Bund Cuisine</h2>
+      <p>Enjoy dinner at high-end restaurants near the Bund while admiring the night view.</p>`,
     coverImage: '/images/shanghai-food.jpg',
     gallery: ['/images/food1.jpg', '/images/food2.jpg'],
-    destination: '上海',
-    duration: '1天',
-    budget: '500-800元',
-    tips: ['早餐建议去南京东路', '中午可以去老饭店', '晚上提前预约外滩餐厅'],
-    tags: ['上海', '美食', '小吃', '本帮菜'],
+    destination: 'Shanghai',
+    duration: '1 day',
+    budget: '$70-120',
+    tips: ['Recommend Nanjing East Road for breakfast', 'Try old restaurants for lunch', 'Book Bund restaurants in advance for dinner'],
+    tags: ['Shanghai', 'Food', 'Snacks', 'Local Cuisine'],
     authorId: 'user002',
-    authorName: '美食家小李',
+    authorName: 'Food Expert Li',
     authorPhoto: '/images/avatars/user2.jpg',
     publishDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
     likes: 204,
@@ -119,45 +119,45 @@ const mockTravelGuides: TravelGuide[] = [
   }
 ];
 
-// 用于初始化数据的模拟结伴同行数据
+// Mock trip buddy data for initialization
 const mockTripBuddies: TripBuddy[] = [
   {
     id: 'trip001',
-    title: '寻找同伴一起去云南丽江',
-    description: '计划国庆期间去云南丽江和大理，想找1-2个志同道合的伙伴一起同行。我是一个喜欢摄影和慢节奏旅行的人，不赶景点，更注重体验当地生活。',
-    destination: '云南丽江、大理',
-    travelDate: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30天后
-    duration: '7天',
-    expectedBudget: '5000-6000元',
-    requirements: '喜欢摄影，不赶景点，能够接受徒步和住青旅',
+    title: 'Looking for travel companions to Yunnan Lijiang',
+    description: 'Planning to visit Yunnan Lijiang and Dali during National Day holiday, looking for 1-2 like-minded companions to travel together. I am someone who enjoys photography and slow-paced travel, not rushing through attractions, focusing more on experiencing local life.',
+    destination: 'Yunnan Lijiang, Dali',
+    travelDate: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days later
+    duration: '7 days',
+    expectedBudget: '$700-850',
+    requirements: 'Enjoy photography, not rushing attractions, able to accept hiking and staying in hostels',
     contactInfo: 'WeChat: traveler_zhang',
     authorId: 'user003',
-    authorName: '张旅行家',
+    authorName: 'Traveler Zhang',
     authorPhoto: '/images/avatars/user3.jpg',
     createdAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
     status: 'open',
     interestedUsers: [
       {
         userId: 'user005',
-        userName: '小王',
+        userName: 'Wang',
         userPhoto: '/images/avatars/user5.jpg',
-        message: '我也喜欢摄影，正好那段时间有空，可以一起啊',
+        message: 'I also love photography and happen to be free during that time, would love to join',
         date: Date.now() - 3 * 24 * 60 * 60 * 1000
       }
     ]
   },
   {
     id: 'trip002',
-    title: '西藏拉萨徒步旅行',
-    description: '计划明年5月去西藏拉萨，徒步走川藏线，寻找2-3位身体素质好、有高原经验的伙伴同行。全程约15天，会经过很多美丽的风景，但也有一定难度。',
-    destination: '西藏拉萨',
-    travelDate: Date.now() + 180 * 24 * 60 * 60 * 1000, // 半年后
-    duration: '15天',
-    expectedBudget: '10000-15000元',
-    requirements: '有高原经验，身体素质好，有长途徒步经验',
+    title: 'Tibet Lhasa Hiking Trip',
+    description: 'Planning to go to Tibet Lhasa next May, hiking the Sichuan-Tibet route, looking for 2-3 companions with good physical fitness and high-altitude experience. The whole journey takes about 15 days, will pass through many beautiful sceneries, but also has certain difficulties.',
+    destination: 'Tibet Lhasa',
+    travelDate: Date.now() + 180 * 24 * 60 * 60 * 1000, // 6 months later
+    duration: '15 days',
+    expectedBudget: '$1400-2100',
+    requirements: 'High-altitude experience, good physical fitness, long-distance hiking experience',
     contactInfo: 'Email: tibet_hiker@example.com',
     authorId: 'user004',
-    authorName: '高原徒步者',
+    authorName: 'Highland Hiker',
     authorPhoto: '/images/avatars/user4.jpg',
     createdAt: Date.now() - 10 * 24 * 60 * 60 * 1000,
     status: 'open',
@@ -189,7 +189,7 @@ async function initializeData() {
           publishDate: Timestamp.fromMillis(Number(guide.publishDate))
         });
       }
-      console.log('初始化旅行指南数据');
+      console.log('Initializing travel guide data');
     }
     
     // 检查结伴同行集合是否为空
@@ -209,19 +209,19 @@ async function initializeData() {
           }))
         });
       }
-      console.log('初始化结伴同行数据');
+      console.log('Initializing trip buddy data');
     }
   } catch (error) {
-    console.error('初始化数据失败:', error);
+    console.error('Failed to initialize data:', error);
   }
 }
 
 // 尝试初始化数据
 initializeData();
 
-// 旅行攻略服务
+// Travel guide service
 export const travelGuideService = {
-  // 发布攻略
+  // Publish guide
   async createGuide(guideData: Omit<TravelGuide, 'id' | 'likes' | 'views' | 'savedCount' | 'publishDate'>): Promise<TravelGuide> {
     try {
       const newGuideData = {
@@ -240,7 +240,7 @@ export const travelGuideService = {
         publishDate: new Date()
       };
     } catch (error) {
-      console.error('发布攻略失败:', error);
+      console.error('Failed to publish guide:', error);
       throw error;
     }
   },

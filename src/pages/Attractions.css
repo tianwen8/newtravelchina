@@ -1,38 +1,110 @@
-.attractions-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+/* 确保所有元素使用Inter字体 */
+.attractions-page,
+.attractions-page * {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
+/* 现代化页面容器 - 与首页一致 */
+.attractions-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 添加动态背景粒子效果 */
+.attractions-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  animation: float 20s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+/* 内容容器 */
+.attractions-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* 现代化页面头部 */
 .page-header {
   text-align: center;
   margin-bottom: 3rem;
+  padding: 2rem 0;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
-  color: #0077be;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
   margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: slideInUp 1s ease-out;
+  position: relative;
+}
+
+.page-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
 }
 
 .page-header p {
-  font-size: 1.1rem;
-  color: #555;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
   max-width: 700px;
   margin: 0 auto;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  animation: slideInUp 1s ease-out 0.2s both;
 }
 
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 区域现代化 */
 .regions-section {
   margin-bottom: 3rem;
 }
 
 .regions-section h2 {
-  font-size: 1.8rem;
-  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
   margin-bottom: 1.5rem;
   text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* 区域卡片现代化 */
 .region-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -40,60 +112,72 @@
 }
 
 .region-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  transition: transform 0.3s, box-shadow 0.3s;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  animation: slideInUp 0.8s ease-out;
 }
 
 .region-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
 .region-card h3 {
-  color: #0077be;
+  color: #1e293b;
   margin-bottom: 1rem;
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .region-card p {
-  color: #555;
+  color: #64748b;
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }
 
 .culture-info {
-  background-color: #f5f9fc;
-  padding: 1rem;
-  border-radius: 4px;
-  border-left: 3px solid #0077be;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  padding: 1.5rem;
+  border-radius: 15px;
+  border-left: 4px solid #667eea;
+  backdrop-filter: blur(10px);
 }
 
 .culture-info h4 {
-  color: #333;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .culture-info p {
   margin-bottom: 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  color: #64748b;
 }
 
+/* 季节信息现代化 */
 .seasonal-info {
   margin-bottom: 3rem;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  padding: 3rem 2rem;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .seasonal-info h2 {
-  font-size: 1.8rem;
-  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
   margin-bottom: 1.5rem;
   text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .season-tips {
@@ -103,24 +187,33 @@
 }
 
 .season-tips p {
-  padding: 1rem;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  color: #444;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  color: #1e293b;
   line-height: 1.6;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
 }
 
-/* 文章列表样式 */
+.season-tips p:hover {
+  transform: translateY(-5px);
+}
+
+/* 文章列表现代化 */
 .attractions-articles-section {
   margin-bottom: 3rem;
 }
 
 .attractions-articles-section h2 {
-  font-size: 1.8rem;
-  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
   margin-bottom: 1.5rem;
   text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .attractions-articles-list {
@@ -132,18 +225,21 @@
 }
 
 .article-list-item {
-  background-color: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  animation: slideInUp 0.8s ease-out;
 }
 
 .article-list-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
 .article-content {
@@ -153,35 +249,38 @@
 
 .article-category {
   display: inline-block;
-  background-color: #e6f2fa;
-  color: #0077be;
-  font-size: 0.85rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
-  margin-bottom: 0.8rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
   align-self: flex-start;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .article-title {
   margin-top: 0;
   margin-bottom: 0.75rem;
-  font-size: 1.4rem;
-  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
   line-height: 1.4;
 }
 
 .article-summary {
   margin-bottom: 1rem;
-  color: #666;
+  color: #64748b;
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .article-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  color: #888;
+  font-size: 0.9rem;
+  color: #6b7280;
   margin-top: 0.5rem;
 }
 
@@ -193,21 +292,22 @@
   content: '👁️ ';
 }
 
+/* 加载状态现代化 */
 .loading-spinner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
-  text-align: center;
+  padding: 3rem;
+  color: #ffffff;
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(0, 119, 190, 0.1);
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #ffffff;
   border-radius: 50%;
-  border-top-color: #0077be;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
 }
@@ -220,7 +320,8 @@
 .no-articles {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
 }
 
 /* 文章网格样式 */

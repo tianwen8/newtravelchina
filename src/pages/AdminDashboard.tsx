@@ -220,15 +220,15 @@ const AdminDashboard: React.FC = () => {
         <title>管理员面板 - {t('app.title')}</title>
       </Helmet>
       
-      <h1 className="dashboard-title">管理员控制面板</h1>
+      <h1 className="dashboard-title page-title">管理员控制面板</h1>
       
       {error && <div className="error-message">{error}</div>}
       
       {/* 数据库初始化部分 */}
       {!initialized && (
         <div className="initialization-section">
-          <h2>初始化数据库</h2>
-          <p>检测到数据库尚未初始化。请创建管理员账号并初始化数据库。</p>
+          <h2 className="section-title">初始化数据库</h2>
+          <p className="text-body">检测到数据库尚未初始化。请创建管理员账号并初始化数据库。</p>
           
           {initializeStatus.message && (
             <div className={`status-message ${initializeStatus.success === true ? 'success' : initializeStatus.success === false ? 'error' : ''}`}>

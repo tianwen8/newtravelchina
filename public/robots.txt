@@ -1,0 +1,33 @@
+User-agent: *
+Allow: /
+
+# Allow important pages
+Allow: /visa-free
+Allow: /attractions
+Allow: /chinese-learning
+Allow: /community
+Allow: /articles
+Allow: /guides
+
+# Disallow admin and authentication pages
+Disallow: /admin
+Disallow: /admin-init
+Disallow: /direct-admin-init
+Disallow: /complete-init
+Disallow: /image-upload-test
+
+# Disallow API endpoints if any
+Disallow: /api/
+
+# Allow CSS and JS files
+Allow: /assets/
+Allow: /src/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.json$
+
+# Sitemap
+Sitemap: https://travelchina.space/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1 

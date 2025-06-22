@@ -4,15 +4,32 @@ import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
-// Firebase配置
+// Firebase配置 - 使用环境变量
 const firebaseConfig = {
-  apiKey: "AIzaSyDqeBnmpJ9D4yjD6EirRblkeRDvMOclX4Y",
-  authDomain: "newtravelchina-36648.firebaseapp.com",
-  projectId: "newtravelchina-36648",
-  storageBucket: "newtravelchina-36648.appspot.com",
-  messagingSenderId: "658492259597",
-  appId: "1:658492259597:web:6c39164438227666360444"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDqeBnmpJ9D4yjD6EirRblkeRDvMOclX4Y",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "newtravelchina-36648.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "newtravelchina-36648",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "newtravelchina-36648.appspot.com",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "658492259597",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:658492259597:web:6c39164438227666360444"
 };
+
+// 验证必要的环境变量
+if (import.meta.env.PROD) {
+  const requiredEnvVars = [
+    'VITE_FIREBASE_API_KEY',
+    'VITE_FIREBASE_AUTH_DOMAIN', 
+    'VITE_FIREBASE_PROJECT_ID',
+    'VITE_FIREBASE_STORAGE_BUCKET',
+    'VITE_FIREBASE_MESSAGING_SENDER_ID',
+    'VITE_FIREBASE_APP_ID'
+  ];
+  
+  const missingVars = requiredEnvVars.filter(varName => !import.meta.env[varName]);
+  if (missingVars.length > 0) {
+    console.error('Missing required environment variables:', missingVars);
+  }
+}
 
 // 初始化Firebase
 let app;
@@ -48,4 +65,4 @@ export const isUserAdmin = async (userId: string): Promise<boolean> => {
 };
 
 // 用于调试
-export const DEBUG = process.env.NODE_ENV === 'development'; 
+export const DEBUG = import.meta.env.DEV; 

@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import Home from './pages/Home';
+import HomeModern from './pages/HomeModern';
 import VisaFree from './pages/VisaFree';
 import Community from './pages/Community';
 import Article from './pages/Article';
@@ -21,6 +21,7 @@ import AdminInit from './pages/AdminInit';
 import DirectAdminInit from './pages/DirectAdminInit';
 import CompleteDbInit from './pages/CompleteDbInit';
 import ImageUploadTest from './pages/ImageUploadTest';
+import ComingSoon from './pages/ComingSoon';
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { path: '/', element: <Home /> },
+      { path: '/', element: <HomeModern /> },
       { path: '/visa-free', element: <VisaFree /> },
       { path: '/attractions', element: <Attractions /> },
       { path: '/chinese-learning', element: <ChineseLearning /> },
@@ -37,6 +38,9 @@ export const router = createBrowserRouter([
       // 文章相关路由
       { path: '/articles', element: <ArticlesList /> },
       { path: '/articles/:articleId', element: <Article /> },
+      
+      // Guide pages - temporary coming soon pages
+      { path: '/guides/:guide', element: <ComingSoon /> },
       
       // 攻略相关路由
       { path: '/community/guides', element: <TravelGuidesList /> },

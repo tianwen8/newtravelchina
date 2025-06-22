@@ -122,18 +122,58 @@ const VisaFree: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{t('visaFree.title')} - {t('app.title')}</title>
-        <meta name="description" content={`${t('visaFree.subtitle')}. ${t('visaFree.policies.144hour.description')}, ${t('visaFree.policies.72hour.description')}`} />
-        <meta name="keywords" content="China visa-free transit, 240-hour visa-free, 72-hour visa-free, China travel tips, Beijing visa-free, Shanghai visa-free, transit visa China, visa exemption" />
+        <title>144-Hour Visa-Free Transit China 2025 | Complete Guide for 53+ Countries</title>
+        <meta name="description" content="Complete guide to China's 144-hour and 72-hour visa-free transit policy. Check eligibility for 53+ countries, required documents, allowed cities, and travel tips." />
+        <meta name="keywords" content="144 hour visa free China, 72 hour visa free China, China transit visa, visa free countries China, Beijing Shanghai visa free, China visa policy 2025" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="144-Hour Visa-Free Transit China 2025 | Complete Guide" />
+        <meta property="og:description" content="Official guide to China's visa-free transit policy for tourists from 53+ countries. Learn requirements, eligible cities, and travel tips." />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://travelchina.space/visa-free" />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://travelchina.space/visa-free" />
+        
+        {/* Structured Data - Article */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "144-Hour Visa-Free Transit China 2025: Complete Guide",
+            "description": "Complete guide to China's visa-free transit policy for tourists",
+            "author": {
+              "@type": "Organization",
+              "name": "Travel China"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Travel China",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://travelchina.space/china-icon.svg"
+              }
+            },
+            "datePublished": "2025-01-22",
+            "dateModified": "2025-01-22",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://travelchina.space/visa-free"
+            },
+            "articleSection": "Travel Guide",
+            "keywords": ["visa-free China", "144 hour visa", "China transit", "travel guide"]
+          })}
+        </script>
       </Helmet>
-      <div className="visa-free-container">
-        <header className="page-header">
-          <h1>{t('visaFree.title')}</h1>
-          <p>{t('visaFree.subtitle')}</p>
-        </header>
+      <div className="visa-free-container visa-free-page">
+        <div className="visa-free-content">
+          <header className="page-header">
+            <h1 className="page-title">{t('visaFree.title')}</h1>
+            <p className="text-large">{t('visaFree.subtitle')}</p>
+          </header>
         
         <section className="policy-section">
-          <h2>Latest Visa-Free Policies</h2>
+          <h2 className="section-title">Latest Visa-Free Policies</h2>
           <div className="policy-cards">
             {policies.map(policy => (
               <div 
@@ -141,8 +181,8 @@ const VisaFree: React.FC = () => {
                 className={`policy-card ${selectedPolicyId === policy.id ? 'selected' : ''}`}
                 onClick={() => handlePolicySelect(policy.id)}
               >
-                <h3>{policy.name}</h3>
-                <p>{policy.description}</p>
+                <h3 className="card-title">{policy.name}</h3>
+                <p className="description">{policy.description}</p>
                 <div className="policy-details">
                   <span className="duration">{policy.duration}</span>
                 </div>
@@ -152,7 +192,7 @@ const VisaFree: React.FC = () => {
         </section>
         
         <section className="eligibility-section">
-          <h2>Check Eligibility</h2>
+          <h2 className="section-title">Check Eligibility</h2>
           <div className="eligibility-form">
             <div className="form-group">
               <label htmlFor="country-select">Select your country:</label>
@@ -241,6 +281,7 @@ const VisaFree: React.FC = () => {
             </div>
           )}
         </section>
+        </div>
       </div>
     </>
   );

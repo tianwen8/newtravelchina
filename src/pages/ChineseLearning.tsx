@@ -28,18 +28,19 @@ const ChineseLearning: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Learn Chinese - Essential Phrases for China Travel</title>
-        <meta name="description" content="Learn essential Chinese phrases for your trip to China. Practice basic conversations, restaurant ordering, and asking for directions with our AI-assisted learning tools." />
-        <meta name="keywords" content="learn Chinese, Chinese phrases, travel Chinese, basic Mandarin, Chinese conversation" />
+        <title>{t('chineseLearning.title')} - {t('app.title')}</title>
+        <meta name="description" content={t('chineseLearning.description')} />
+        <meta name="keywords" content="Learn Chinese, Chinese language, Mandarin, Chinese phrases, Chinese culture, travel Chinese" />
       </Helmet>
-      <div className="chinese-learning-container">
-        <header className="page-header">
-          <h1>{t('chineseLearning.title')}</h1>
-          <p>{t('chineseLearning.subtitle')}</p>
-        </header>
+      <div className="chinese-learning-container chinese-learning-page">
+        <div className="chinese-learning-content">
+          <header className="page-header">
+            <h1 className="page-title">{t('chineseLearning.title', 'Learn Chinese')}</h1>
+            <p className="text-large">{t('chineseLearning.subtitle', 'Practice Chinese conversation with AI assistance')}</p>
+          </header>
         
-        <section className="category-filter">
-          <h2>{t('chineseLearning.categories.title')}</h2>
+        <section className="learning-categories">
+          <h2 className="section-title">Select Category</h2>
           <div className="category-buttons">
             {categories.map(category => (
               <button
@@ -87,6 +88,7 @@ const ChineseLearning: React.FC = () => {
           <p>{t('chineseLearning.aiPractice.comingSoon')}</p>
           <button className="coming-soon-button" disabled>{t('chineseLearning.aiPractice.startButton')}</button>
         </section>
+        </div>
       </div>
     </>
   );

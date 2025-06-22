@@ -68,55 +68,56 @@ const Attractions: React.FC = () => {
         <meta name="description" content={t('attractions.description')} />
         <meta name="keywords" content="China attractions, Chinese culture, Great Wall, Forbidden City, Terracotta Warriors, Chinese heritage sites" />
       </Helmet>
-      <div className="attractions-container">
-        <header className="page-header">
-          <h1>{t('attractions.title', 'Attractions & Culture')}</h1>
-          <p>{t('attractions.subtitle', 'Explore China\'s cultural heritage and natural wonders')}</p>
-        </header>
+      <div className="attractions-container attractions-page">
+        <div className="attractions-content">
+          <header className="page-header">
+            <h1 className="page-title">{t('attractions.title', 'Attractions & Culture')}</h1>
+            <p className="text-large">{t('attractions.subtitle', 'Explore China\'s cultural heritage and natural wonders')}</p>
+          </header>
         
         <section className="regions-section">
-          <h2>{t('attractions.regions.title', 'Popular Destinations')}</h2>
+          <h2 className="section-title">{t('attractions.regions.title', 'Popular Destinations')}</h2>
           <div className="region-cards">
             <div className="region-card">
-              <h3>{t('attractions.regions.beijing.name', 'Beijing')}</h3>
-              <p>{t('attractions.regions.beijing.attractions', 'Forbidden City, Great Wall, Temple of Heaven and other World Heritage sites')}</p>
+              <h3 className="card-title">{t('attractions.regions.beijing.name', 'Beijing')}</h3>
+              <p className="description">{t('attractions.regions.beijing.attractions', 'Forbidden City, Great Wall, Temple of Heaven and other World Heritage sites')}</p>
               <div className="culture-info">
-                <h4>{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
-                <p>{t('attractions.regions.beijing.culture', 'Peking Opera, Siheyuan (Courtyard Houses), Hutong Culture')}</p>
+                <h4 className="component-title">{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
+                <p className="text-body">{t('attractions.regions.beijing.culture', 'Peking Opera, Siheyuan (Courtyard Houses), Hutong Culture')}</p>
               </div>
             </div>
             
             <div className="region-card">
-              <h3>{t('attractions.regions.xian.name', 'Xi\'an')}</h3>
-              <p>{t('attractions.regions.xian.attractions', 'Terracotta Warriors, Ancient City Wall, Giant Wild Goose Pagoda')}</p>
+              <h3 className="card-title">{t('attractions.regions.xian.name', 'Xi\'an')}</h3>
+              <p className="description">{t('attractions.regions.xian.attractions', 'Terracotta Warriors, Ancient City Wall, Giant Wild Goose Pagoda')}</p>
               <div className="culture-info">
-                <h4>{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
-                <p>{t('attractions.regions.xian.culture', 'Shaanxi Noodles, Shadow Puppetry, Ancient Capital Culture')}</p>
+                <h4 className="component-title">{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
+                <p className="text-body">{t('attractions.regions.xian.culture', 'Shaanxi Noodles, Shadow Puppetry, Ancient Capital Culture')}</p>
               </div>
             </div>
             
             <div className="region-card">
-              <h3>{t('attractions.regions.chengdu.name', 'Chengdu')}</h3>
-              <p>{t('attractions.regions.chengdu.attractions', 'Giant Panda Base, Jinli Ancient Street, Dujiangyan Irrigation System')}</p>
+              <h3 className="card-title">{t('attractions.regions.chengdu.name', 'Chengdu')}</h3>
+              <p className="description">{t('attractions.regions.chengdu.attractions', 'Giant Panda Base, Jinli Ancient Street, Dujiangyan Irrigation System')}</p>
               <div className="culture-info">
-                <h4>{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
-                <p>{t('attractions.regions.chengdu.culture', 'Sichuan Opera Face-changing, Sichuan Cuisine, Teahouse Culture')}</p>
+                <h4 className="component-title">{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
+                <p className="text-body">{t('attractions.regions.chengdu.culture', 'Sichuan Opera Face-changing, Sichuan Cuisine, Teahouse Culture')}</p>
               </div>
             </div>
           </div>
         </section>
         
         <section className="seasonal-info">
-          <h2>{t('attractions.seasons.title', 'Best Travel Seasons')}</h2>
+          <h2 className="section-title">{t('attractions.seasons.title', 'Best Travel Seasons')}</h2>
           <div className="season-tips">
-            <p>{t('attractions.seasons.spring', 'Spring: March-May, pleasant weather, perfect for flower viewing and outdoor activities')}</p>
-            <p>{t('attractions.seasons.autumn', 'Autumn: September-November, clear skies and comfortable temperatures, the golden season for tourism')}</p>
+            <p className="text-body">{t('attractions.seasons.spring', 'Spring: March-May, pleasant weather, perfect for flower viewing and outdoor activities')}</p>
+            <p className="text-body">{t('attractions.seasons.autumn', 'Autumn: September-November, clear skies and comfortable temperatures, the golden season for tourism')}</p>
           </div>
         </section>
         
         {/* 相关文章列表 */}
         <section className="attractions-articles-section">
-          <h2>{t('attractions.relatedArticles', 'Explore More About Chinese Attractions & Culture')}</h2>
+          <h2 className="section-title">{t('attractions.relatedArticles', 'Explore More About Chinese Attractions & Culture')}</h2>
           
           {isLoading ? (
             <div className="loading-spinner">
@@ -151,6 +152,7 @@ const Attractions: React.FC = () => {
             </div>
           )}
         </section>
+        </div>
       </div>
     </>
   );

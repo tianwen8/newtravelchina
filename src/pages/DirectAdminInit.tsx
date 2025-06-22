@@ -4,8 +4,8 @@ import { setDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
 
-// 管理员账户默认显示名称
-const ADMIN_DISPLAY_NAME = '系统管理员';
+// Default admin account display name
+const ADMIN_DISPLAY_NAME = 'System Administrator';
 
 const DirectAdminInit: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -16,37 +16,37 @@ const DirectAdminInit: React.FC = () => {
   const navigate = useNavigate();
 
   const handleInitialize = async () => {
-    // 表单验证
+    // Form validation
     if (!adminEmail || !adminPassword) {
-      setMessage('请输入管理员邮箱和密码');
+      setMessage('Please enter admin email and password');
       return;
     }
     
     setLoading(true);
-    setMessage('正在初始化管理员账户，请稍候...');
+    setMessage('Initializing admin account, please wait...');
     
     try {
-      // 步骤1: 尝试创建用户（如果已存在则尝试登录）
+      // Step 1: Try to create user (if already exists, try to login)
       let uid;
       try {
-        console.log('尝试创建用户');
+        console.log('Attempting to create user');
         const userCredential = await createUserWithEmailAndPassword(auth, adminEmail, adminPassword);
         uid = userCredential.user.uid;
-        console.log('用户创建成功, UID:', uid);
+        console.log('User created successfully, UID:', uid);
       } catch (createError: any) {
-        console.log('创建用户失败:', createError.message);
+        console.log('User creation failed:', createError.message);
         
-        // 如果用户已存在，尝试登录
+        // If user already exists, try to login
         if (createError.code === 'auth/email-already-in-use') {
           try {
-            console.log('尝试登录现有用户');
+            console.log('Attempting to login existing user');
             const userCredential = await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
             uid = userCredential.user.uid;
-            console.log('登录成功, UID:', uid);
+            console.log('Login successful, UID:', uid);
           } catch (loginError: any) {
-            console.error('登录失败:', loginError);
+            console.error('Login failed:', loginError);
             setSuccess(false);
-            setMessage(`登录失败: ${loginError.message}. 如果您忘记了密码，请使用重置密码功能。`);
+            setMessage(`Login failed: ${loginError.message}. If you forgot your password, please use the password reset feature.`);
             setLoading(false);
             return;
           }
@@ -55,10 +55,10 @@ const DirectAdminInit: React.FC = () => {
         }
       }
       
-      // 步骤2: 设置管理员权限
+      // Step 2: Set admin permissions
       if (uid) {
         try {
-          console.log('设置管理员权限, UID:', uid);
+          console.log('Setting admin permissions, UID:', uid);
           await setDoc(doc(db, 'users', uid), {
             email: adminEmail,
             displayName: ADMIN_DISPLAY_NAME,
@@ -67,22 +67,22 @@ const DirectAdminInit: React.FC = () => {
           }, { merge: true });
           
           setSuccess(true);
-          setMessage(`管理员账户已成功初始化，请使用此账户登录。`);
+          setMessage(`Admin account has been successfully initialized, please login with this account.`);
           
-          // 5秒后跳转到登录页面
+          // Redirect to login page after 5 seconds
           setTimeout(() => {
             navigate('/login');
           }, 5000);
         } catch (error) {
-          console.error('设置管理员权限失败:', error);
+          console.error('Failed to set admin permissions:', error);
           setSuccess(false);
-          setMessage(`设置管理员权限失败: ${error instanceof Error ? error.message : '未知错误'}`);
+          setMessage(`Failed to set admin permissions: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
       }
     } catch (error) {
-      console.error('初始化过程中出错:', error);
+      console.error('Error during initialization:', error);
       setSuccess(false);
-      setMessage(`初始化失败: ${error instanceof Error ? error.message : '未知错误'}`);
+      setMessage(`Initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
@@ -90,20 +90,20 @@ const DirectAdminInit: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem', textAlign: 'center' }}>
-      <h1>管理员账户直接初始化</h1>
-      <p>此页面将创建并授权管理员账户。请输入您想使用的管理员邮箱和密码。</p>
+      <h1>Direct Admin Account Initialization</h1>
+      <p>This page will create and authorize an admin account. Please enter the admin email and password you want to use.</p>
       
       <div style={{ margin: '2rem 0', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
         <div style={{ margin: '1rem 0', padding: '1rem', backgroundColor: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
           <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              管理员邮箱:
+              Admin Email:
             </label>
             <input
               type="email"
               value={adminEmail}
               onChange={(e) => setAdminEmail(e.target.value)}
-              placeholder="输入管理员邮箱"
+              placeholder="Enter admin email"
               style={{
                 width: '100%',
                 padding: '0.5rem',
@@ -116,13 +116,13 @@ const DirectAdminInit: React.FC = () => {
           
           <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              管理员密码:
+              Admin Password:
             </label>
             <input
               type="password"
               value={adminPassword}
               onChange={(e) => setAdminPassword(e.target.value)}
-              placeholder="输入管理员密码"
+              placeholder="Enter admin password"
               style={{
                 width: '100%',
                 padding: '0.5rem',
@@ -132,13 +132,13 @@ const DirectAdminInit: React.FC = () => {
               required
             />
             <p style={{ fontSize: '0.8rem', color: '#666', margin: '0.5rem 0 0' }}>
-              请使用强密码，建议包含大小写字母、数字和特殊字符。
+              Please use a strong password, preferably including uppercase and lowercase letters, numbers, and special characters.
             </p>
           </div>
         </div>
         
         <p style={{ color: '#dc3545', fontWeight: 'bold', marginTop: '1rem' }}>
-          重要安全提示：请记住您设置的凭据。初始化后建议立即登录并验证权限。
+          Important Security Notice: Please remember the credentials you set. After initialization, it is recommended to login immediately and verify permissions.
         </p>
       </div>
       
@@ -156,7 +156,7 @@ const DirectAdminInit: React.FC = () => {
           opacity: (loading || !adminEmail || !adminPassword) ? 0.7 : 1
         }}
       >
-        {loading ? '初始化中...' : '初始化管理员账户'}
+        {loading ? 'Initializing...' : 'Initialize Admin Account'}
       </button>
       
       {message && (
@@ -169,13 +169,13 @@ const DirectAdminInit: React.FC = () => {
           border: `1px solid ${success ? '#c3e6cb' : '#f5c6cb'}`
         }}>
           <p>{message}</p>
-          {success && <p>初始化成功！5秒后将跳转到登录页面。</p>}
+          {success && <p>Initialization successful! Redirecting to login page in 5 seconds.</p>}
         </div>
       )}
       
       <p>
         <a href="/login" style={{ color: '#0077be', textDecoration: 'none' }}>
-          返回登录页面
+          Back to Login Page
         </a>
       </p>
     </div>

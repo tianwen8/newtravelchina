@@ -220,15 +220,16 @@ const Community: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{t('community.pageTitle')}</title>
-        <meta name="description" content={t('community.metaDescription')} />
-        <meta name="keywords" content={t('community.metaKeywords')} />
+        <title>{t('community.title')} - {t('app.title')}</title>
+        <meta name="description" content={t('community.description')} />
+        <meta name="keywords" content="China travel community, travel experiences, China travel tips, travel stories" />
       </Helmet>
-      <div className="community-container">
-        <header className="page-header">
-          <h1>{t('community.title')}</h1>
-          <p>{t('community.subtitle')}</p>
-        </header>
+      <div className="community-container community-page">
+        <div className="community-content">
+          <header className="page-header">
+            <h1 className="page-title">{t('community.title')}</h1>
+            <p className="text-large">{t('community.subtitle')}</p>
+          </header>
         
         <section className="comment-section">
           <h2>{t('community.comments.title')}</h2>
@@ -494,6 +495,7 @@ const Community: React.FC = () => {
             </div>
           </div>
         </section>
+        </div>
       </div>
     </>
   );

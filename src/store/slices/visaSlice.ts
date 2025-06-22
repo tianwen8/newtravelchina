@@ -20,7 +20,7 @@ interface VisaState {
   error: string | null;
 }
 
-// 符合240小时免签的54个国家（按字母顺序排列）
+// 54 countries eligible for 144-hour visa-free transit (alphabetical order)
 const eligible240HourCountries = [
   'Albania', 'Argentina', 'Australia', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 
   'Brazil', 'Brunei', 'Bulgaria', 'Canada', 'Chile', 'Croatia', 'Cyprus', 'Czech Republic', 
