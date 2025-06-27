@@ -1,4 +1,6 @@
 rules_version = '2';
+
+// Firestore规则
 service cloud.firestore {
   match /databases/{database}/documents {
     // 公共文章 - 所有人可读，仅管理员可写
@@ -23,12 +25,25 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     
-    // 评论 - 所有人可读，已认证用户可写，自己可删除
+    // 评论 - 所有人可读，已认证用户可写和更新，创建者可删除
     match /comments/{commentId} {
       allow read: if true;
       allow create: if request.auth != null;
-      allow update, delete: if request.auth != null && 
-                             request.auth.uid == resource.data.userId;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null && 
+                     (request.auth.uid == resource.data.userId || 
+                      request.auth.token.admin == true);
     }
   }
-} 
+}
+
+// Storage规则
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 图片上传 - 已认证用户可上传和读取
+    match /{allPaths=**} {
+      allow read: if true; // 所有人可读取图片
+      allow write: if request.auth != null; // 已认证用户可上传
+    }
+  }
+}

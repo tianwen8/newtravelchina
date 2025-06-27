@@ -14,7 +14,13 @@
     "serve:basic": "node basic-server.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "express-dev": "node dev-express.js"
+    "express-dev": "node dev-express.js",
+    "article:add": "node scripts/update-articles.js add",
+    "article:update": "node scripts/update-articles.js update",
+    "article:delete": "node scripts/update-articles.js delete",
+    "article:list": "node scripts/update-articles.js list",
+    "add-example-article": "node scripts/add-article.js add",
+    "article-help": "node scripts/add-article.js help"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
@@ -22,10 +28,12 @@
     "@emotion/styled": "^11.11.0",
     "@reduxjs/toolkit": "^2.1.0",
     "@supabase/supabase-js": "^2.50.0",
+    "@types/marked": "^5.0.2",
     "@types/react-helmet": "^6.1.11",
     "firebase": "^10.14.1",
     "framer-motion": "^11.0.3",
     "i18next": "^23.7.16",
+    "marked": "^15.0.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",

@@ -2,8 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
+import { marked } from 'marked';
 import { articleService, Article as ArticleType } from '../services/articleService';
 import './Article.css';
+import '../styles/ArticleContent.css';
+
+// 配置marked选项
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+});
 
 const Article: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
@@ -42,6 +50,16 @@ const Article: React.FC = () => {
     // Scroll to top
     window.scrollTo(0, 0);
   }, [articleId, t]);
+
+  // 将Markdown转换为HTML
+  const parseMarkdown = (markdown: string): string => {
+    try {
+      return marked(markdown) as string;
+    } catch (error) {
+      console.error('Markdown parsing error:', error);
+      return markdown.replace(/\n/g, '<br/>');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -122,7 +140,40 @@ const Article: React.FC = () => {
         <p>{article.summary}</p>
       </div>
 
-      <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content }} />
+      <div className="article-content">
+        {Array.isArray(article.content) ? (
+          article.content.map((section, index) => {
+            switch (section.type) {
+              case 'text':
+                return (
+                  <div key={index} className="content-text" dangerouslySetInnerHTML={{ __html: parseMarkdown(section.text) }} />
+                );
+              case 'image':
+                return (
+                  <div key={index} className="content-image">
+                    <img src={section.src} alt={section.alt} />
+                    {section.caption && <p className="image-caption">{section.caption}</p>}
+                  </div>
+                );
+              case 'gallery':
+                return (
+                  <div key={index} className="content-gallery">
+                    {section.images?.map((img: any, imgIndex: number) => (
+                      <div key={imgIndex} className="gallery-item">
+                        <img src={img.src} alt={img.alt} />
+                        {img.caption && <p className="image-caption">{img.caption}</p>}
+                      </div>
+                    ))}
+                  </div>
+                );
+              default:
+                return null;
+            }
+          })
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: parseMarkdown(article.content) }} />
+        )}
+      </div>
 
       {relatedArticles.length > 0 && (
         <div className="related-articles">

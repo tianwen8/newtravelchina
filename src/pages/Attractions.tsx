@@ -11,6 +11,14 @@ const Attractions: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
+  // 景点到文章的映射
+  const destinationToArticle: { [key: string]: string } = {
+    'beijing': 'beijing-travel-guide',
+    'xian': 'xian-travel-guide', // 如果有西安的文章
+    'chengdu': 'chengdu-travel-guide', // 如果有成都的文章
+    'shanghai': 'shanghai-modern-city-guide'
+  };
+
   // Get all articles, not limited to specific category
   useEffect(() => {
     const fetchArticles = async () => {
@@ -78,14 +86,17 @@ const Attractions: React.FC = () => {
         <section className="regions-section">
           <h2 className="section-title">{t('attractions.regions.title', 'Popular Destinations')}</h2>
           <div className="region-cards">
-            <div className="region-card">
+            <Link 
+              to={`/articles/${destinationToArticle['beijing']}`} 
+              className="region-card clickable-card"
+            >
               <h3 className="card-title">{t('attractions.regions.beijing.name', 'Beijing')}</h3>
               <p className="description">{t('attractions.regions.beijing.attractions', 'Forbidden City, Great Wall, Temple of Heaven and other World Heritage sites')}</p>
               <div className="culture-info">
                 <h4 className="component-title">{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
                 <p className="text-body">{t('attractions.regions.beijing.culture', 'Peking Opera, Siheyuan (Courtyard Houses), Hutong Culture')}</p>
               </div>
-            </div>
+            </Link>
             
             <div className="region-card">
               <h3 className="card-title">{t('attractions.regions.xian.name', 'Xi\'an')}</h3>
@@ -93,6 +104,9 @@ const Attractions: React.FC = () => {
               <div className="culture-info">
                 <h4 className="component-title">{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
                 <p className="text-body">{t('attractions.regions.xian.culture', 'Shaanxi Noodles, Shadow Puppetry, Ancient Capital Culture')}</p>
+              </div>
+              <div className="coming-soon-overlay">
+                <span className="coming-soon-text">Article Coming Soon</span>
               </div>
             </div>
             
@@ -102,6 +116,9 @@ const Attractions: React.FC = () => {
               <div className="culture-info">
                 <h4 className="component-title">{t('attractions.regions.culturalFeatures', 'Cultural Features')}</h4>
                 <p className="text-body">{t('attractions.regions.chengdu.culture', 'Sichuan Opera Face-changing, Sichuan Cuisine, Teahouse Culture')}</p>
+              </div>
+              <div className="coming-soon-overlay">
+                <span className="coming-soon-text">Article Coming Soon</span>
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@
     },
     "nav": {
       "home": "Home",
-      "visaFree": "Visa-Free Travel",
+      "travelGuides": "Travel Guides",
       "attractions": "Attractions & Culture",
       "chineseLearning": "Learn Chinese",
       "community": "Community",
@@ -113,7 +113,7 @@
       "cta": {
         "title": "Ready to Start Your China Journey?",
         "subtitle": "Explore China's cultural heritage, natural landscapes, and rich history",
-        "button": "Check Visa-Free Policies"
+        "button": "View Travel Guides"
       }
     },
     "visaFree": {
@@ -383,8 +383,10 @@
     "article": {
       "categories": {
         "title": "Articles",
+        "visa-policies": "Visa Policies",
         "visa-free": "Visa-Free Policy",
-        "attractions": "Attractions",
+        "travel-guides": "Travel Guides",
+        "attractions": "Attractions & Culture",
         "culture": "Chinese Culture",
         "travel-tips": "Travel Tips",
         "policy": "Policy Updates",

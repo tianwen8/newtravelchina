@@ -3,14 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import { pageview } from './services/analytics'
-import { useAuth } from './contexts/AuthContext'
+// import { useAuth } from './contexts/AuthContext' // 暂时禁用登录功能
 import './App.css'
 
 function App() {
   const { t } = useTranslation();
   const location = useLocation();
-  const { currentUser, logout, isAdmin } = useAuth();
+  // const { currentUser, logout, isAdmin } = useAuth(); // 暂时禁用
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const currentUser = null; // 临时设置
   
   // 当路由变化时，跟踪页面访问
   useEffect(() => {
@@ -18,15 +19,15 @@ function App() {
     setUserMenuOpen(false);
   }, [location]);
   
-  // 处理登出
-  const handleLogout = async () => {
-    try {
-      await logout();
-      setUserMenuOpen(false);
-    } catch (error) {
-      console.error('登出失败', error);
-    }
-  };
+  // 处理登出 - 暂时禁用
+  // const handleLogout = async () => {
+  //   try {
+  //     await logout();
+  //     setUserMenuOpen(false);
+  //   } catch (error) {
+  //     console.error('登出失败', error);
+  //   }
+  // };
   
   return (
     <div className="app-container">
@@ -34,35 +35,16 @@ function App() {
         <Link to="/" className="nav-logo">{t('app.title')}</Link>
         
         <div className="nav-links">
-          <Link to="/visa-free">{t('nav.visaFree')}</Link>
+          <Link to="/travel-guides">{t('nav.travelGuides')}</Link>
           <Link to="/attractions">{t('nav.attractions')}</Link>
           <Link to="/chinese-learning">{t('nav.chineseLearning')}</Link>
           <Link to="/community">{t('nav.community')}</Link>
           <LanguageSwitcher />
         </div>
         
-        {/* 用户认证相关链接 - 单独放置以确保可见性 */}
+        {/* 用户认证相关链接 - 暂时禁用 */}
         <div className="auth-links">
-          {currentUser ? (
-            <>
-              <Link to="/profile" className="profile-link">
-                {currentUser.displayName || '个人资料'}
-              </Link>
-              {isAdmin && (
-                <Link to="/admin" className="admin-link">
-                  {t('nav.adminDashboard')}
-                </Link>
-              )}
-              <button onClick={handleLogout} className="logout-button">
-                {t('auth.logout')}
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login">{t('auth.login')}</Link>
-              <Link to="/register">{t('auth.register')}</Link>
-            </>
-          )}
+          {/* 登录功能和社区功能暂时禁用，专注于内容展示 */}
         </div>
       </nav>
       

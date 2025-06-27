@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectPolicy, setUserCountry, checkEligibility } from '../store/slices/visaSlice';
+import { articleService, Article } from '../services/articleService';
 
 // 导入图片资源
 import beijingImg from '../assets/images/beijing.jpg';
@@ -25,10 +26,31 @@ const HomeModern: React.FC = () => {
   const dispatch = useAppDispatch();
   const { userCountry, isEligible } = useAppSelector(state => state.visa);
   const [showResult, setShowResult] = useState(false);
+  const [latestArticles, setLatestArticles] = useState<Article[]>([]);
+  const [popularArticles, setPopularArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     dispatch(selectPolicy('1'));
+    loadArticles();
   }, [dispatch]);
+
+  const loadArticles = async () => {
+    try {
+      setIsLoading(true);
+      // Get latest articles (sorted by publish date)
+      const latest = await articleService.getArticlesByCategory('', 1, 3);
+      setLatestArticles(latest);
+      
+      // Get popular articles (sorted by views)
+      const popular = await articleService.getFeaturedArticles(3);
+      setPopularArticles(popular);
+    } catch (error) {
+      console.error('Failed to load articles:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const country = e.target.value;
@@ -133,7 +155,7 @@ const HomeModern: React.FC = () => {
                 </div>
               )}
               
-              <Link to="/visa-free" className="cta-primary">
+              <Link to="/travel-guides" className="cta-primary">
                 Learn More About Visa Policies →
               </Link>
             </div>
@@ -169,11 +191,11 @@ const HomeModern: React.FC = () => {
                 <div className="feature-arrow">Start Learning →</div>
               </Link>
               
-              <Link to="/community" className="feature-item">
-                <div className="feature-icon">💬</div>
-                <h3>Traveler Community</h3>
-                <p>Connect with fellow travelers and share experiences</p>
-                <div className="feature-arrow">Join Community →</div>
+              <Link to="/travel-guides" className="feature-item">
+                <div className="feature-icon">📋</div>
+                <h3>Travel Guides</h3>
+                <p>Complete guides for payments, navigation, and essential travel tips</p>
+                <div className="feature-arrow">Read Guides →</div>
               </Link>
             </div>
           </div>
@@ -251,6 +273,88 @@ const HomeModern: React.FC = () => {
           </div>
         </section>
 
+        {/* Latest Articles & Recommendations */}
+        <section className="articles-modern">
+          <div className="container">
+            <div className="articles-row">
+              {/* Latest Articles */}
+              <div className="articles-column">
+                <div className="section-header">
+                  <h2>🆕 Latest Travel Guides</h2>
+                  <p>Fresh insights for your China journey</p>
+                </div>
+                
+                {isLoading ? (
+                  <div className="articles-loading">
+                    <div className="loading-spinner"></div>
+                    <p>Loading latest articles...</p>
+                  </div>
+                ) : (
+                  <div className="articles-list">
+                    {latestArticles.map((article) => (
+                      <Link to={`/articles/${article.id}`} key={article.id} className="article-card">
+                        <div className="article-meta">
+                          <span className="article-category">{article.category}</span>
+                          <span className="article-date">
+                            {new Date(article.publishDate).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <h3>{article.title}</h3>
+                        <p>{article.summary}</p>
+                        <div className="article-stats">
+                          <span>👁️ {article.viewCount} views</span>
+                          <span>⏱️ {(article as any).readTime || 5} min read</span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                
+                <Link to="/travel-guides" className="view-all-link">
+                  View All Travel Guides →
+                </Link>
+              </div>
+              
+              {/* Popular Articles */}
+              <div className="articles-column">
+                <div className="section-header">
+                  <h2>🔥 Most Popular</h2>
+                  <p>What other travelers are reading</p>
+                </div>
+                
+                {isLoading ? (
+                  <div className="articles-loading">
+                    <div className="loading-spinner"></div>
+                    <p>Loading popular articles...</p>
+                  </div>
+                ) : (
+                  <div className="articles-list">
+                    {popularArticles.map((article, index) => (
+                      <Link to={`/articles/${article.id}`} key={article.id} className="article-card popular">
+                        <div className="popularity-rank">#{index + 1}</div>
+                        <div className="article-meta">
+                          <span className="article-category">{article.category}</span>
+                          <span className="article-views">👁️ {article.viewCount}</span>
+                        </div>
+                        <h3>{article.title}</h3>
+                        <p>{article.summary}</p>
+                        <div className="article-engagement">
+                          <span>❤️ {(article as any).likes || 0} likes</span>
+                          <span>⏱️ {(article as any).readTime || 5} min</span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                
+                <Link to="/attractions" className="view-all-link">
+                  Explore All Destinations →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Essential Guides Section */}
         <section className="guides-modern">
           <div className="container">
@@ -299,7 +403,7 @@ const HomeModern: React.FC = () => {
               <h2>Ready to Explore China?</h2>
               <p>Start with our comprehensive visa-free travel guide and make the most of your journey.</p>
               <div className="cta-buttons">
-                <Link to="/visa-free" className="btn-primary">
+                <Link to="/travel-guides" className="btn-primary">
                   Check Visa Requirements
                 </Link>
                 <Link to="/attractions" className="btn-secondary">

@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { initializeDatabase, checkDatabaseInitialized } from '../firebase/initializeDb';
 import { articleService, Article } from '../services/articleService';
 import ImageUploader from '../components/ImageUploader';
+import FileUploader from '../components/FileUploader';
 import './AdminDashboard.css';
 
 const AdminDashboard: React.FC = () => {
@@ -144,6 +145,42 @@ const AdminDashboard: React.FC = () => {
   // 处理图片上传完成
   const handleImageUploaded = (imageUrl: string) => {
     setArticleForm(prev => ({ ...prev, coverImage: imageUrl }));
+  };
+
+  // 处理内容图片上传完成
+  const handleContentImageUploaded = (imageUrl: string) => {
+    // 自动插入图片HTML标签到文章内容中
+    const imgTag = `<img src="${imageUrl}" alt="Article image" style="max-width: 100%; height: auto; margin: 10px 0; border-radius: 8px;" />`;
+    setArticleForm(prev => ({ 
+      ...prev, 
+      content: prev.content + '\n\n' + imgTag + '\n\n'
+    }));
+  };
+
+  // 处理文件上传完成
+  const handleFileUploaded = (fileUrl: string, fileType: 'image' | 'document') => {
+    if (fileType === 'image') {
+      // 图片直接插入
+      const imgTag = `<img src="${fileUrl}" alt="Article image" style="max-width: 100%; height: auto; margin: 10px 0; border-radius: 8px;" />`;
+      setArticleForm(prev => ({ 
+        ...prev, 
+        content: prev.content + '\n\n' + imgTag + '\n\n'
+      }));
+    } else {
+      // 文档插入链接和预览
+      const docHtml = `
+<div class="document-container" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9;">
+  <h4>📄 文档内容</h4>
+  <p><a href="${fileUrl}" target="_blank" download style="color: #667eea; text-decoration: none;">📎 下载文档</a></p>
+  <iframe src="https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true" 
+          style="width: 100%; height: 400px; border: none; border-radius: 4px;">
+  </iframe>
+</div>`;
+      setArticleForm(prev => ({ 
+        ...prev, 
+        content: prev.content + '\n\n' + docHtml + '\n\n'
+      }));
+    }
   };
   
   // 发布新文章
@@ -342,24 +379,48 @@ const AdminDashboard: React.FC = () => {
               </div>
               
               <div className="form-group">
-                <label htmlFor="coverImage">封面图片</label>
+                <label htmlFor="coverImage">Cover Image</label>
                 <ImageUploader
                   initialImageUrl={articleForm.coverImage}
                   onImageUploaded={handleImageUploaded}
                   folder="article-covers"
                 />
               </div>
+
+              <div className="form-group">
+                <label htmlFor="contentFiles">📎 Content Files (Images & Documents)</label>
+                <FileUploader
+                  onFileUploaded={handleFileUploaded}
+                  acceptedTypes="all"
+                  folder="article-content"
+                />
+                <small className="form-description">
+                  Upload images or Word documents that will be automatically inserted into your article content below.
+                  Supports: Images (JPG, PNG, GIF), Documents (Word, PDF, TXT)
+                </small>
+              </div>
               
               <div className="form-group">
-                <label htmlFor="content">文章内容 (支持HTML格式)</label>
+                <label htmlFor="content">Article Content (Supports HTML format)</label>
                 <textarea
                   id="content"
                   name="content"
                   value={articleForm.content}
                   onChange={handleArticleFormChange}
-                  rows={10}
+                  rows={15}
                   required
+                  placeholder="You can use HTML tags like:
+<p>Paragraph text</p>
+<h2>Section heading</h2>
+<img src='image-url' alt='description' style='max-width: 100%; height: auto;' />
+<a href='link'>Link text</a>
+<ul><li>List item</li></ul>
+<strong>Bold text</strong>
+<em>Italic text</em>"
                 />
+                <small className="form-description">
+                  Tip: Upload images first using the cover image uploader above, then copy the URL and use it in img tags within your content.
+                </small>
               </div>
               
               <button type="submit" className="admin-button" disabled={loading}>

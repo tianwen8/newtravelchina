@@ -60,11 +60,13 @@ const ChineseLearning: React.FC = () => {
             {filteredPhrases.map(phrase => (
               <div 
                 key={phrase.id} 
-                className="phrase-card"
+                className="phrase-item"
                 onClick={() => handlePhraseClick(phrase.id)}
               >
-                <div className="phrase-header">
-                  <h3>{phrase.chinese}</h3>
+                <div className="phrase-chinese">{phrase.chinese}</div>
+                <div className="phrase-pinyin">{phrase.pinyin}</div>
+                <div className="phrase-english">{phrase.english}</div>
+                <div className="phrase-category">{phrase.category}</div>
                   <button 
                     className={`favorite-button ${favoriteIds.includes(phrase.id) ? 'active' : ''}`}
                     onClick={(e) => {
@@ -74,19 +76,15 @@ const ChineseLearning: React.FC = () => {
                   >
                     ❤
                   </button>
-                </div>
-                <p className="pinyin">{phrase.pinyin}</p>
-                <p className="english">{phrase.english}</p>
-                <div className="phrase-category">{phrase.category}</div>
               </div>
             ))}
           </div>
         </section>
         
-        <section className="ai-practice">
+        <section className="ai-practice-section">
           <h2>{t('chineseLearning.aiPractice.title')}</h2>
           <p>{t('chineseLearning.aiPractice.comingSoon')}</p>
-          <button className="coming-soon-button" disabled>{t('chineseLearning.aiPractice.startButton')}</button>
+          <button className="start-practice-btn" disabled>{t('chineseLearning.aiPractice.startButton')}</button>
         </section>
         </div>
       </div>

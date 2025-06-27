@@ -1,0 +1,72 @@
+{
+  "articles": [
+    {
+      "id": "beijing-travel-guide-2024",
+      "title": "北京深度游攻略：从故宫到胡同的文化之旅",
+      "summary": "探索北京古都魅力，从紫禁城的宏伟建筑到老胡同的市井生活，一次深度文化体验之旅。",
+      "content": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "<p>北京，这座有着3000多年历史的古都...</p>"
+          },
+          {
+            "type": "image",
+            "src": "/images/beijing/forbidden-city.jpg",
+            "alt": "故宫太和殿",
+            "caption": "故宫太和殿 - 明清皇帝举行大典的场所"
+          },
+          {
+            "type": "text", 
+            "content": "<h2>必游景点推荐</h2><p>1. 故宫博物院...</p>"
+          },
+          {
+            "type": "gallery",
+            "images": [
+              {
+                "src": "/images/beijing/hutong1.jpg",
+                "alt": "南锣鼓巷胡同",
+                "caption": "南锣鼓巷的传统胡同风貌"
+              },
+              {
+                "src": "/images/beijing/hutong2.jpg", 
+                "alt": "四合院内景",
+                "caption": "传统四合院的庭院布局"
+              }
+            ]
+          }
+        ]
+      },
+      "coverImage": "/images/beijing/cover.jpg",
+      "category": "attractions",
+      "tags": ["北京", "文化旅游", "古迹", "胡同"],
+      "publishDate": "2024-01-15T10:00:00Z",
+      "lastModified": "2024-01-20T15:30:00Z",
+      "viewCount": 1250,
+      "author": {
+        "name": "李文华",
+        "avatar": "/avatars/liwenhua.jpg"
+      },
+      "seo": {
+        "metaTitle": "北京旅游攻略2024 - 故宫胡同深度游指南",
+        "metaDescription": "最全面的北京旅游攻略，包含故宫、胡同、美食推荐，让你深度体验古都文化魅力。",
+        "keywords": ["北京旅游", "故宫攻略", "胡同游", "北京美食"]
+      },
+      "readingTime": 8,
+      "featured": true
+    }
+  ],
+  "categories": [
+    {
+      "id": "attractions",
+      "name": "景点推荐", 
+      "nameEn": "Attractions",
+      "description": "中国各地热门景点和深度游攻略"
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2024-01-20T15:30:00Z",
+    "totalArticles": 45,
+    "version": "1.2.0"
+  }
+} 

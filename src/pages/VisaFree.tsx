@@ -174,20 +174,45 @@ const VisaFree: React.FC = () => {
         
         <section className="policy-section">
           <h2 className="section-title">Latest Visa-Free Policies</h2>
-          <div className="policy-cards">
-            {policies.map(policy => (
-              <div 
-                key={policy.id} 
-                className={`policy-card ${selectedPolicyId === policy.id ? 'selected' : ''}`}
-                onClick={() => handlePolicySelect(policy.id)}
-              >
-                <h3 className="card-title">{policy.name}</h3>
-                <p className="description">{policy.description}</p>
-                <div className="policy-details">
-                  <span className="duration">{policy.duration}</span>
-                </div>
-              </div>
-            ))}
+          
+          {/* Latest Policy Articles - Replace old policy cards */}
+          {isLoading ? (
+            <div className="loading-spinner">
+              <div className="spinner"></div>
+              <p>Loading latest policies...</p>
+            </div>
+          ) : (
+            <div className="policy-cards">
+              {articles
+                .filter(article => article.category === 'visa-policies')
+                .slice(0, 3)
+                .map(article => (
+                  <Link 
+                    to={`/articles/${article.id}`} 
+                    key={article.id} 
+                    className="policy-card"
+                  >
+                    <div className="policy-card-content">
+                      <div className="policy-card-meta">
+                        <span className="policy-card-source">Official Policy</span>
+                        <span className="policy-card-date">{formatRelativeTime(article.publishDate)}</span>
+                      </div>
+                      <h3 className="card-title">{article.title}</h3>
+                      <p className="description">{article.summary}</p>
+                      <div className="policy-details">
+                        <span className="policy-source">China National Immigration Administration</span>
+                        <span className="policy-badge">Official</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              }
+            </div>
+          )}
+          
+          <div className="policy-note">
+            <p><strong>Source:</strong> China National Immigration Administration</p>
+            <p><strong>Last Updated:</strong> June 27, 2025</p>
           </div>
         </section>
         

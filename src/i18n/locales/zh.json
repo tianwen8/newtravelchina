@@ -332,14 +332,16 @@
       "relatedArticles": "Related Articles",
       "categories": {
         "title": "Articles",
-        "visa-free": "Visa-Free Policy",
-        "attractions": "Attraction Recommendations",
-        "culture": "Chinese Culture",
-        "travel-tips": "Travel Tips",
-        "policy": "Policy Updates",
-        "transit": "Transit Information",
-        "palace": "Palaces & Museums",
-        "heritage": "Heritage Sites"
+        "visa-policies": "签证政策",
+        "visa-free": "免签政策",
+        "travel-guides": "旅行指南",
+        "attractions": "景点文化",
+        "culture": "中华文化",
+        "travel-tips": "旅行贴士",
+        "policy": "政策更新",
+        "transit": "过境信息",
+        "palace": "宫殿博物馆",
+        "heritage": "文化遗产"
       },
       "fetchError": "Failed to load article",
       "notFound": "Article not found"

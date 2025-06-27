@@ -120,17 +120,84 @@
   cursor: pointer;
   transition: all 0.3s ease;
   animation: slideInUp 0.8s ease-out;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
 }
 
 .policy-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  color: inherit;
 }
 
 .policy-card.selected {
   border: 2px solid #ffffff;
   background: rgba(255, 255, 255, 1);
   transform: translateY(-5px);
+}
+
+/* 政策文章卡片特定样式 */
+.policy-card-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.policy-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.policy-card-source {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.policy-card-date {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.policy-source {
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.policy-badge {
+  background: #10b981;
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.policy-note {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+.policy-note p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
 }
 
 .policy-card h3 {

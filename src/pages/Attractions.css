@@ -120,11 +120,57 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
   animation: slideInUp 0.8s ease-out;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .region-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* 可点击卡片样式 */
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3);
+}
+
+/* Coming Soon 覆盖层 */
+.coming-soon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.region-card:hover .coming-soon-overlay {
+  opacity: 1;
+}
+
+.coming-soon-text {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  background: rgba(102, 126, 234, 0.8);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
 }
 
 .region-card h3 {

@@ -147,6 +147,7 @@ const Community: React.FC = () => {
         email: email,
         content: newComment.content,
         tags: newComment.tags,
+        userId: currentUser?.uid || '', // 添加userId字段
       });
       
       console.log('评论提交成功:', comment);

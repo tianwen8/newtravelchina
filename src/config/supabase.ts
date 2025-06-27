@@ -1,12 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase配置
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
 
 // 验证环境变量
-if (import.meta.env.PROD && (!supabaseUrl || !supabaseAnonKey)) {
-  console.error('Supabase环境变量缺失');
+if (import.meta.env.PROD && (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY)) {
+  console.warn('Supabase环境变量缺失，使用占位符配置');
 }
 
 // 创建Supabase客户端
@@ -139,8 +139,8 @@ export interface Database {
   };
 }
 
-// 为了向后兼容，暂时保持禁用状态
-export const USE_SUPABASE = false;
+// 启用Supabase作为Firebase Storage的免费替代方案
+export const USE_SUPABASE = true;
 
 // Supabase服务函数
 export const supabaseServices = {

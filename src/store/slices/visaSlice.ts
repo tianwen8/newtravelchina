@@ -20,15 +20,15 @@ interface VisaState {
   error: string | null;
 }
 
-// 54 countries eligible for 144-hour visa-free transit (alphabetical order)
+// 55 countries eligible for 240-hour visa-free transit (as of June 2025)
 const eligible240HourCountries = [
   'Albania', 'Argentina', 'Australia', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 
   'Brazil', 'Brunei', 'Bulgaria', 'Canada', 'Chile', 'Croatia', 'Cyprus', 'Czech Republic', 
   'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 
-  'Ireland', 'Italy', 'Japan', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Mexico', 
-  'Monaco', 'Montenegro', 'Netherlands', 'New Zealand', 'North Macedonia', 'Norway', 'Poland', 
-  'Portugal', 'Qatar', 'Romania', 'Russia', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 
-  'South Korea', 'Spain', 'Sweden', 'Switzerland', 'Ukraine', 'United Arab Emirates', 
+  'Indonesia', 'Ireland', 'Italy', 'Japan', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 
+  'Mexico', 'Monaco', 'Montenegro', 'Netherlands', 'New Zealand', 'North Macedonia', 'Norway', 
+  'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Serbia', 'Singapore', 'Slovakia', 
+  'Slovenia', 'South Korea', 'Spain', 'Sweden', 'Switzerland', 'Ukraine', 'United Arab Emirates', 
   'United Kingdom', 'United States'
 ];
 
@@ -45,7 +45,7 @@ const initialState: VisaState = {
         'Confirmed onward ticket to a third country',
         'Completed arrival/departure card'
       ],
-      description: '240-hour visa-free transit policy applies to citizens of 54 countries traveling through specific ports of entry.',
+      description: '240-hour visa-free transit policy applies to citizens of 55 countries traveling through 60 open ports across 24 provinces.',
       translationKey: '144hour'
     },
     {
@@ -58,7 +58,7 @@ const initialState: VisaState = {
         'Confirmed onward ticket to a third country',
         'Completed arrival/departure card'
       ],
-      description: '72-hour visa-free transit policy applies to citizens of 54 countries traveling through specific ports of entry.',
+      description: '72-hour visa-free transit policy applies to citizens of 55 countries traveling through specific ports of entry.',
       translationKey: '72hour'
     }
   ],

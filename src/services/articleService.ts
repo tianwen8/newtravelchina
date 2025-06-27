@@ -50,6 +50,21 @@ class ArticleService {
   // Get all articles
   private async getArticles(): Promise<Article[]> {
     if (useLocalStorage) {
+      // 首先尝试从JSON文件加载
+      try {
+        const response = await fetch('/data/articles.json');
+        if (response.ok) {
+          const data = await response.json();
+          return data.articles.map((article: any) => ({
+            ...article,
+            publishDate: article.publishDate || new Date().toISOString()
+          }));
+        }
+      } catch (error) {
+        console.log('JSON文件不存在，使用localStorage作为备份');
+      }
+      
+      // 如果JSON文件不可用，回退到localStorage
       const articlesJson = localStorage.getItem(this.STORAGE_KEY);
       if (!articlesJson) return this.seedInitialArticles();
       return JSON.parse(articlesJson);
@@ -135,19 +150,18 @@ class ArticleService {
   // Upload article image
   public async uploadArticleImage(file: File): Promise<string> {
     if (useLocalStorage) {
-      // Mock upload
-      const mockImages = [
-        '/images/china1.jpg',
-        '/images/china2.jpg',
-        '/images/china3.jpg',
-        '/images/china4.jpg',
-      ];
-      
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const randomIndex = Math.floor(Math.random() * mockImages.length);
-          resolve(mockImages[randomIndex]);
-        }, 500);
+      // 本地存储模式：将文件转换为data URL或使用现有图片
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          // 实际应用中，您需要将图片保存到 public/images/ 目录
+          // 这里返回一个占位符URL，您需要手动将图片放到public/images/目录
+          const fileName = `uploaded_${Date.now()}_${file.name}`;
+          console.log('请将上传的图片保存到:', `public/images/${fileName}`);
+          resolve(`/images/${fileName}`);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
       });
     } else {
       try {

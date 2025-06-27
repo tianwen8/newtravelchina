@@ -15,10 +15,27 @@ const DirectAdminInit: React.FC = () => {
   const [adminPassword, setAdminPassword] = useState('');
   const navigate = useNavigate();
 
+  // 密码强度验证
+  const isPasswordStrong = (password: string): boolean => {
+    const minLength = password.length >= 8;
+    const hasLower = /[a-z]/.test(password);
+    const hasUpper = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecial = /[@$!%*?&]/.test(password);
+    
+    return minLength && hasLower && hasUpper && hasNumber && hasSpecial;
+  };
+
   const handleInitialize = async () => {
     // Form validation
     if (!adminEmail || !adminPassword) {
       setMessage('Please enter admin email and password');
+      return;
+    }
+    
+    // Password strength validation
+    if (!isPasswordStrong(adminPassword)) {
+      setMessage('密码强度不足！请确保密码包含：至少8位字符、大小写字母、数字和特殊字符(@$!%*?&)');
       return;
     }
     
@@ -122,18 +139,42 @@ const DirectAdminInit: React.FC = () => {
               type="password"
               value={adminPassword}
               onChange={(e) => setAdminPassword(e.target.value)}
-              placeholder="Enter admin password"
+              placeholder="至少8位，包含大小写字母、数字和特殊字符"
               style={{
                 width: '100%',
                 padding: '0.5rem',
                 border: '1px solid #ddd',
                 borderRadius: '4px'
               }}
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+              title="密码必须至少8位，包含大小写字母、数字和特殊字符"
               required
             />
-            <p style={{ fontSize: '0.8rem', color: '#666', margin: '0.5rem 0 0' }}>
-              Please use a strong password, preferably including uppercase and lowercase letters, numbers, and special characters.
-            </p>
+            <div style={{ fontSize: '0.8rem', margin: '0.5rem 0 0', textAlign: 'left' }}>
+              <p style={{ color: '#dc3545', fontWeight: 'bold', margin: '0.25rem 0' }}>
+                🔐 强密码要求:
+              </p>
+              <ul style={{ margin: '0.25rem 0', paddingLeft: '1.5rem' }}>
+                <li style={{ color: adminPassword.length >= 8 ? '#28a745' : '#dc3545' }}>
+                  至少8位字符 {adminPassword.length >= 8 ? '✅' : '❌'}
+                </li>
+                <li style={{ color: /[a-z]/.test(adminPassword) ? '#28a745' : '#dc3545' }}>
+                  包含小写字母 {/[a-z]/.test(adminPassword) ? '✅' : '❌'}
+                </li>
+                <li style={{ color: /[A-Z]/.test(adminPassword) ? '#28a745' : '#dc3545' }}>
+                  包含大写字母 {/[A-Z]/.test(adminPassword) ? '✅' : '❌'}
+                </li>
+                <li style={{ color: /\d/.test(adminPassword) ? '#28a745' : '#dc3545' }}>
+                  包含数字 {/\d/.test(adminPassword) ? '✅' : '❌'}
+                </li>
+                <li style={{ color: /[@$!%*?&]/.test(adminPassword) ? '#28a745' : '#dc3545' }}>
+                  包含特殊字符(@$!%*?&) {/[@$!%*?&]/.test(adminPassword) ? '✅' : '❌'}
+                </li>
+              </ul>
+              <p style={{ color: '#17a2b8', fontSize: '0.75rem', margin: '0.5rem 0 0' }}>
+                💡 推荐密码示例: MySecure123! 或 TravelChina2024@
+              </p>
+            </div>
           </div>
         </div>
         

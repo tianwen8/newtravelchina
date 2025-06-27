@@ -13,7 +13,7 @@ import {
   Timestamp,
   setDoc
 } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { db, useLocalStorage } from '../firebase/config';
 
 // 评论类型定义
 export interface Comment {
@@ -26,6 +26,7 @@ export interface Comment {
   likes?: number;
   tags?: string[];
   imageUrl?: string;
+  userId?: string;
 }
 
 // 集合名称
@@ -33,6 +34,7 @@ const COMMENTS_COLLECTION = 'comments';
 
 class CommentService {
   private initialized = false;
+  private readonly STORAGE_KEY = 'travel-china-comments';
 
   constructor() {
     // 初始化时自动检查集合
