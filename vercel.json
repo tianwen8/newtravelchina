@@ -1,13 +1,15 @@
 {
   "redirects": [
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "has": [{ "type": "host", "value": "newtravelchina.vercel.app" }],
-      "destination": "https://www.travelchina.space/:1",
+      "destination": "https://www.travelchina.space/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/:file(robots\\.txt)", "destination": "/robots.txt" },
+    { "source": "/:file(sitemap\\.xml)", "destination": "/sitemap.xml" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
