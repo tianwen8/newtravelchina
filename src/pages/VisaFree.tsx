@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectPolicy, setUserCountry, checkEligibility } from '../store/slices/visaSlice';
@@ -130,9 +130,10 @@ const VisaFree: React.FC = () => {
         <meta property="og:title" content="144-Hour Visa-Free Transit China 2025 | Complete Guide" />
         <meta property="og:description" content="Official guide to China's visa-free transit policy for tourists from 53+ countries. Learn requirements, eligible cities, and travel tips." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://travelchina.space/visa-free" />
+        <meta property="og:url" content="https://www.travelchina.space/visa-free" />
         
         {/* Canonical URL */}
+        <link rel="canonical" href="https://www.travelchina.space/visa-free" />
         <link rel="canonical" href="https://travelchina.space/visa-free" />
         
         {/* Structured Data - Article */}

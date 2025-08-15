@@ -39,7 +39,7 @@ Allow: /*.svg$
 Allow: /*.ico$
 
 # Sitemap location
-Sitemap: https://travelchina.space/sitemap.xml
+Sitemap: https://www.travelchina.space/sitemap.xml
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1 

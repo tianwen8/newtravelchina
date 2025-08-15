@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../contexts/AuthContext';
 import { FaGoogle } from 'react-icons/fa';
 import '../styles/Auth.css';
@@ -62,6 +63,11 @@ const Register: React.FC = () => {
   
   return (
     <div className="auth-container">
+      <Helmet>
+        <meta name="robots" content="noindex,follow" />
+        <title>Register – Travel China</title>
+        <link rel="canonical" href="https://www.travelchina.space/register" />
+      </Helmet>
       <div className="auth-form-container">
         <h2>{t('auth.register')}</h2>
         

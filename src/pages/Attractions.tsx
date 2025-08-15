@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { articleService, Article } from '../services/articleService';
@@ -75,6 +75,7 @@ const Attractions: React.FC = () => {
         <title>{t('attractions.title')} - {t('app.title')}</title>
         <meta name="description" content={t('attractions.description')} />
         <meta name="keywords" content="China attractions, Chinese culture, Great Wall, Forbidden City, Terracotta Warriors, Chinese heritage sites" />
+        <link rel="canonical" href="https://www.travelchina.space/attractions" />
       </Helmet>
       <div className="attractions-container attractions-page">
         <div className="attractions-content">

@@ -1,6 +1,7 @@
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import { pageview } from './services/analytics'
 // import { useAuth } from './contexts/AuthContext' // 暂时禁用登录功能
@@ -31,6 +32,26 @@ function App() {
   
   return (
     <div className="app-container">
+      <Helmet>
+        <html lang="en" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Travel China",
+            "url": "https://www.travelchina.space",
+            "logo": "https://www.travelchina.space/china-icon.svg"
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://www.travelchina.space",
+            "name": "Travel China"
+          })}
+        </script>
+      </Helmet>
       <nav className="main-nav">
         <Link to="/" className="nav-logo">{t('app.title')}</Link>
         

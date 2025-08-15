@@ -4,12 +4,12 @@
   
   <!-- Homepage - Highest Priority -->
   <url>
-    <loc>https://travelchina.space/</loc>
+    <loc>https://www.travelchina.space/</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://travelchina.space/china-preview.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/china-preview.jpg</image:loc>
       <image:title>Travel China - Visa-Free Travel Guide</image:title>
       <image:caption>Complete guide to visa-free travel in China</image:caption>
     </image:image>
@@ -17,40 +17,40 @@
   
   <!-- Core Content Pages - High Priority -->
   <url>
-    <loc>https://travelchina.space/travel-guides</loc>
+    <loc>https://www.travelchina.space/travel-guides</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://travelchina.space/visa-free</loc>
+    <loc>https://www.travelchina.space/visa-free</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://travelchina.space/attractions</loc>
+    <loc>https://www.travelchina.space/attractions</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/beijing.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/beijing.jpg</image:loc>
       <image:title>Beijing Attractions - Forbidden City and Great Wall</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://travelchina.space/images/shanghai.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/shanghai.jpg</image:loc>
       <image:title>Shanghai Attractions - The Bund and Modern Skyline</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://travelchina.space/images/xian.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/xian.jpg</image:loc>
       <image:title>Xi'an Attractions - Terracotta Warriors</image:title>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/chinese-learning</loc>
+    <loc>https://www.travelchina.space/chinese-learning</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -58,7 +58,7 @@
   
   <!-- Community Pages (Coming Soon) -->
   <url>
-    <loc>https://travelchina.space/community</loc>
+    <loc>https://www.travelchina.space/community</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -66,7 +66,7 @@
   
   <!-- Articles Section -->
   <url>
-    <loc>https://travelchina.space/articles</loc>
+    <loc>https://www.travelchina.space/articles</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -74,113 +74,113 @@
   
   <!-- Article Pages - Using actual article IDs from articles.json -->
   <url>
-    <loc>https://travelchina.space/articles/transit-visa-free-policy-2025</loc>
+    <loc>https://www.travelchina.space/articles/transit-visa-free-policy-2025</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/17.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/17.jpg</image:loc>
       <image:title>China Transit Visa-Free Policy Official Guide</image:title>
       <image:caption>Official guide from China's National Immigration Administration</image:caption>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/unilateral-visa-free-countries-2025</loc>
+    <loc>https://www.travelchina.space/articles/unilateral-visa-free-countries-2025</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/17.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/17.jpg</image:loc>
       <image:title>China Unilateral Visa-Free Countries Complete List</image:title>
       <image:caption>47 countries eligible for 30-day visa-free entry to China</image:caption>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/mutual-visa-exemption-agreement-faq</loc>
+    <loc>https://www.travelchina.space/articles/mutual-visa-exemption-agreement-faq</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/17.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/17.jpg</image:loc>
       <image:title>China Mutual Visa Exemption Agreement FAQ</image:title>
       <image:caption>Official FAQ about mutual visa exemption policies</image:caption>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/alipay-credit-card-guide-foreigners</loc>
+    <loc>https://www.travelchina.space/articles/alipay-credit-card-guide-foreigners</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/10.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/10.jpg</image:loc>
       <image:title>Complete Alipay Guide for Foreign Travelers</image:title>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/navigation-apps-china-travel</loc>
+    <loc>https://www.travelchina.space/articles/navigation-apps-china-travel</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/3.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/3.jpg</image:loc>
       <image:title>Best Navigation Apps for China Travel</image:title>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/vpn-guide-china-travel</loc>
+    <loc>https://www.travelchina.space/articles/vpn-guide-china-travel</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/vpn-1.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/vpn-1.jpg</image:loc>
       <image:title>Internet Access in China VPN Guide</image:title>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/shanghai-modern-city-guide</loc>
+    <loc>https://www.travelchina.space/articles/shanghai-modern-city-guide</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/shanghai.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/shanghai.jpg</image:loc>
       <image:title>Shanghai Modern City Exploration Guide</image:title>
     </image:image>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/visa-free-policy-2024</loc>
+    <loc>https://www.travelchina.space/articles/visa-free-policy-2024</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://travelchina.space/articles/beijing-travel-guide</loc>
+    <loc>https://www.travelchina.space/articles/beijing-travel-guide</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://travelchina.space/images/beijing.jpg</image:loc>
+      <image:loc>https://www.travelchina.space/images/beijing.jpg</image:loc>
       <image:title>Beijing Complete Travel Guide</image:title>
     </image:image>
   </url>
   
   <!-- Authentication Pages -->
   <url>
-    <loc>https://travelchina.space/login</loc>
+    <loc>https://www.travelchina.space/login</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   
   <url>
-    <loc>https://travelchina.space/register</loc>
+    <loc>https://www.travelchina.space/register</loc>
     <lastmod>2025-08-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

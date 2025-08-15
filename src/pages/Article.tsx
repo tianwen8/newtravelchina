@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { marked } from 'marked';
 import { articleService, Article as ArticleType } from '../services/articleService';
 import './Article.css';
@@ -112,11 +112,39 @@ const Article: React.FC = () => {
 
   const backToListLink = getCategoryRoute(article.category);
 
+  // SEO优化
+  const pageUrl = `https://www.travelchina.space/articles/${article.id}`;
+  const ogImage = article.featuredImage?.startsWith('http')
+    ? article.featuredImage
+    : `https://www.travelchina.space${article.featuredImage}`;
+
   return (
     <div className="article-container">
       <Helmet>
-        <title>{article.title} - {t('app.title')}</title>
-        <meta name="description" content={article.summary} />
+        <title>{article.seo?.metaTitle || `${article.title} – Travel China`}</title>
+        <meta name="description" content={article.seo?.metaDescription || article.summary?.slice(0, 155)} />
+        
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={article.seo?.metaTitle || article.title} />
+        <meta property="og:description" content={article.seo?.metaDescription || article.summary} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={pageUrl} />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: article.title,
+            image: [ogImage],
+            datePublished: article.publishedAt,
+            dateModified: article.updatedAt || article.publishedAt,
+            author: article.author?.name ? [{ '@type': 'Person', name: article.author.name }] : undefined,
+            mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl }
+          })}
+        </script>
       </Helmet>
 
       <div className="article-header">

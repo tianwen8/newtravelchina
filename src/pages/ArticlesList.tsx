@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { articleService, Article, ARTICLE_CATEGORIES } from '../services/articleService';
 import './articles.css';
@@ -100,6 +100,7 @@ const ArticlesList: React.FC = () => {
             : `${t('article.categories.title', '文章')} - ${t('app.title')}`
           }
         </title>
+        <link rel="canonical" href="https://www.travelchina.space/articles" />
       </Helmet>
       
       <div className="container">

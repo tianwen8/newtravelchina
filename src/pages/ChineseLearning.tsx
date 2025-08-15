@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { toggleFavorite, addRecentlyViewed } from '../store/slices/languageSlice';
 import './ChineseLearning.css';
@@ -31,6 +31,7 @@ const ChineseLearning: React.FC = () => {
         <title>{t('chineseLearning.title')} - {t('app.title')}</title>
         <meta name="description" content={t('chineseLearning.description')} />
         <meta name="keywords" content="Learn Chinese, Chinese language, Mandarin, Chinese phrases, Chinese culture, travel Chinese" />
+        <link rel="canonical" href="https://www.travelchina.space/chinese-learning" />
       </Helmet>
       <div className="chinese-learning-container chinese-learning-page">
         <div className="chinese-learning-content">

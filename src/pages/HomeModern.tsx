@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
@@ -69,6 +69,7 @@ const HomeModern: React.FC = () => {
         <title>Travel China - Visa-Free Travel Guide & Cultural Experiences</title>
         <meta name="description" content="Discover China's beauty with our comprehensive visa-free travel guide. Check eligibility, explore attractions, and plan your perfect trip to China." />
         <meta name="keywords" content="China travel, visa-free, 144 hours, 72 hours, Beijing, Shanghai, travel guide, Chinese culture" />
+        <link rel="canonical" href="https://www.travelchina.space/" />
         
         {/* Open Graph tags for social sharing */}
         <meta property="og:title" content="Travel China - Visa-Free Travel Guide" />

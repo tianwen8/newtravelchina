@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../contexts/AuthContext';
 import { FaGoogle } from 'react-icons/fa';
 import '../styles/Auth.css';
@@ -66,6 +67,11 @@ const Login: React.FC = () => {
   
   return (
     <div className="auth-container">
+      <Helmet>
+        <meta name="robots" content="noindex,follow" />
+        <title>Login – Travel China</title>
+        <link rel="canonical" href="https://www.travelchina.space/login" />
+      </Helmet>
       <div className="auth-form-container">
         <h2>{t('auth.login')}</h2>
         
